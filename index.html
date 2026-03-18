@@ -4,106 +4,110 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Skills & Competency Explorer</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink:       #0f1923;
-    --paper:     #f5f2ec;
-    --cream:     #ede9e0;
-    --accent:    #c84b2f;
-    --gold:      #d4933a;
-    --teal:      #1a6b6b;
-    --muted:     #7a7065;
-    --border:    #d8d2c6;
+    --blue:      #0559FA;
+    --purple:    #5827E3;
+    --pink:      #BA33CA;
+    --blue-lt:   #DAE6FE;
+    --purple-lt: #E6DFFB;
+    --pink-lt:   #F5F0F7;
+    --navy:      #06195E;
+    --indigo:    #1E046A;
+    --plum:      #48114F;
+    --white:     #FFFFFF;
+    --bg:        #F7F8FC;
+    --border:    #E2E5F0;
+    --muted:     #6B7280;
+    --ink:       #0E1120;
 
-    --found:  #4a9e6b;
-    --inter:  #c89a2a;
-    --adv:    #c84b2f;
-    --exp:    #6b3fa0;
+    --found:     #0559FA;
+    --inter:     #5827E3;
+    --adv:       #BA33CA;
+    --exp:       #48114F;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--paper);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg);
     color: var(--ink);
     min-height: 100vh;
-    font-size: 15px;
+    font-size: 14px;
   }
 
   /* ── HEADER ── */
   header {
-    background: var(--ink);
-    color: var(--paper);
-    padding: 36px 40px 28px;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--indigo) 50%, var(--plum) 100%);
+    color: var(--white);
+    padding: 36px 40px 32px;
     position: relative;
     overflow: hidden;
   }
   header::before {
     content: '';
     position: absolute;
-    top: -60px; right: -60px;
-    width: 260px; height: 260px;
+    top: -80px; right: -80px;
+    width: 320px; height: 320px;
     border-radius: 50%;
-    background: rgba(200,75,47,0.15);
+    background: radial-gradient(circle, rgba(88,39,227,0.4) 0%, transparent 70%);
   }
   header::after {
     content: '';
     position: absolute;
-    bottom: -40px; left: 30%;
-    width: 180px; height: 180px;
+    bottom: -60px; left: 25%;
+    width: 240px; height: 240px;
     border-radius: 50%;
-    background: rgba(26,107,107,0.12);
+    background: radial-gradient(circle, rgba(186,51,202,0.3) 0%, transparent 70%);
   }
   .header-eyebrow {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.18em;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: var(--gold);
+    color: rgba(218,230,254,0.8);
     margin-bottom: 10px;
+    position: relative; z-index: 1;
   }
   header h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(26px, 4vw, 40px);
-    line-height: 1.15;
-    font-weight: 400;
-    max-width: 560px;
-    position: relative;
-    z-index: 1;
-  }
-  header h1 em {
-    font-style: italic;
-    color: #e8a07a;
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(24px, 3.5vw, 38px);
+    font-weight: 800;
+    line-height: 1.1;
+    position: relative; z-index: 1;
+    background: linear-gradient(90deg, #fff 0%, #DAE6FE 60%, #E6DFFB 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
   .header-sub {
     margin-top: 10px;
-    font-size: 14px;
-    color: rgba(245,242,236,0.65);
+    font-size: 13px;
+    color: rgba(218,230,254,0.7);
     font-weight: 300;
-    position: relative;
-    z-index: 1;
+    position: relative; z-index: 1;
+    max-width: 520px;
   }
 
   /* ── LEGEND ── */
   .legend {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    padding: 14px 40px;
-    background: var(--cream);
+    gap: 8px;
+    align-items: center;
+    padding: 12px 40px;
+    background: var(--white);
     border-bottom: 1px solid var(--border);
   }
   .legend-label {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--muted);
     margin-right: 4px;
-    align-self: center;
   }
   .badge {
     display: inline-flex;
@@ -111,43 +115,41 @@
     gap: 5px;
     font-size: 11px;
     font-weight: 600;
-    letter-spacing: 0.05em;
-    padding: 4px 10px;
+    padding: 3px 10px;
     border-radius: 20px;
-    cursor: default;
   }
-  .badge::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
-  .badge.found { background: #e8f5ed; color: var(--found); }
-  .badge.inter { background: #fdf3e0; color: var(--inter); }
-  .badge.adv   { background: #fdeae5; color: var(--adv);   }
-  .badge.exp   { background: #f0e8f8; color: var(--exp);   }
+  .badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .badge.found { background: var(--blue-lt);   color: var(--blue);   }
+  .badge.inter { background: var(--purple-lt); color: var(--purple); }
+  .badge.adv   { background: #F5E8FB;          color: var(--pink);   }
+  .badge.exp   { background: #F0E4F0;          color: var(--plum);   }
 
-  /* ── MAIN LAYOUT ── */
+  /* ── LAYOUT ── */
   .layout {
     display: grid;
-    grid-template-columns: 280px 1fr;
-    min-height: calc(100vh - 180px);
+    grid-template-columns: 260px 1fr;
+    min-height: calc(100vh - 170px);
   }
 
   /* ── SIDEBAR ── */
   .sidebar {
-    background: var(--cream);
+    background: var(--white);
     border-right: 1px solid var(--border);
-    padding: 24px 0;
+    padding: 20px 0;
     position: sticky;
     top: 0;
     height: calc(100vh - 130px);
     overflow-y: auto;
   }
   .sidebar-title {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.15em;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--muted);
-    padding: 0 24px 14px;
+    padding: 0 20px 12px;
     border-bottom: 1px solid var(--border);
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
   .cat-btn {
     display: block;
@@ -155,93 +157,49 @@
     text-align: left;
     background: none;
     border: none;
-    padding: 11px 24px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13.5px;
+    padding: 10px 20px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
     font-weight: 400;
     color: var(--ink);
     cursor: pointer;
     border-left: 3px solid transparent;
-    transition: all 0.18s;
-    line-height: 1.35;
+    transition: all 0.15s;
+    line-height: 1.4;
   }
-  .cat-btn:hover  { background: rgba(15,25,35,0.05); border-left-color: var(--border); }
-  .cat-btn.active { background: white; border-left-color: var(--accent); font-weight: 600; color: var(--accent); }
-  .cat-count {
-    float: right;
-    font-size: 11px;
-    background: var(--border);
-    color: var(--muted);
-    padding: 1px 7px;
-    border-radius: 10px;
-    font-weight: 400;
-    margin-top: 1px;
+  .cat-btn:hover  { background: var(--bg); border-left-color: var(--border); }
+  .cat-btn.active {
+    background: var(--blue-lt);
+    border-left-color: var(--blue);
+    font-weight: 600;
+    color: var(--navy);
   }
-  .cat-btn.active .cat-count { background: #fde8e3; color: var(--accent); }
 
   /* ── CONTENT ── */
   .content { padding: 32px 40px; overflow-y: auto; }
 
-  /* Category header */
   .cat-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 20px;
-    margin-bottom: 24px;
+    margin-bottom: 28px;
     padding-bottom: 20px;
-    border-bottom: 2px solid var(--ink);
+    border-bottom: 2px solid var(--border);
   }
   .cat-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(22px, 3vw, 32px);
-    font-weight: 400;
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(20px, 2.5vw, 28px);
+    font-weight: 800;
+    color: var(--navy);
     line-height: 1.2;
-  }
-  .cat-roles-toggle {
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 7px 14px;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--muted);
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.15s;
-    font-family: 'DM Sans', sans-serif;
-  }
-  .cat-roles-toggle:hover { background: var(--cream); color: var(--ink); }
-
-  .roles-panel {
-    background: var(--cream);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 16px 20px;
-    margin-bottom: 24px;
-    display: none;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-  .roles-panel.open { display: flex; }
-  .role-pill {
-    font-size: 12px;
-    background: white;
-    border: 1px solid var(--border);
-    color: var(--ink);
-    padding: 4px 10px;
-    border-radius: 4px;
   }
 
   /* Skill groups */
-  .skill-group { margin-bottom: 28px; }
+  .skill-group { margin-bottom: 32px; }
   .group-name {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--teal);
-    margin-bottom: 10px;
+    color: var(--purple);
+    margin-bottom: 12px;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -250,94 +208,229 @@
     content: '';
     flex: 1;
     height: 1px;
-    background: var(--border);
+    background: var(--purple-lt);
   }
 
   .skills-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 12px;
   }
+
   .skill-card {
-    background: white;
+    background: var(--white);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 14px 16px;
+    border-radius: 10px;
+    padding: 16px;
     transition: box-shadow 0.15s, transform 0.15s;
-    cursor: default;
-  }
-  .skill-card:hover { box-shadow: 0 4px 16px rgba(15,25,35,0.08); transform: translateY(-1px); }
-  .skill-name {
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.4;
-    margin-bottom: 10px;
-  }
-  .skill-footer {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .skill-card:hover { box-shadow: 0 4px 20px rgba(5,89,250,0.08); transform: translateY(-1px); }
+
+  .skill-top {
+    display: flex;
+    align-items: flex-start;
     justify-content: space-between;
     gap: 8px;
   }
+  .skill-name {
+    font-size: 13.5px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--ink);
+    flex: 1;
+  }
   .prof-tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .prof-tag.found { background: var(--blue-lt);   color: var(--blue);   }
+  .prof-tag.inter { background: var(--purple-lt); color: var(--purple); }
+  .prof-tag.adv   { background: #F5E8FB;          color: var(--pink);   }
+  .prof-tag.exp   { background: #F0E4F0;          color: var(--plum);   }
+
+  /* Udemy button */
+  .udemy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     font-size: 11px;
     font-weight: 600;
-    letter-spacing: 0.05em;
-    padding: 3px 9px;
-    border-radius: 4px;
-  }
-  .prof-tag.found { background: #e8f5ed; color: var(--found); }
-  .prof-tag.inter { background: #fdf3e0; color: var(--inter); }
-  .prof-tag.adv   { background: #fdeae5; color: var(--adv);   }
-  .prof-tag.exp   { background: #f0e8f8; color: var(--exp);   }
-
-  .udemy-link {
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--accent);
+    color: var(--blue);
     text-decoration: none;
-    padding: 3px 8px;
-    border: 1px solid #f5d0c8;
-    border-radius: 4px;
-    transition: background 0.12s;
-    white-space: nowrap;
+    padding: 5px 10px;
+    border: 1px solid var(--blue-lt);
+    border-radius: 6px;
+    background: var(--blue-lt);
+    transition: all 0.12s;
+    align-self: flex-start;
   }
-  .udemy-link:hover { background: #fdeae5; }
+  .udemy-btn:hover { background: var(--blue); color: var(--white); border-color: var(--blue); }
 
-  /* Welcome state */
-  .welcome {
+  /* ── RECOMMENDATIONS ── */
+  .recs {
+    border-top: 1px solid var(--border);
+    padding-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .recs-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2px;
+  }
+  .rec-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .rec-type {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .rec-type.quick  { background: #EEF4FF; color: var(--blue);   border: 1px solid var(--blue-lt);   }
+  .rec-type.deeper { background: var(--purple-lt); color: var(--purple); border: 1px solid #C9BBF5; }
+  .rec-placeholder {
+    font-size: 12px;
+    color: #B0B8CC;
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  /* ── SEARCH ── */
+  .search-wrap {
+    padding: 14px 40px;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .search-box {
+    position: relative;
+    flex: 1;
+    max-width: 560px;
+  }
+  .search-box svg {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    pointer-events: none;
+  }
+  .search-input {
+    width: 100%;
+    padding: 9px 12px 9px 38px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    color: var(--ink);
+    background: var(--bg);
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(5,89,250,0.1);
+    background: var(--white);
+  }
+  .search-input::placeholder { color: #A0A8B8; }
+  .search-clear {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 18px;
+    line-height: 1;
+    padding: 0 4px;
+    display: none;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .search-clear:hover { color: var(--ink); }
+
+  /* Search results view */
+  .search-results-header {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+  .search-results-header strong { color: var(--navy); font-weight: 700; }
+  .search-group-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .search-group-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .search-group-label .cat-tag {
+    background: var(--purple-lt);
+    color: var(--purple);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+  }
+  .no-results {
     text-align: center;
     padding: 60px 20px;
     color: var(--muted);
   }
-  .welcome-icon {
-    font-size: 48px;
-    margin-bottom: 20px;
-    display: block;
+  .no-results .icon { font-size: 40px; display: block; margin-bottom: 14px; }
+  .no-results p { font-size: 14px; }
+
+  /* Welcome */
+  .welcome {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--muted);
   }
+  .welcome-icon { font-size: 52px; margin-bottom: 20px; display: block; }
   .welcome h2 {
-    font-family: 'DM Serif Display', serif;
+    font-family: 'Syne', sans-serif;
     font-size: 26px;
-    font-weight: 400;
-    color: var(--ink);
+    font-weight: 800;
+    color: var(--navy);
     margin-bottom: 10px;
   }
-  .welcome p { font-size: 14px; max-width: 340px; margin: 0 auto; }
+  .welcome p { font-size: 14px; max-width: 340px; margin: 0 auto; line-height: 1.6; }
 
-  /* Scrollbar */
-  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
   @media (max-width: 680px) {
     .layout { grid-template-columns: 1fr; }
-    .sidebar { position: static; height: auto; display: flex; flex-wrap: wrap; gap: 4px; padding: 12px; }
+    .sidebar { position: static; height: auto; padding: 12px; display: flex; flex-wrap: wrap; gap: 4px; border-right: none; border-bottom: 1px solid var(--border); }
     .sidebar-title { display: none; }
-    .cat-btn { width: auto; border: 1px solid var(--border); border-left: 3px solid transparent; border-radius: 6px; padding: 7px 12px; font-size: 12px; }
-    .cat-btn.active { border-color: var(--accent); }
+    .cat-btn { width: auto; border: 1px solid var(--border); border-left: 3px solid transparent; border-radius: 6px; padding: 6px 12px; font-size: 12px; }
+    .cat-btn.active { background: var(--blue-lt); border-color: var(--blue); }
     .content { padding: 20px; }
-    header { padding: 24px 20px; }
-    .legend { padding: 12px 20px; }
+    header, .legend { padding-left: 20px; padding-right: 20px; }
   }
 </style>
 </head>
@@ -345,8 +438,8 @@
 
 <header>
   <div class="header-eyebrow">Learning & Development</div>
-  <h1>Skills & Competency <em>Explorer</em></h1>
-  <p class="header-sub">Select your role category to explore the skills, proficiency expectations, and recommended Udemy courses.</p>
+  <h1>Skills & Competency Explorer</h1>
+  <p class="header-sub">Select your role category to explore skills, proficiency expectations, and recommended learning paths.</p>
 </header>
 
 <div class="legend">
@@ -357,26 +450,33 @@
   <span class="badge exp">Expert</span>
 </div>
 
+<div class="search-wrap">
+  <div class="search-box">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input class="search-input" id="search-input" type="text" placeholder="Search skills across all categories…" autocomplete="off">
+  </div>
+  <button class="search-clear" id="search-clear" title="Clear search">✕</button>
+</div>
+
 <div class="layout">
   <nav class="sidebar">
     <div class="sidebar-title">Role Categories</div>
-    <!-- JS will populate this -->
   </nav>
   <main class="content" id="content">
     <div class="welcome">
       <span class="welcome-icon">🗺️</span>
       <h2>Find your path</h2>
-      <p>Choose a role category from the left to see the skills and competencies expected for your function.</p>
+      <p>Choose a role category from the left to explore the skills and competencies for your function — plus recommended courses to help you grow.</p>
     </div>
   </main>
 </div>
 
 <script>
-const PROF_CLASS = { Foundational: 'found', Intermediate: 'inter', Advanced: 'adv', Expert: 'exp' };
+const PROF_CLASS = { Foundational:'found', Intermediate:'inter', Advanced:'adv', Expert:'exp' };
+const UDEMY_BASE = "https://atlasinternal.udemy.com/organization/search/?q=";
 
 const DATA = {
   "Executive Leadership": {
-    roles: ["Chief Executive Officer","Chief Operating Officer","Chief Financial Officer","Chief Technology Officer","Chief HR Officer","Chief Growth Officer","Chief Legal & Compliance Officer","SVP, Engineering","SVP, Global Sales","SVP, Human Resources","VP, Growth","VP, Global Growth Marketing","VP, HR Service Delivery","VP, Client Services","VP of Product Management","VP Channels & Partnerships","Vice President, Operational Excellence","Vice President (Associate General Counsel), Legal","Vice President & Chief Information Security Officer"],
     groups: {
       "Strategic Leadership": [["Vision Setting & Long-Range Strategy","Expert"],["Business Model Design & Innovation","Expert"],["Organisational Design & Scaling","Advanced"],["M&A, Partnerships & Market Expansion","Advanced"],["Corporate Governance & Board Engagement","Expert"]],
       "Financial Acumen": [["P&L Ownership & Financial Stewardship","Expert"],["Capital Allocation & Investment Decisions","Advanced"],["Budgeting & Resource Planning at Scale","Advanced"],["Investor & Analyst Relations","Intermediate"]],
@@ -387,8 +487,25 @@ const DATA = {
       "Soft Skills": [["Decisive Thinking Under Uncertainty","Expert"],["Resilience & Executive Presence","Expert"],["Coaching & Mentoring Senior Leaders","Advanced"],["Ethical Leadership & Integrity","Expert"]]
     }
   },
+  "People Management": {
+    groups: {
+      "Team Leadership": [["Setting Clear Goals & Expectations","Advanced"],["Performance Management & Feedback","Advanced"],["1-on-1s & Coaching Conversations","Advanced"],["Recognising & Rewarding Contribution","Intermediate"],["Managing Underperformance","Advanced"]],
+      "Talent Development": [["Identifying Development Needs","Advanced"],["Career Conversations & Growth Planning","Advanced"],["Delegation & Stretch Assignments","Intermediate"],["Succession Thinking","Intermediate"],["Building High-Performing Teams","Advanced"]],
+      "People Operations": [["Hiring & Interviewing Skills","Intermediate"],["Onboarding New Team Members","Intermediate"],["Navigating HR Processes & Policies","Intermediate"],["Managing Remote & Hybrid Teams","Intermediate"]],
+      "Inclusive Leadership": [["Psychological Safety & Belonging","Advanced"],["Unconscious Bias Awareness","Intermediate"],["Equity-Minded Decision Making","Intermediate"],["Managing Across Cultures","Intermediate"]],
+      "Soft Skills": [["Active Listening","Advanced"],["Empathy & Emotional Intelligence","Advanced"],["Conflict Mediation","Advanced"],["Adaptability & Resilience","Advanced"]]
+    }
+  },
+  "Global Skills": {
+    groups: {
+      "Communication & Presence": [["Presentation Skills","Intermediate"],["Executive Presence","Advanced"],["Business Writing & Email Etiquette","Intermediate"],["Public Speaking & Storytelling","Intermediate"],["Active Listening & Facilitation","Intermediate"]],
+      "Productivity & Tools": [["Microsoft Excel (Intermediate to Advanced)","Intermediate"],["Microsoft PowerPoint","Intermediate"],["Microsoft Word","Foundational"],["Microsoft 365 & Collaboration Tools","Intermediate"],["Google Workspace","Intermediate"]],
+      "AI & Future of Work": [["Using AI Tools in Daily Work (e.g. ChatGPT, Copilot)","Intermediate"],["Prompt Engineering Basics","Foundational"],["AI Literacy & Critical Evaluation","Intermediate"],["Automating Repetitive Tasks with AI","Intermediate"],["Data Privacy & Responsible AI Use","Intermediate"]],
+      "Project & Time Management": [["Time Management & Prioritisation","Intermediate"],["Project Planning Basics","Foundational"],["Meeting Management & Facilitation","Intermediate"],["Managing Up & Stakeholder Communication","Intermediate"]],
+      "Professional Effectiveness": [["Critical Thinking & Problem Solving","Intermediate"],["Decision Making Under Uncertainty","Intermediate"],["Adaptability & Growth Mindset","Foundational"],["Cross-cultural Collaboration","Intermediate"],["Wellbeing & Resilience at Work","Foundational"]]
+    }
+  },
   "Sales & Business Development": {
-    roles: ["Account Executive 2","Sales Architect","Enterprise Business Development Executive","Senior Business Development Manager","Sales Development Representative","Mid-Market Sales Manager","Sales Coordinator","Sales Operations Analyst","SVP, Global Sales","Chief Growth Officer","VP, Growth","GTM & AI Automation Manager","Sales Enablement Partner"],
     groups: {
       "Core Sales Skills": [["Consultative Selling","Advanced"],["Pipeline Management & CRM (e.g. Salesforce)","Advanced"],["Negotiation & Deal Structuring","Advanced"],["Prospecting & Lead Generation","Intermediate"],["Value Proposition Design","Advanced"],["Sales Forecasting","Intermediate"]],
       "Strategic & Market Knowledge": [["Territory & Account Planning","Intermediate"],["Competitive Intelligence","Intermediate"],["GTM Strategy","Advanced"],["Partnerships & Alliances Management","Intermediate"]],
@@ -397,7 +514,6 @@ const DATA = {
     }
   },
   "Client Success & Support": {
-    roles: ["Director, Client Success","Client Success Executive","Senior Manager, Client Success","Client Success Manager","Client Operations Support Specialist","Customer Care Specialist","Customer Care Manager","VP, Client Services","Associate Director, Customer Support","Senior Partner Success Manager","Director, Global Client Implementation","Client Implementation Manager","Implementation Manager"],
     groups: {
       "Client Relationship Management": [["Account Health Monitoring & QBRs","Advanced"],["Escalation Management","Advanced"],["Customer Onboarding & Implementation","Intermediate"],["NPS / CSAT & VOC Analysis","Intermediate"],["Renewal & Expansion Management","Intermediate"]],
       "Operations & Process": [["CRM Usage (Salesforce / Gainsight)","Intermediate"],["SLA & KPI Management","Advanced"],["Project Coordination","Intermediate"],["Data-Driven Decision Making","Intermediate"]],
@@ -405,7 +521,6 @@ const DATA = {
     }
   },
   "Marketing": {
-    roles: ["Global Marketing Performance Manager","Senior Global Product Marketing Manager","VP, Global Growth Marketing","Director, Global Field Marketing","Global Brand & Integrated Marketing Senior Manager","Manager, Global Designer & Brand","Global Website Operations & Development Manager","Global Website Operations & Development Senior Manager","Creative Content Manager","Global Graphic Designer & Brand Creative","Global Marketing Insights Manager","Director of Marketing Insights","Market Insights Data Analyst","Global Content Writer","Global Director, Brand & Creative"],
     groups: {
       "Digital Marketing": [["SEO / SEM & Paid Media","Intermediate"],["Marketing Automation (HubSpot / Marketo)","Intermediate"],["Website Management & CMS (e.g. WordPress)","Intermediate"],["Performance Marketing & Analytics (GA4, Looker)","Advanced"],["Email Marketing & Nurture Programmes","Intermediate"]],
       "Brand & Content": [["Brand Strategy & Identity","Advanced"],["Content Strategy & Copywriting","Advanced"],["Graphic Design (Adobe Suite / Figma)","Intermediate"],["Campaign Planning & Execution","Advanced"]],
@@ -414,7 +529,6 @@ const DATA = {
     }
   },
   "Human Resources": {
-    roles: ["HR Business Partner","Global HR Business Partner","Director, Global HR Business Partners","VP, HR Service Delivery","Senior Manager, HR Service Delivery","Regional HR Service Delivery Manager","HRSD & Benefits Manager APAC","Sr. HRSD & Benefits Manager APAC","Sr. HRSD & Benefits Manager GCC & Africa","Sr. HRSD & Benefits Manager Americas","SVP, Human Resources","Chief HR Officer","HR Employee Relationship Consultant","Employee Relationship Consultant","Senior Employee Relationship Consultant","HR Projects Lead","Talent Specialist","Talent Acquisition Lead","Learning & Development Specialist","Director, Learning and Development","Global Mobility Specialist","Senior Mobility Advisor","Director, Global Mobility","Regional Benefits Specialist","Global Benefits Manager"],
     groups: {
       "HR Generalist & Strategy": [["HR Business Partnering & Advisory","Advanced"],["Talent Management & Succession Planning","Advanced"],["Organisational Design & Change Management","Intermediate"],["HR Policy Development","Advanced"],["Workforce Planning","Intermediate"]],
       "Employee Relations & Compliance": [["Employee Relations & Conflict Resolution","Advanced"],["Employment Law Knowledge (local/regional)","Advanced"],["Disciplinary & Grievance Handling","Advanced"],["Diversity, Equity & Inclusion","Intermediate"]],
@@ -425,7 +539,6 @@ const DATA = {
     }
   },
   "Payroll": {
-    roles: ["Regional Payroll Specialist","Global Payroll Specialist","Senior Regional Payroll Specialist","Regional Payroll Manager","Regional Payroll Manager - APAC","Sr. Regional Payroll Manager - Americas","Sr. Director - Global Payroll","Director, Global Payroll Transformation","Payroll Support Coordinator","Payroll Accounting Manager","Senior Payroll Manager"],
     groups: {
       "Payroll Processing": [["End-to-End Payroll Processing","Advanced"],["Multi-Country Payroll Knowledge","Advanced"],["Payroll Compliance & Tax Regulations","Advanced"],["Payroll Systems (ADP, Ceridian, CloudPay)","Intermediate"],["Time & Attendance Systems","Intermediate"]],
       "Accounting & Reconciliation": [["Payroll Accounting & Journal Entries","Advanced"],["Bank Reconciliation","Intermediate"],["Month-End / Year-End Payroll Close","Advanced"]],
@@ -434,7 +547,6 @@ const DATA = {
     }
   },
   "Finance & Accounting": {
-    roles: ["Regional Staff Accountant","Global Staff Accountant","Senior Regional Staff Accountant","Regional Finance Director APAC/ME & Africa","Regional Finance Director - Europe & America","Financial Controller","Assistant Controller","Chief Financial Officer","Global Treasury Leader","Global Treasury Associate","Strategic Finance Analyst","Director, Strategic Finance","AP Analyst","Senior AP Analyst","Accounts Payable Manager","AR Analyst","Senior AR Analyst","Senior Accounts Receivable Manager","Expense Reimbursement Analyst","Global Tax Manager","Accountant"],
     groups: {
       "Accounting & Reporting": [["GAAP / IFRS Financial Reporting","Advanced"],["Month-End Close & Journal Entries","Advanced"],["Balance Sheet Reconciliation","Advanced"],["Accounts Payable & Receivable","Intermediate"],["Fixed Assets Management","Intermediate"]],
       "Financial Planning & Analysis": [["Budgeting & Forecasting","Advanced"],["Financial Modelling (Excel / Google Sheets)","Advanced"],["Variance Analysis","Advanced"],["Management Reporting & KPI Dashboards","Intermediate"]],
@@ -444,7 +556,6 @@ const DATA = {
     }
   },
   "Legal & Compliance": {
-    roles: ["Legal Assistant","Corporate Paralegal","Legal Administrator","Employment Law Coordinator","Legal and Compliance Analyst","Legal Counsel","Senior Legal Counsel","Senior Corporate Counsel","Senior Counsel, Employment Law","Legal Manager","Senior Manager, Legal Operations","Senior Manager Privacy & Data Protection","Senior Regional Compliance Manager","Risk & Compliance Manager","Risk & Compliance (H&S) Senior Manager","Director, Risk and Compliance","Chief Legal & Compliance Officer","Assistant General Counsel, Americas","Assistant General Counsel, Director of Commercial Law","Vice President (Associate General Counsel), Legal","Manager of Employment Law & Compliance - Middle East","Senior Employment Law & Compliance Manager – APAC"],
     groups: {
       "Legal Practice": [["Contract Drafting, Review & Negotiation","Advanced"],["Employment Law (multi-jurisdiction)","Advanced"],["Commercial & Corporate Law","Advanced"],["Litigation Management & Dispute Resolution","Advanced"],["Legal Research & Advisory","Advanced"]],
       "Compliance & Risk": [["Regulatory Compliance Frameworks","Advanced"],["Risk Assessment & Mitigation","Advanced"],["Internal Controls & Audit Support","Intermediate"],["Anti-Bribery / Anti-Corruption (ABAC)","Intermediate"],["Health & Safety Compliance","Intermediate"]],
@@ -453,7 +564,6 @@ const DATA = {
     }
   },
   "Regulatory Affairs & Governance": {
-    roles: ["Regulatory Affairs & Entity Corporate Governance Manager","Regulatory Affairs & Entity Corporate Governance Associate","Regulatory Affairs and Corporate Governance Manager","Regulatory Affairs and Corporate Governance Senior Manager","Head of Global Regulatory Affairs & Entity Corporate Governance"],
     groups: {
       "Regulatory Affairs": [["Global Regulatory Landscape Knowledge","Expert"],["Entity Lifecycle Management","Advanced"],["Corporate Secretarial Practices","Advanced"],["Regulatory Filing & Reporting","Advanced"],["Government & Regulatory Liaison","Advanced"]],
       "Governance": [["Board Governance & Minutes","Advanced"],["Corporate Governance Frameworks","Advanced"],["Statutory Compliance & KYC","Advanced"]],
@@ -461,7 +571,6 @@ const DATA = {
     }
   },
   "Technology & Engineering": {
-    roles: ["Senior Engineer, Infrastructure","Senior Infrastructure Engineer","Senior Software Engineer","Software Engineer (.Net)","Software Engineer (ReactJS)","Mobile Software Engineer","Site Reliability Engineer","Sr. Cloud Security Engineer","IT Information Security Analyst","IT Support Engineer","Senior IT Solutions Engineer","IT Analyst","Director, Engineering","SVP, Engineering","Chief Technology Officer","Senior Manager - Quality Assurance","Lead Quality Assurance","Sr. Software Quality & Automation Engineer","Delivery Lead, Product & Technology"],
     groups: {
       "Software Development": [["Programming Languages (Python, Java, C#, JS)","Advanced"],["Frontend Frameworks (React, Angular)","Intermediate"],["Backend & API Development (REST, GraphQL)","Advanced"],["Mobile Development (iOS / Android)","Intermediate"],["Version Control (Git)","Advanced"],["Agile / Scrum Methodologies","Advanced"]],
       "Infrastructure & Cloud": [["Cloud Platforms (AWS, Azure, GCP)","Advanced"],["Infrastructure as Code (Terraform, Ansible)","Advanced"],["CI/CD Pipelines (Jenkins, GitHub Actions)","Advanced"],["Containerisation (Docker, Kubernetes)","Advanced"],["Site Reliability Engineering & Observability","Advanced"]],
@@ -472,7 +581,6 @@ const DATA = {
     }
   },
   "Product Management": {
-    roles: ["Product Manager","Senior Product Designer","Principal Product Manager","Principal Product Manager, Workforce Management","Group Product Manager","VP of Product Management","Product Analyst"],
     groups: {
       "Product Strategy": [["Product Vision & Roadmap Definition","Advanced"],["Market & User Research","Advanced"],["Competitive Analysis","Intermediate"],["OKR & Metrics Definition","Advanced"]],
       "Execution & Delivery": [["Agile / Scrum Ceremonies & Backlog Management","Advanced"],["User Story Writing & Acceptance Criteria","Advanced"],["Stakeholder Alignment & Communication","Advanced"],["Release Planning & Go-to-Market","Advanced"]],
@@ -482,7 +590,6 @@ const DATA = {
     }
   },
   "Data, Analytics & BI": {
-    roles: ["Director of Business Intelligence","Market Insights Data Analyst","Global Revenue Operations Analyst","Data & Quality Management Lead","Global PMO Project Manager","Senior Project Manager","Project Coordinator"],
     groups: {
       "Data Engineering & Management": [["SQL & Database Querying","Advanced"],["Data Modelling & Warehousing","Advanced"],["ETL Pipelines & Data Integration","Intermediate"],["Data Quality & Governance","Advanced"]],
       "Analytics & Visualisation": [["BI Tools (Tableau, Power BI, Looker)","Advanced"],["Statistical Analysis & Interpretation","Advanced"],["Dashboarding & Executive Reporting","Advanced"],["Python / R for Analysis","Intermediate"]],
@@ -491,7 +598,6 @@ const DATA = {
     }
   },
   "Operations & Administration": {
-    roles: ["Vice President, Operational Excellence","Senior Manager, Shared Services","Office Administrator","Office Manager","Global Senior Office Manager","Executive Assistant","Sales Coordinator","Internal Communications and Culture Director","Solution Architect","Global PMO Project Manager"],
     groups: {
       "Operations Management": [["Process Improvement & Lean / Six Sigma","Advanced"],["Operational KPI Definition & Monitoring","Advanced"],["Vendor & Supplier Management","Intermediate"],["Business Continuity Planning","Intermediate"]],
       "Administrative Excellence": [["Calendar & Travel Management","Advanced"],["Document Management & Governance","Advanced"],["Facilities & Office Management","Intermediate"],["Executive Support & Communication","Advanced"]],
@@ -502,74 +608,139 @@ const DATA = {
   }
 };
 
-// Udemy search base URL
-const UDEMY_BASE = "https://www.atlasinternal.udemy.com/courses/search/?q=";
-
+// ── Sidebar ──
 const sidebar = document.querySelector('.sidebar');
 const content = document.getElementById('content');
+const searchInput = document.getElementById('search-input');
+const searchClear = document.getElementById('search-clear');
 let activeBtn = null;
-let rolesOpen = false;
 
-// Build sidebar
-Object.entries(DATA).forEach(([cat, data]) => {
+Object.keys(DATA).forEach(cat => {
   const btn = document.createElement('button');
   btn.className = 'cat-btn';
-  const skillCount = Object.values(data.groups).reduce((a, g) => a + g.length, 0);
-  btn.innerHTML = `${cat} <span class="cat-count">${skillCount}</span>`;
-  btn.addEventListener('click', () => selectCategory(cat, btn));
+  btn.textContent = cat;
+  btn.addEventListener('click', () => {
+    searchInput.value = '';
+    searchClear.style.display = 'none';
+    setActive(btn);
+    renderCategory(cat);
+  });
   sidebar.appendChild(btn);
 });
 
-function selectCategory(cat, btn) {
+function setActive(btn) {
   if (activeBtn) activeBtn.classList.remove('active');
   btn.classList.add('active');
   activeBtn = btn;
-  rolesOpen = false;
-  renderCategory(cat);
+}
+
+// ── Search ──
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim();
+  searchClear.style.display = q ? 'block' : 'none';
+  if (q.length === 0) {
+    // restore last selected category or welcome
+    if (activeBtn) renderCategory(activeBtn.textContent);
+    else renderWelcome();
+    return;
+  }
+  if (activeBtn) { activeBtn.classList.remove('active'); activeBtn = null; }
+  renderSearch(q);
+});
+
+searchClear.addEventListener('click', () => {
+  searchInput.value = '';
+  searchClear.style.display = 'none';
+  if (activeBtn) renderCategory(activeBtn.textContent);
+  else renderWelcome();
+});
+
+function renderWelcome() {
+  content.innerHTML = `
+    <div class="welcome">
+      <span class="welcome-icon">🗺️</span>
+      <h2>Find your path</h2>
+      <p>Choose a role category from the left, or search for any skill above to explore competencies and recommended learning.</p>
+    </div>`;
+}
+
+function buildCard(skill, prof) {
+  const cls = PROF_CLASS[prof] || 'found';
+  const udemyUrl = UDEMY_BASE + encodeURIComponent(skill);
+  return `
+    <div class="skill-card">
+      <div class="skill-top">
+        <div class="skill-name">${skill}</div>
+        <span class="prof-tag ${cls}">${prof}</span>
+      </div>
+      <a href="${udemyUrl}" target="_blank" rel="noopener" class="udemy-btn">🎓 Find on Udemy</a>
+      <div class="recs">
+        <div class="recs-label">Recommended Learning</div>
+        <div class="rec-row">
+          <span class="rec-type quick">Quick Learning</span>
+          <span class="rec-placeholder">Add course recommendation…</span>
+        </div>
+        <div class="rec-row">
+          <span class="rec-type deeper">Go Deeper</span>
+          <span class="rec-placeholder">Add course recommendation…</span>
+        </div>
+      </div>
+    </div>`;
 }
 
 function renderCategory(cat) {
-  const { roles, groups } = DATA[cat];
-  const totalSkills = Object.values(groups).reduce((a, g) => a + g.length, 0);
-
-  let html = `
-    <div class="cat-header">
-      <div>
-        <div class="cat-title">${cat}</div>
-      </div>
-      <button class="cat-roles-toggle" onclick="toggleRoles()">${roles.length} roles in this category ▾</button>
-    </div>
-    <div class="roles-panel" id="roles-panel">
-      ${roles.map(r => `<span class="role-pill">${r}</span>`).join('')}
-    </div>
-  `;
-
+  const { groups } = DATA[cat];
+  let html = `<div class="cat-header"><div class="cat-title">${cat}</div></div>`;
   Object.entries(groups).forEach(([groupName, skills]) => {
-    html += `<div class="skill-group">
-      <div class="group-name">${groupName}</div>
-      <div class="skills-grid">`;
-    skills.forEach(([skill, prof]) => {
-      const cls = PROF_CLASS[prof] || 'found';
-      const udemyUrl = UDEMY_BASE + encodeURIComponent(skill);
-      html += `
-        <div class="skill-card">
-          <div class="skill-name">${skill}</div>
-          <div class="skill-footer">
-            <span class="prof-tag ${cls}">${prof}</span>
-            <a href="${udemyUrl}" target="_blank" rel="noopener" class="udemy-link">🎓 Find on Udemy</a>
-          </div>
-        </div>`;
-    });
+    html += `<div class="skill-group"><div class="group-name">${groupName}</div><div class="skills-grid">`;
+    skills.forEach(([skill, prof]) => { html += buildCard(skill, prof); });
     html += `</div></div>`;
+  });
+  content.innerHTML = html;
+  content.scrollTop = 0;
+}
+
+function renderSearch(q) {
+  const query = q.toLowerCase();
+  // collect matches: { cat, group, skill, prof }
+  const matches = [];
+  Object.entries(DATA).forEach(([cat, { groups }]) => {
+    Object.entries(groups).forEach(([group, skills]) => {
+      skills.forEach(([skill, prof]) => {
+        if (skill.toLowerCase().includes(query)) {
+          matches.push({ cat, group, skill, prof });
+        }
+      });
+    });
+  });
+
+  if (matches.length === 0) {
+    content.innerHTML = `
+      <div class="no-results">
+        <span class="icon">🔍</span>
+        <p>No skills found for "<strong>${q}</strong>". Try a different keyword.</p>
+      </div>`;
+    return;
+  }
+
+  // group by category
+  const byCat = {};
+  matches.forEach(m => {
+    if (!byCat[m.cat]) byCat[m.cat] = [];
+    byCat[m.cat].push(m);
+  });
+
+  let html = `<div class="search-results-header">Found <strong>${matches.length} skill${matches.length !== 1 ? 's' : ''}</strong> matching "<strong>${q}</strong>"</div>`;
+
+  Object.entries(byCat).forEach(([cat, items]) => {
+    html += `<div class="search-group-label">${cat} <span class="cat-tag">${items.length}</span></div>`;
+    html += `<div class="skills-grid">`;
+    items.forEach(({ skill, prof }) => { html += buildCard(skill, prof); });
+    html += `</div>`;
   });
 
   content.innerHTML = html;
-}
-
-function toggleRoles() {
-  rolesOpen = !rolesOpen;
-  const panel = document.getElementById('roles-panel');
-  if (panel) panel.classList.toggle('open', rolesOpen);
+  content.scrollTop = 0;
 }
 </script>
 </body>

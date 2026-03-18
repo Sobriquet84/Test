@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skills & Competency Explorer</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:       #0f1923;
+    --paper:     #f5f2ec;
+    --cream:     #ede9e0;
+    --accent:    #c84b2f;
+    --gold:      #d4933a;
+    --teal:      #1a6b6b;
+    --muted:     #7a7065;
+    --border:    #d8d2c6;
+
+    --found:  #4a9e6b;
+    --inter:  #c89a2a;
+    --adv:    #c84b2f;
+    --exp:    #6b3fa0;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    font-size: 15px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 36px 40px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: rgba(200,75,47,0.15);
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 30%;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: rgba(26,107,107,0.12);
+  }
+  .header-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(26px, 4vw, 40px);
+    line-height: 1.15;
+    font-weight: 400;
+    max-width: 560px;
+    position: relative;
+    z-index: 1;
+  }
+  header h1 em {
+    font-style: italic;
+    color: #e8a07a;
+  }
+  .header-sub {
+    margin-top: 10px;
+    font-size: 14px;
+    color: rgba(245,242,236,0.65);
+    font-weight: 300;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 14px 40px;
+    background: var(--cream);
+    border-bottom: 1px solid var(--border);
+  }
+  .legend-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-right: 4px;
+    align-self: center;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    padding: 4px 10px;
+    border-radius: 20px;
+    cursor: default;
+  }
+  .badge::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+  .badge.found { background: #e8f5ed; color: var(--found); }
+  .badge.inter { background: #fdf3e0; color: var(--inter); }
+  .badge.adv   { background: #fdeae5; color: var(--adv);   }
+  .badge.exp   { background: #f0e8f8; color: var(--exp);   }
+
+  /* ── MAIN LAYOUT ── */
+  .layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: calc(100vh - 180px);
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    background: var(--cream);
+    border-right: 1px solid var(--border);
+    padding: 24px 0;
+    position: sticky;
+    top: 0;
+    height: calc(100vh - 130px);
+    overflow-y: auto;
+  }
+  .sidebar-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0 24px 14px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 8px;
+  }
+  .cat-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 11px 24px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13.5px;
+    font-weight: 400;
+    color: var(--ink);
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: all 0.18s;
+    line-height: 1.35;
+  }
+  .cat-btn:hover  { background: rgba(15,25,35,0.05); border-left-color: var(--border); }
+  .cat-btn.active { background: white; border-left-color: var(--accent); font-weight: 600; color: var(--accent); }
+  .cat-count {
+    float: right;
+    font-size: 11px;
+    background: var(--border);
+    color: var(--muted);
+    padding: 1px 7px;
+    border-radius: 10px;
+    font-weight: 400;
+    margin-top: 1px;
+  }
+  .cat-btn.active .cat-count { background: #fde8e3; color: var(--accent); }
+
+  /* ── CONTENT ── */
+  .content { padding: 32px 40px; overflow-y: auto; }
+
+  /* Category header */
+  .cat-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .cat-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 400;
+    line-height: 1.2;
+  }
+  .cat-roles-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 7px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .cat-roles-toggle:hover { background: var(--cream); color: var(--ink); }
+
+  .roles-panel {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    display: none;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .roles-panel.open { display: flex; }
+  .role-pill {
+    font-size: 12px;
+    background: white;
+    border: 1px solid var(--border);
+    color: var(--ink);
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+
+  /* Skill groups */
+  .skill-group { margin-bottom: 28px; }
+  .group-name {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .group-name::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 10px;
+  }
+  .skill-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    transition: box-shadow 0.15s, transform 0.15s;
+    cursor: default;
+  }
+  .skill-card:hover { box-shadow: 0 4px 16px rgba(15,25,35,0.08); transform: translateY(-1px); }
+  .skill-name {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 10px;
+  }
+  .skill-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .prof-tag {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    padding: 3px 9px;
+    border-radius: 4px;
+  }
+  .prof-tag.found { background: #e8f5ed; color: var(--found); }
+  .prof-tag.inter { background: #fdf3e0; color: var(--inter); }
+  .prof-tag.adv   { background: #fdeae5; color: var(--adv);   }
+  .prof-tag.exp   { background: #f0e8f8; color: var(--exp);   }
+
+  .udemy-link {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--accent);
+    text-decoration: none;
+    padding: 3px 8px;
+    border: 1px solid #f5d0c8;
+    border-radius: 4px;
+    transition: background 0.12s;
+    white-space: nowrap;
+  }
+  .udemy-link:hover { background: #fdeae5; }
+
+  /* Welcome state */
+  .welcome {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+  }
+  .welcome-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+    display: block;
+  }
+  .welcome h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .welcome p { font-size: 14px; max-width: 340px; margin: 0 auto; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  @media (max-width: 680px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { position: static; height: auto; display: flex; flex-wrap: wrap; gap: 4px; padding: 12px; }
+    .sidebar-title { display: none; }
+    .cat-btn { width: auto; border: 1px solid var(--border); border-left: 3px solid transparent; border-radius: 6px; padding: 7px 12px; font-size: 12px; }
+    .cat-btn.active { border-color: var(--accent); }
+    .content { padding: 20px; }
+    header { padding: 24px 20px; }
+    .legend { padding: 12px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-eyebrow">Learning & Development</div>
+  <h1>Skills & Competency <em>Explorer</em></h1>
+  <p class="header-sub">Select your role category to explore the skills, proficiency expectations, and recommended Udemy courses.</p>
+</header>
+
+<div class="legend">
+  <span class="legend-label">Proficiency:</span>
+  <span class="badge found">Foundational</span>
+  <span class="badge inter">Intermediate</span>
+  <span class="badge adv">Advanced</span>
+  <span class="badge exp">Expert</span>
+</div>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Role Categories</div>
+    <!-- JS will populate this -->
+  </nav>
+  <main class="content" id="content">
+    <div class="welcome">
+      <span class="welcome-icon">🗺️</span>
+      <h2>Find your path</h2>
+      <p>Choose a role category from the left to see the skills and competencies expected for your function.</p>
+    </div>
+  </main>
+</div>
+
+<script>
+const PROF_CLASS = { Foundational: 'found', Intermediate: 'inter', Advanced: 'adv', Expert: 'exp' };
+
+const DATA = {
+  "Executive Leadership": {
+    roles: ["Chief Executive Officer","Chief Operating Officer","Chief Financial Officer","Chief Technology Officer","Chief HR Officer","Chief Growth Officer","Chief Legal & Compliance Officer","SVP, Engineering","SVP, Global Sales","SVP, Human Resources","VP, Growth","VP, Global Growth Marketing","VP, HR Service Delivery","VP, Client Services","VP of Product Management","VP Channels & Partnerships","Vice President, Operational Excellence","Vice President (Associate General Counsel), Legal","Vice President & Chief Information Security Officer"],
+    groups: {
+      "Strategic Leadership": [["Vision Setting & Long-Range Strategy","Expert"],["Business Model Design & Innovation","Expert"],["Organisational Design & Scaling","Advanced"],["M&A, Partnerships & Market Expansion","Advanced"],["Corporate Governance & Board Engagement","Expert"]],
+      "Financial Acumen": [["P&L Ownership & Financial Stewardship","Expert"],["Capital Allocation & Investment Decisions","Advanced"],["Budgeting & Resource Planning at Scale","Advanced"],["Investor & Analyst Relations","Intermediate"]],
+      "People & Culture Leadership": [["Executive Team Building & Development","Expert"],["Culture Design & Employee Experience","Advanced"],["Succession Planning","Advanced"],["DE&I Strategy & Accountability","Advanced"],["Change Management at Scale","Advanced"]],
+      "Operational Excellence": [["Cross-functional Programme Delivery","Advanced"],["KPI Frameworks & Performance Management","Advanced"],["Risk Governance & Crisis Management","Expert"],["Process Optimisation & Scalability","Advanced"]],
+      "Commercial & Market Insight": [["Market Trend Analysis & Competitive Positioning","Expert"],["Customer & Revenue Growth Strategy","Advanced"],["Global Market Entry & Localisation","Advanced"],["AI & Digital Transformation Sponsorship","Advanced"]],
+      "Stakeholder & Communication": [["Executive Communication & Public Speaking","Expert"],["Board & Investor Reporting","Advanced"],["Media & External Relations","Intermediate"],["Cross-cultural Leadership","Advanced"]],
+      "Soft Skills": [["Decisive Thinking Under Uncertainty","Expert"],["Resilience & Executive Presence","Expert"],["Coaching & Mentoring Senior Leaders","Advanced"],["Ethical Leadership & Integrity","Expert"]]
+    }
+  },
+  "Sales & Business Development": {
+    roles: ["Account Executive 2","Sales Architect","Enterprise Business Development Executive","Senior Business Development Manager","Sales Development Representative","Mid-Market Sales Manager","Sales Coordinator","Sales Operations Analyst","SVP, Global Sales","Chief Growth Officer","VP, Growth","GTM & AI Automation Manager","Sales Enablement Partner"],
+    groups: {
+      "Core Sales Skills": [["Consultative Selling","Advanced"],["Pipeline Management & CRM (e.g. Salesforce)","Advanced"],["Negotiation & Deal Structuring","Advanced"],["Prospecting & Lead Generation","Intermediate"],["Value Proposition Design","Advanced"],["Sales Forecasting","Intermediate"]],
+      "Strategic & Market Knowledge": [["Territory & Account Planning","Intermediate"],["Competitive Intelligence","Intermediate"],["GTM Strategy","Advanced"],["Partnerships & Alliances Management","Intermediate"]],
+      "Tools & Enablement": [["Sales Enablement Platforms (e.g. Highspot, Seismic)","Intermediate"],["Revenue Operations & Analytics","Intermediate"],["AI / Automation in Sales Processes","Intermediate"]],
+      "Soft Skills": [["Executive Presence & Communication","Advanced"],["Stakeholder Management","Advanced"],["Resilience & Target Orientation","Advanced"]]
+    }
+  },
+  "Client Success & Support": {
+    roles: ["Director, Client Success","Client Success Executive","Senior Manager, Client Success","Client Success Manager","Client Operations Support Specialist","Customer Care Specialist","Customer Care Manager","VP, Client Services","Associate Director, Customer Support","Senior Partner Success Manager","Director, Global Client Implementation","Client Implementation Manager","Implementation Manager"],
+    groups: {
+      "Client Relationship Management": [["Account Health Monitoring & QBRs","Advanced"],["Escalation Management","Advanced"],["Customer Onboarding & Implementation","Intermediate"],["NPS / CSAT & VOC Analysis","Intermediate"],["Renewal & Expansion Management","Intermediate"]],
+      "Operations & Process": [["CRM Usage (Salesforce / Gainsight)","Intermediate"],["SLA & KPI Management","Advanced"],["Project Coordination","Intermediate"],["Data-Driven Decision Making","Intermediate"]],
+      "Soft Skills": [["Empathy & Active Listening","Advanced"],["Problem Solving & Root-Cause Analysis","Advanced"],["Cross-functional Collaboration","Intermediate"],["Conflict Resolution","Advanced"]]
+    }
+  },
+  "Marketing": {
+    roles: ["Global Marketing Performance Manager","Senior Global Product Marketing Manager","VP, Global Growth Marketing","Director, Global Field Marketing","Global Brand & Integrated Marketing Senior Manager","Manager, Global Designer & Brand","Global Website Operations & Development Manager","Global Website Operations & Development Senior Manager","Creative Content Manager","Global Graphic Designer & Brand Creative","Global Marketing Insights Manager","Director of Marketing Insights","Market Insights Data Analyst","Global Content Writer","Global Director, Brand & Creative"],
+    groups: {
+      "Digital Marketing": [["SEO / SEM & Paid Media","Intermediate"],["Marketing Automation (HubSpot / Marketo)","Intermediate"],["Website Management & CMS (e.g. WordPress)","Intermediate"],["Performance Marketing & Analytics (GA4, Looker)","Advanced"],["Email Marketing & Nurture Programmes","Intermediate"]],
+      "Brand & Content": [["Brand Strategy & Identity","Advanced"],["Content Strategy & Copywriting","Advanced"],["Graphic Design (Adobe Suite / Figma)","Intermediate"],["Campaign Planning & Execution","Advanced"]],
+      "Insights & Research": [["Market Research & Consumer Insights","Advanced"],["Data Visualisation & Reporting","Intermediate"],["Competitive Analysis","Intermediate"]],
+      "Soft Skills": [["Creativity & Storytelling","Advanced"],["Project Management","Intermediate"],["Stakeholder Communication","Intermediate"]]
+    }
+  },
+  "Human Resources": {
+    roles: ["HR Business Partner","Global HR Business Partner","Director, Global HR Business Partners","VP, HR Service Delivery","Senior Manager, HR Service Delivery","Regional HR Service Delivery Manager","HRSD & Benefits Manager APAC","Sr. HRSD & Benefits Manager APAC","Sr. HRSD & Benefits Manager GCC & Africa","Sr. HRSD & Benefits Manager Americas","SVP, Human Resources","Chief HR Officer","HR Employee Relationship Consultant","Employee Relationship Consultant","Senior Employee Relationship Consultant","HR Projects Lead","Talent Specialist","Talent Acquisition Lead","Learning & Development Specialist","Director, Learning and Development","Global Mobility Specialist","Senior Mobility Advisor","Director, Global Mobility","Regional Benefits Specialist","Global Benefits Manager"],
+    groups: {
+      "HR Generalist & Strategy": [["HR Business Partnering & Advisory","Advanced"],["Talent Management & Succession Planning","Advanced"],["Organisational Design & Change Management","Intermediate"],["HR Policy Development","Advanced"],["Workforce Planning","Intermediate"]],
+      "Employee Relations & Compliance": [["Employee Relations & Conflict Resolution","Advanced"],["Employment Law Knowledge (local/regional)","Advanced"],["Disciplinary & Grievance Handling","Advanced"],["Diversity, Equity & Inclusion","Intermediate"]],
+      "Compensation & Benefits": [["Benefits Design & Administration","Advanced"],["Global Mobility & Expatriate Management","Intermediate"],["Compensation Benchmarking","Intermediate"],["Payroll Liaison","Foundational"]],
+      "Learning & Development": [["Training Needs Analysis","Advanced"],["L&D Programme Design & Delivery","Advanced"],["LMS Administration","Intermediate"],["Coaching & Mentoring","Intermediate"]],
+      "HR Systems & Analytics": [["HRIS (Workday / SAP SuccessFactors)","Intermediate"],["HR Data & Reporting","Intermediate"],["Recruitment & ATS Management","Intermediate"]],
+      "Soft Skills": [["Active Listening & Empathy","Advanced"],["Influencing Without Authority","Advanced"],["Confidentiality & Discretion","Expert"]]
+    }
+  },
+  "Payroll": {
+    roles: ["Regional Payroll Specialist","Global Payroll Specialist","Senior Regional Payroll Specialist","Regional Payroll Manager","Regional Payroll Manager - APAC","Sr. Regional Payroll Manager - Americas","Sr. Director - Global Payroll","Director, Global Payroll Transformation","Payroll Support Coordinator","Payroll Accounting Manager","Senior Payroll Manager"],
+    groups: {
+      "Payroll Processing": [["End-to-End Payroll Processing","Advanced"],["Multi-Country Payroll Knowledge","Advanced"],["Payroll Compliance & Tax Regulations","Advanced"],["Payroll Systems (ADP, Ceridian, CloudPay)","Intermediate"],["Time & Attendance Systems","Intermediate"]],
+      "Accounting & Reconciliation": [["Payroll Accounting & Journal Entries","Advanced"],["Bank Reconciliation","Intermediate"],["Month-End / Year-End Payroll Close","Advanced"]],
+      "Compliance & Governance": [["Legislative Updates & Statutory Reporting","Advanced"],["Audit Support & Internal Controls","Intermediate"],["Data Privacy (GDPR in payroll context)","Advanced"]],
+      "Soft Skills": [["Attention to Detail","Expert"],["Deadline & Priority Management","Advanced"],["Stakeholder Communication","Intermediate"]]
+    }
+  },
+  "Finance & Accounting": {
+    roles: ["Regional Staff Accountant","Global Staff Accountant","Senior Regional Staff Accountant","Regional Finance Director APAC/ME & Africa","Regional Finance Director - Europe & America","Financial Controller","Assistant Controller","Chief Financial Officer","Global Treasury Leader","Global Treasury Associate","Strategic Finance Analyst","Director, Strategic Finance","AP Analyst","Senior AP Analyst","Accounts Payable Manager","AR Analyst","Senior AR Analyst","Senior Accounts Receivable Manager","Expense Reimbursement Analyst","Global Tax Manager","Accountant"],
+    groups: {
+      "Accounting & Reporting": [["GAAP / IFRS Financial Reporting","Advanced"],["Month-End Close & Journal Entries","Advanced"],["Balance Sheet Reconciliation","Advanced"],["Accounts Payable & Receivable","Intermediate"],["Fixed Assets Management","Intermediate"]],
+      "Financial Planning & Analysis": [["Budgeting & Forecasting","Advanced"],["Financial Modelling (Excel / Google Sheets)","Advanced"],["Variance Analysis","Advanced"],["Management Reporting & KPI Dashboards","Intermediate"]],
+      "Treasury & Tax": [["Cash Flow Management & Liquidity","Advanced"],["FX Risk Management","Intermediate"],["Tax Compliance & Planning (multi-jurisdiction)","Advanced"],["Banking Relationships","Intermediate"]],
+      "Tools & Systems": [["ERP Systems (NetSuite, SAP, Oracle)","Intermediate"],["Excel / Data Analytics","Advanced"],["BI Tools (Tableau, Power BI)","Intermediate"]],
+      "Soft Skills": [["Analytical Thinking","Advanced"],["Attention to Detail","Expert"],["Business Partnering","Intermediate"]]
+    }
+  },
+  "Legal & Compliance": {
+    roles: ["Legal Assistant","Corporate Paralegal","Legal Administrator","Employment Law Coordinator","Legal and Compliance Analyst","Legal Counsel","Senior Legal Counsel","Senior Corporate Counsel","Senior Counsel, Employment Law","Legal Manager","Senior Manager, Legal Operations","Senior Manager Privacy & Data Protection","Senior Regional Compliance Manager","Risk & Compliance Manager","Risk & Compliance (H&S) Senior Manager","Director, Risk and Compliance","Chief Legal & Compliance Officer","Assistant General Counsel, Americas","Assistant General Counsel, Director of Commercial Law","Vice President (Associate General Counsel), Legal","Manager of Employment Law & Compliance - Middle East","Senior Employment Law & Compliance Manager – APAC"],
+    groups: {
+      "Legal Practice": [["Contract Drafting, Review & Negotiation","Advanced"],["Employment Law (multi-jurisdiction)","Advanced"],["Commercial & Corporate Law","Advanced"],["Litigation Management & Dispute Resolution","Advanced"],["Legal Research & Advisory","Advanced"]],
+      "Compliance & Risk": [["Regulatory Compliance Frameworks","Advanced"],["Risk Assessment & Mitigation","Advanced"],["Internal Controls & Audit Support","Intermediate"],["Anti-Bribery / Anti-Corruption (ABAC)","Intermediate"],["Health & Safety Compliance","Intermediate"]],
+      "Privacy & Data": [["GDPR & Global Data Protection Laws","Advanced"],["Privacy Impact Assessments","Intermediate"],["Data Governance Frameworks","Intermediate"]],
+      "Soft Skills": [["Analytical & Critical Thinking","Expert"],["Communication & Stakeholder Influence","Advanced"],["Ethical Judgement","Expert"]]
+    }
+  },
+  "Regulatory Affairs & Governance": {
+    roles: ["Regulatory Affairs & Entity Corporate Governance Manager","Regulatory Affairs & Entity Corporate Governance Associate","Regulatory Affairs and Corporate Governance Manager","Regulatory Affairs and Corporate Governance Senior Manager","Head of Global Regulatory Affairs & Entity Corporate Governance"],
+    groups: {
+      "Regulatory Affairs": [["Global Regulatory Landscape Knowledge","Expert"],["Entity Lifecycle Management","Advanced"],["Corporate Secretarial Practices","Advanced"],["Regulatory Filing & Reporting","Advanced"],["Government & Regulatory Liaison","Advanced"]],
+      "Governance": [["Board Governance & Minutes","Advanced"],["Corporate Governance Frameworks","Advanced"],["Statutory Compliance & KYC","Advanced"]],
+      "Soft Skills": [["Attention to Detail","Expert"],["Cross-border Communication","Advanced"],["Analytical Research","Advanced"]]
+    }
+  },
+  "Technology & Engineering": {
+    roles: ["Senior Engineer, Infrastructure","Senior Infrastructure Engineer","Senior Software Engineer","Software Engineer (.Net)","Software Engineer (ReactJS)","Mobile Software Engineer","Site Reliability Engineer","Sr. Cloud Security Engineer","IT Information Security Analyst","IT Support Engineer","Senior IT Solutions Engineer","IT Analyst","Director, Engineering","SVP, Engineering","Chief Technology Officer","Senior Manager - Quality Assurance","Lead Quality Assurance","Sr. Software Quality & Automation Engineer","Delivery Lead, Product & Technology"],
+    groups: {
+      "Software Development": [["Programming Languages (Python, Java, C#, JS)","Advanced"],["Frontend Frameworks (React, Angular)","Intermediate"],["Backend & API Development (REST, GraphQL)","Advanced"],["Mobile Development (iOS / Android)","Intermediate"],["Version Control (Git)","Advanced"],["Agile / Scrum Methodologies","Advanced"]],
+      "Infrastructure & Cloud": [["Cloud Platforms (AWS, Azure, GCP)","Advanced"],["Infrastructure as Code (Terraform, Ansible)","Advanced"],["CI/CD Pipelines (Jenkins, GitHub Actions)","Advanced"],["Containerisation (Docker, Kubernetes)","Advanced"],["Site Reliability Engineering & Observability","Advanced"]],
+      "Security": [["Cybersecurity Frameworks (NIST, ISO 27001)","Advanced"],["Cloud Security Architecture","Advanced"],["Vulnerability Management & Pen Testing","Advanced"],["Identity & Access Management (IAM)","Intermediate"],["Security Incident Response","Advanced"]],
+      "Quality & Testing": [["Test Automation (Selenium, Cypress, Playwright)","Advanced"],["QA Methodologies & Test Planning","Advanced"],["Performance & Load Testing","Intermediate"]],
+      "IT Operations & Support": [["ITSM / ServiceNow","Intermediate"],["Network & Systems Administration","Intermediate"],["Endpoint Management & Security","Intermediate"]],
+      "Leadership & Architecture": [["Technical Architecture & Design Patterns","Expert"],["Engineering Team Leadership","Advanced"],["Vendor & Budget Management","Intermediate"]]
+    }
+  },
+  "Product Management": {
+    roles: ["Product Manager","Senior Product Designer","Principal Product Manager","Principal Product Manager, Workforce Management","Group Product Manager","VP of Product Management","Product Analyst"],
+    groups: {
+      "Product Strategy": [["Product Vision & Roadmap Definition","Advanced"],["Market & User Research","Advanced"],["Competitive Analysis","Intermediate"],["OKR & Metrics Definition","Advanced"]],
+      "Execution & Delivery": [["Agile / Scrum Ceremonies & Backlog Management","Advanced"],["User Story Writing & Acceptance Criteria","Advanced"],["Stakeholder Alignment & Communication","Advanced"],["Release Planning & Go-to-Market","Advanced"]],
+      "Design & UX": [["UX Principles & User Validation","Intermediate"],["Wireframing & Prototyping (Figma)","Intermediate"],["Accessibility & Inclusive Design","Foundational"]],
+      "Analytics & Data": [["Product Analytics (Amplitude, Mixpanel)","Advanced"],["A/B Testing & Experimentation","Advanced"],["Data-Driven Prioritisation","Advanced"]],
+      "Soft Skills": [["Influence Without Authority","Advanced"],["Communication & Storytelling","Advanced"],["Problem Framing & Critical Thinking","Advanced"]]
+    }
+  },
+  "Data, Analytics & BI": {
+    roles: ["Director of Business Intelligence","Market Insights Data Analyst","Global Revenue Operations Analyst","Data & Quality Management Lead","Global PMO Project Manager","Senior Project Manager","Project Coordinator"],
+    groups: {
+      "Data Engineering & Management": [["SQL & Database Querying","Advanced"],["Data Modelling & Warehousing","Advanced"],["ETL Pipelines & Data Integration","Intermediate"],["Data Quality & Governance","Advanced"]],
+      "Analytics & Visualisation": [["BI Tools (Tableau, Power BI, Looker)","Advanced"],["Statistical Analysis & Interpretation","Advanced"],["Dashboarding & Executive Reporting","Advanced"],["Python / R for Analysis","Intermediate"]],
+      "Project & Programme Management": [["PMO Governance & Frameworks (PMP, PRINCE2)","Advanced"],["Risk & Dependency Management","Intermediate"],["Agile & Waterfall Delivery","Intermediate"],["Resource Planning","Intermediate"]],
+      "Soft Skills": [["Data Storytelling","Advanced"],["Stakeholder Communication","Advanced"],["Attention to Detail","Advanced"]]
+    }
+  },
+  "Operations & Administration": {
+    roles: ["Vice President, Operational Excellence","Senior Manager, Shared Services","Office Administrator","Office Manager","Global Senior Office Manager","Executive Assistant","Sales Coordinator","Internal Communications and Culture Director","Solution Architect","Global PMO Project Manager"],
+    groups: {
+      "Operations Management": [["Process Improvement & Lean / Six Sigma","Advanced"],["Operational KPI Definition & Monitoring","Advanced"],["Vendor & Supplier Management","Intermediate"],["Business Continuity Planning","Intermediate"]],
+      "Administrative Excellence": [["Calendar & Travel Management","Advanced"],["Document Management & Governance","Advanced"],["Facilities & Office Management","Intermediate"],["Executive Support & Communication","Advanced"]],
+      "Communication & Culture": [["Internal Communications Strategy","Advanced"],["Employee Engagement Initiatives","Intermediate"],["Change Communications","Intermediate"]],
+      "Tools & Systems": [["Microsoft 365 / Google Workspace","Advanced"],["Project Management Tools (Jira, Asana, Monday)","Intermediate"],["Expense & Travel Systems","Intermediate"]],
+      "Soft Skills": [["Organisation & Prioritisation","Expert"],["Discretion & Confidentiality","Expert"],["Adaptability","Advanced"]]
+    }
+  }
+};
+
+// Udemy search base URL
+const UDEMY_BASE = "https://www.udemy.com/courses/search/?q=";
+
+const sidebar = document.querySelector('.sidebar');
+const content = document.getElementById('content');
+let activeBtn = null;
+let rolesOpen = false;
+
+// Build sidebar
+Object.entries(DATA).forEach(([cat, data]) => {
+  const btn = document.createElement('button');
+  btn.className = 'cat-btn';
+  const skillCount = Object.values(data.groups).reduce((a, g) => a + g.length, 0);
+  btn.innerHTML = `${cat} <span class="cat-count">${skillCount}</span>`;
+  btn.addEventListener('click', () => selectCategory(cat, btn));
+  sidebar.appendChild(btn);
+});
+
+function selectCategory(cat, btn) {
+  if (activeBtn) activeBtn.classList.remove('active');
+  btn.classList.add('active');
+  activeBtn = btn;
+  rolesOpen = false;
+  renderCategory(cat);
+}
+
+function renderCategory(cat) {
+  const { roles, groups } = DATA[cat];
+  const totalSkills = Object.values(groups).reduce((a, g) => a + g.length, 0);
+
+  let html = `
+    <div class="cat-header">
+      <div>
+        <div class="cat-title">${cat}</div>
+      </div>
+      <button class="cat-roles-toggle" onclick="toggleRoles()">${roles.length} roles in this category ▾</button>
+    </div>
+    <div class="roles-panel" id="roles-panel">
+      ${roles.map(r => `<span class="role-pill">${r}</span>`).join('')}
+    </div>
+  `;
+
+  Object.entries(groups).forEach(([groupName, skills]) => {
+    html += `<div class="skill-group">
+      <div class="group-name">${groupName}</div>
+      <div class="skills-grid">`;
+    skills.forEach(([skill, prof]) => {
+      const cls = PROF_CLASS[prof] || 'found';
+      const udemyUrl = UDEMY_BASE + encodeURIComponent(skill);
+      html += `
+        <div class="skill-card">
+          <div class="skill-name">${skill}</div>
+          <div class="skill-footer">
+            <span class="prof-tag ${cls}">${prof}</span>
+            <a href="${udemyUrl}" target="_blank" rel="noopener" class="udemy-link">🎓 Find on Udemy</a>
+          </div>
+        </div>`;
+    });
+    html += `</div></div>`;
+  });
+
+  content.innerHTML = html;
+}
+
+function toggleRoles() {
+  rolesOpen = !rolesOpen;
+  const panel = document.getElementById('roles-panel');
+  if (panel) panel.classList.toggle('open', rolesOpen);
+}
+</script>
+</body>
+</html>

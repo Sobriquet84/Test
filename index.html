@@ -278,6 +278,9 @@
   .recs {
     border-top: 1px solid var(--border);
     padding-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
   .recs-label {
     font-size: 10px;
@@ -285,93 +288,30 @@
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--muted);
-    margin-bottom: 8px;
+    margin-bottom: 2px;
   }
-  .recs-btns {
-    display: flex;
-    gap: 8px;
-  }
-  .rec-btn {
-    position: relative;
-    flex: 1;
-  }
-  .rec-btn-trigger {
-    width: 100%;
+  .rec-row {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 5px;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    padding: 7px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    border: 1px solid;
-    transition: all 0.15s;
-    white-space: nowrap;
+    gap: 8px;
   }
-  .rec-btn-trigger .chevron { transition: transform 0.2s; flex-shrink: 0; }
-  .rec-btn.open .rec-btn-trigger .chevron { transform: rotate(180deg); }
-
-  .rec-btn-trigger.quick  { background: #EEF4FF; color: var(--blue);   border-color: var(--blue-lt); }
-  .rec-btn-trigger.deeper { background: var(--purple-lt); color: var(--purple); border-color: #C9BBF5; }
-  .rec-btn-trigger.quick:hover  { background: var(--blue);   color: var(--white); border-color: var(--blue);   }
-  .rec-btn-trigger.deeper:hover { background: var(--purple); color: var(--white); border-color: var(--purple); }
-  .rec-btn.open .rec-btn-trigger.quick  { background: var(--blue);   color: var(--white); border-color: var(--blue);   }
-  .rec-btn.open .rec-btn-trigger.deeper { background: var(--purple); color: var(--white); border-color: var(--purple); }
-
-  .rec-dropdown {
-    display: none;
-    position: absolute;
-    top: calc(100% + 6px);
-    left: 0;
-    min-width: 220px;
-    max-width: 280px;
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    box-shadow: 0 8px 24px rgba(6,25,94,0.12);
-    z-index: 100;
-    overflow: hidden;
-  }
-  .rec-btn.open .rec-dropdown { display: block; }
-  .rec-btn:last-child .rec-dropdown { left: auto; right: 0; }
-
-  .rec-dropdown-header {
+  .rec-type {
     font-size: 10px;
     font-weight: 700;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--muted);
-    padding: 10px 14px 6px;
-    border-bottom: 1px solid var(--border);
+    padding: 2px 7px;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
-  .rec-link {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 9px 14px;
-    font-size: 12.5px;
-    font-weight: 500;
-    color: var(--ink);
-    text-decoration: none;
-    transition: background 0.12s;
-    border-bottom: 1px solid var(--border);
-    line-height: 1.35;
-  }
-  .rec-link:last-child { border-bottom: none; }
-  .rec-link:hover { background: var(--bg); color: var(--navy); }
-  .rec-link .rec-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-  .rec-link .rec-dot.quick  { background: var(--blue);   }
-  .rec-link .rec-dot.deeper { background: var(--purple); }
-  .rec-empty {
-    padding: 12px 14px;
+  .rec-type.quick  { background: #EEF4FF; color: var(--blue);   border: 1px solid var(--blue-lt);   }
+  .rec-type.deeper { background: var(--purple-lt); color: var(--purple); border: 1px solid #C9BBF5; }
+  .rec-placeholder {
     font-size: 12px;
     color: #B0B8CC;
     font-style: italic;
+    font-weight: 400;
   }
 
   /* ── SEARCH ── */
@@ -724,33 +664,9 @@ function renderWelcome() {
     </div>`;
 }
 
-// Courses data — keyed by skill name. Add links here as: ["Course Title", "url"]
-const COURSES = {
-  // Example entries — replace with real Udemy links:
-  // "Presentation Skills": {
-  //   quick: [["Presentation Skills in 60 Minutes", "https://atlasinternal.udemy.com/..."]],
-  //   deeper: [["Complete Presentation Mastery", "https://atlasinternal.udemy.com/..."]]
-  // }
-};
-
-function buildDropdown(skill, type) {
-  const courses = COURSES[skill]?.[type] || [];
-  const label = type === 'quick' ? 'Quick Learning' : 'Go Deeper';
-  let inner = `<div class="rec-dropdown-header">${label}</div>`;
-  if (courses.length === 0) {
-    inner += `<div class="rec-empty">Courses coming soon…</div>`;
-  } else {
-    courses.forEach(([title, url]) => {
-      inner += `<a class="rec-link" href="${url}" target="_blank" rel="noopener"><span class="rec-dot ${type}"></span>${title}</a>`;
-    });
-  }
-  return `<div class="rec-dropdown">${inner}</div>`;
-}
-
 function buildCard(skill, prof) {
   const cls = PROF_CLASS[prof] || 'found';
   const udemyUrl = UDEMY_BASE + encodeURIComponent(skill);
-  const chevron = `<svg class="chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`;
   return `
     <div class="skill-card">
       <div class="skill-top">
@@ -760,34 +676,16 @@ function buildCard(skill, prof) {
       <a href="${udemyUrl}" target="_blank" rel="noopener" class="udemy-btn">🎓 Find on Udemy</a>
       <div class="recs">
         <div class="recs-label">Recommended Learning</div>
-        <div class="recs-btns">
-          <div class="rec-btn">
-            <button class="rec-btn-trigger quick" onclick="toggleDrop(this)">⚡ Quick Learning ${chevron}</button>
-            ${buildDropdown(skill, 'quick')}
-          </div>
-          <div class="rec-btn">
-            <button class="rec-btn-trigger deeper" onclick="toggleDrop(this)">📚 Go Deeper ${chevron}</button>
-            ${buildDropdown(skill, 'deeper')}
-          </div>
+        <div class="rec-row">
+          <span class="rec-type quick">Quick Learning</span>
+          <span class="rec-placeholder">Add course recommendation…</span>
+        </div>
+        <div class="rec-row">
+          <span class="rec-type deeper">Go Deeper</span>
+          <span class="rec-placeholder">Add course recommendation…</span>
         </div>
       </div>
     </div>`;
-}
-
-function toggleDrop(btn) {
-  const wrapper = btn.closest('.rec-btn');
-  const isOpen = wrapper.classList.contains('open');
-  // close all open dropdowns
-  document.querySelectorAll('.rec-btn.open').forEach(el => el.classList.remove('open'));
-  if (!isOpen) wrapper.classList.add('open');
-}
-
-// Close dropdowns when clicking outside
-document.addEventListener('click', e => {
-  if (!e.target.closest('.rec-btn')) {
-    document.querySelectorAll('.rec-btn.open').forEach(el => el.classList.remove('open'));
-  }
-});
 }
 
 function renderCategory(cat) {

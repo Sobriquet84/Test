@@ -539,7 +539,7 @@ const DATA = {
   "Global Skills": {
     groups: {
       "Communication & Presence": [["Presentation Skills","Intermediate"],["Executive Presence","Advanced"],["Business Writing & Email Etiquette","Intermediate"],["Public Speaking & Storytelling","Intermediate"],["Active Listening","Intermediate"]],
-      "Productivity & Tools": [["Microsoft Excel","Intermediate"],["AI Fluency","Foundational"],["Project Management","Foundational"]],
+      "Productivity & Tools": [["Microsoft Excel","Intermediate"],["AI Fluency","Foundational"],["Project Management","Foundational"],["Time Management","Intermediate"]],
       "Professional Effectiveness": [["Critical Thinking & Problem Solving","Intermediate"],["Cultural Awareness","Intermediate"]]
     }
   },
@@ -548,7 +548,7 @@ const DATA = {
       "Team Leadership": [["Performance Management & Feedback","Advanced"],["1-on-1s & Coaching Conversations","Advanced"],["Building High-Performing Teams","Advanced"]],
       "Talent Development": [["Career Conversations & Growth Planning","Advanced"],["Talent Acquisition","Intermediate"]],
       "Inclusive Leadership": [["Psychological Safety & Belonging","Advanced"]],
-      "Soft Skills": [["Active Listening","Advanced"],["Conflict Mediation","Advanced"]]
+      "Soft Skills": [["Active Listening","Advanced"],["Conflict Mediation","Advanced"],["Emotional Intelligence","Advanced"]]
     }
   },
   "Sales & Business Development": {
@@ -712,11 +712,54 @@ function renderWelcome() {
 
 // Courses data — keyed by skill name. Add links here as: ["Course Title", "url"]
 const COURSES = {
-  // Example entries — replace with real Udemy links:
-  // "Presentation Skills": {
-  //   quick: [["Presentation Skills in 60 Minutes", "https://atlasinternal.udemy.com/..."]],
-  //   deeper: [["Complete Presentation Mastery", "https://atlasinternal.udemy.com/..."]]
-  // }
+  "Emotional Intelligence": {
+    deeper: [["Emotional Intelligence", "https://atlasinternal.udemy.com/course/emotional-intelligence-in-practice/"]]
+  },
+  "Time Management": {
+    deeper: [["Time Management", "https://atlasinternal.udemy.com/course/productivity-and-time-management/"]]
+  },
+  "Presentation Skills": {
+    deeper: [["Presentation Skills", "https://atlasinternal.udemy.com/course/1000-watt-presenting-how-to-prepare-practice-and-perform/"]]
+  },
+  "Executive Presence": {
+    deeper: [["Executive Presence", "https://atlasinternal.udemy.com/course/communicate-like-a-ceo/"]]
+  },
+  "Executive Presence & Communication": {
+    deeper: [["Executive Presence", "https://atlasinternal.udemy.com/course/communicate-like-a-ceo/"]]
+  },
+  "Critical Thinking & Problem Solving": {
+    deeper: [["Problem Solving", "https://atlasinternal.udemy.com/course/problem-solving-made-easy/"]]
+  },
+  "AI Fluency": {
+    deeper: [["AI at Work", "https://atlasinternal.udemy.com/course/ai-for-work/"]]
+  },
+  "Performance Management & Feedback": {
+    deeper: [["Goals and Expectations Setting", "https://atlasinternal.udemy.com/course/goals-setting-at-the-workplace/"], ["Giving and Receiving Feedback", "https://atlasinternal.udemy.com/course/giving-and-receiving-feedback-a-quick-course/"]]
+  },
+  "1-on-1s & Coaching Conversations": {
+    deeper: [["Giving and Receiving Feedback", "https://atlasinternal.udemy.com/course/giving-and-receiving-feedback-a-quick-course/"]]
+  },
+  "Active Listening": {
+    deeper: [["Emotional Intelligence", "https://atlasinternal.udemy.com/course/emotional-intelligence-in-practice/"]]
+  },
+  "Empathy & Active Listening": {
+    deeper: [["Emotional Intelligence", "https://atlasinternal.udemy.com/course/emotional-intelligence-in-practice/"]]
+  },
+  "Career Conversations & Growth Planning": {
+    deeper: [["Own Your Career", "https://atlasinternal.udemy.com/course/how-to-own-your-career/"]]
+  },
+  "Building High-Performing Teams": {
+    deeper: [["Leadership for Everyone", "https://atlasinternal.udemy.com/course/leadership-leading-not-in-charge/"]]
+  },
+  "Organisation & Prioritisation": {
+    deeper: [["Time Management", "https://atlasinternal.udemy.com/course/productivity-and-time-management/"]]
+  },
+  "Adaptability & Growth Mindset": {
+    deeper: [["Resilience and Adaptability", "https://atlasinternal.udemy.com/course/smart-tips-navigating-change-and-uncertainty/"]]
+  },
+  "Conflict Mediation": {
+    deeper: [["Emotional Intelligence", "https://atlasinternal.udemy.com/course/emotional-intelligence-in-practice/"]]
+  }
 };
 
 function buildDropdown(skill, type) {

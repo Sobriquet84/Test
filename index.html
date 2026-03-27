@@ -226,6 +226,7 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
+    overflow: visible;
   }
   .skill-card:hover { box-shadow: 0 4px 20px rgba(5,89,250,0.08); transform: translateY(-1px); }
 
@@ -327,7 +328,7 @@
     display: none;
     position: absolute;
     top: calc(100% + 6px);
-    left: 0;
+    right: 0;
     min-width: 220px;
     max-width: 280px;
     background: var(--white);
@@ -338,7 +339,6 @@
     overflow: hidden;
   }
   .rec-btn.open .rec-dropdown { display: block; }
-  .rec-btn:last-child .rec-dropdown { left: auto; right: 0; }
 
   .rec-dropdown-header {
     font-size: 10px;
@@ -536,134 +536,120 @@ const PROF_CLASS = { Foundational:'found', Intermediate:'inter', Advanced:'adv',
 const UDEMY_BASE = "https://atlasinternal.udemy.com/organization/search/?q=";
 
 const DATA = {
-  "Executive Leadership": {
+  "Global Skills": {
     groups: {
-      "Strategic Leadership": [["Vision Setting & Long-Range Strategy","Expert"],["Business Model Design & Innovation","Expert"],["Organisational Design & Scaling","Advanced"],["M&A, Partnerships & Market Expansion","Advanced"],["Corporate Governance & Board Engagement","Expert"]],
-      "Financial Acumen": [["P&L Ownership & Financial Stewardship","Expert"],["Capital Allocation & Investment Decisions","Advanced"],["Budgeting & Resource Planning at Scale","Advanced"],["Investor & Analyst Relations","Intermediate"]],
-      "People & Culture Leadership": [["Executive Team Building & Development","Expert"],["Culture Design & Employee Experience","Advanced"],["Succession Planning","Advanced"],["DE&I Strategy & Accountability","Advanced"],["Change Management at Scale","Advanced"]],
-      "Operational Excellence": [["Cross-functional Programme Delivery","Advanced"],["KPI Frameworks & Performance Management","Advanced"],["Risk Governance & Crisis Management","Expert"],["Process Optimisation & Scalability","Advanced"]],
-      "Commercial & Market Insight": [["Market Trend Analysis & Competitive Positioning","Expert"],["Customer & Revenue Growth Strategy","Advanced"],["Global Market Entry & Localisation","Advanced"],["AI & Digital Transformation Sponsorship","Advanced"]],
-      "Stakeholder & Communication": [["Executive Communication & Public Speaking","Expert"],["Board & Investor Reporting","Advanced"],["Media & External Relations","Intermediate"],["Cross-cultural Leadership","Advanced"]],
-      "Soft Skills": [["Decisive Thinking Under Uncertainty","Expert"],["Resilience & Executive Presence","Expert"],["Coaching & Mentoring Senior Leaders","Advanced"],["Ethical Leadership & Integrity","Expert"]]
+      "Communication & Presence": [["Presentation Skills","Intermediate"],["Executive Presence","Advanced"],["Business Writing & Email Etiquette","Intermediate"],["Public Speaking & Storytelling","Intermediate"],["Active Listening","Intermediate"]],
+      "Productivity & Tools": [["Microsoft Excel","Intermediate"],["AI Fluency","Foundational"],["Project Management","Foundational"]],
+      "Professional Effectiveness": [["Critical Thinking & Problem Solving","Intermediate"],["Cultural Awareness","Intermediate"]]
     }
   },
   "People Management": {
     groups: {
-      "Team Leadership": [["Setting Clear Goals & Expectations","Advanced"],["Performance Management & Feedback","Advanced"],["1-on-1s & Coaching Conversations","Advanced"],["Recognising & Rewarding Contribution","Intermediate"],["Managing Underperformance","Advanced"]],
-      "Talent Development": [["Identifying Development Needs","Advanced"],["Career Conversations & Growth Planning","Advanced"],["Delegation & Stretch Assignments","Intermediate"],["Succession Thinking","Intermediate"],["Building High-Performing Teams","Advanced"]],
-      "People Operations": [["Hiring & Interviewing Skills","Intermediate"],["Onboarding New Team Members","Intermediate"],["Navigating HR Processes & Policies","Intermediate"],["Managing Remote & Hybrid Teams","Intermediate"]],
-      "Inclusive Leadership": [["Psychological Safety & Belonging","Advanced"],["Unconscious Bias Awareness","Intermediate"],["Equity-Minded Decision Making","Intermediate"],["Managing Across Cultures","Intermediate"]],
-      "Soft Skills": [["Active Listening","Advanced"],["Empathy & Emotional Intelligence","Advanced"],["Conflict Mediation","Advanced"],["Adaptability & Resilience","Advanced"]]
-    }
-  },
-  "Global Skills": {
-    groups: {
-      "Communication & Presence": [["Presentation Skills","Intermediate"],["Executive Presence","Advanced"],["Business Writing & Email Etiquette","Intermediate"],["Public Speaking & Storytelling","Intermediate"],["Active Listening & Facilitation","Intermediate"]],
-      "Productivity & Tools": [["Microsoft Excel (Intermediate to Advanced)","Intermediate"],["Microsoft PowerPoint","Intermediate"],["Microsoft Word","Foundational"],["Microsoft 365 & Collaboration Tools","Intermediate"],["Google Workspace","Intermediate"]],
-      "AI & Future of Work": [["Using AI Tools in Daily Work (e.g. ChatGPT, Copilot)","Intermediate"],["Prompt Engineering Basics","Foundational"],["AI Literacy & Critical Evaluation","Intermediate"],["Automating Repetitive Tasks with AI","Intermediate"],["Data Privacy & Responsible AI Use","Intermediate"]],
-      "Project & Time Management": [["Time Management & Prioritisation","Intermediate"],["Project Planning Basics","Foundational"],["Meeting Management & Facilitation","Intermediate"],["Managing Up & Stakeholder Communication","Intermediate"]],
-      "Professional Effectiveness": [["Critical Thinking & Problem Solving","Intermediate"],["Decision Making Under Uncertainty","Intermediate"],["Adaptability & Growth Mindset","Foundational"],["Cross-cultural Collaboration","Intermediate"],["Wellbeing & Resilience at Work","Foundational"]]
+      "Team Leadership": [["Performance Management & Feedback","Advanced"],["1-on-1s & Coaching Conversations","Advanced"],["Building High-Performing Teams","Advanced"]],
+      "Talent Development": [["Career Conversations & Growth Planning","Advanced"],["Talent Acquisition","Intermediate"]],
+      "Inclusive Leadership": [["Psychological Safety & Belonging","Advanced"]],
+      "Soft Skills": [["Active Listening","Advanced"],["Conflict Mediation","Advanced"]]
     }
   },
   "Sales & Business Development": {
     groups: {
-      "Core Sales Skills": [["Consultative Selling","Advanced"],["Pipeline Management & CRM (e.g. Salesforce)","Advanced"],["Negotiation & Deal Structuring","Advanced"],["Prospecting & Lead Generation","Intermediate"],["Value Proposition Design","Advanced"],["Sales Forecasting","Intermediate"]],
-      "Strategic & Market Knowledge": [["Territory & Account Planning","Intermediate"],["Competitive Intelligence","Intermediate"],["GTM Strategy","Advanced"],["Partnerships & Alliances Management","Intermediate"]],
-      "Tools & Enablement": [["Sales Enablement Platforms (e.g. Highspot, Seismic)","Intermediate"],["Revenue Operations & Analytics","Intermediate"],["AI / Automation in Sales Processes","Intermediate"]],
-      "Soft Skills": [["Executive Presence & Communication","Advanced"],["Stakeholder Management","Advanced"],["Resilience & Target Orientation","Advanced"]]
+      "Core Sales Skills": [["Consultative Selling","Advanced"],["Pipeline Management & CRM (e.g. Salesforce)","Advanced"],["Negotiation & Deal Structuring","Advanced"],["Value Proposition Design","Advanced"]],
+      "Strategic & Market Knowledge": [["GTM Strategy","Advanced"]],
+      "Soft Skills": [["Executive Presence & Communication","Advanced"],["Stakeholder Management","Advanced"]]
     }
   },
   "Client Success & Support": {
     groups: {
-      "Client Relationship Management": [["Account Health Monitoring & QBRs","Advanced"],["Escalation Management","Advanced"],["Customer Onboarding & Implementation","Intermediate"],["NPS / CSAT & VOC Analysis","Intermediate"],["Renewal & Expansion Management","Intermediate"]],
-      "Operations & Process": [["CRM Usage (Salesforce / Gainsight)","Intermediate"],["SLA & KPI Management","Advanced"],["Project Coordination","Intermediate"],["Data-Driven Decision Making","Intermediate"]],
-      "Soft Skills": [["Empathy & Active Listening","Advanced"],["Problem Solving & Root-Cause Analysis","Advanced"],["Cross-functional Collaboration","Intermediate"],["Conflict Resolution","Advanced"]]
+      "Client Relationship Management": [["Account Health Monitoring & QBRs","Advanced"],["Escalation Management","Advanced"],["Customer Onboarding & Implementation","Intermediate"],["Renewal & Expansion Management","Intermediate"]],
+      "Operations & Process": [["CRM Usage (Salesforce / Gainsight)","Intermediate"]],
+      "Soft Skills": [["Empathy & Active Listening","Advanced"],["Problem Solving & Root-Cause Analysis","Advanced"]]
     }
   },
   "Marketing": {
     groups: {
-      "Digital Marketing": [["SEO / SEM & Paid Media","Intermediate"],["Marketing Automation (HubSpot / Marketo)","Intermediate"],["Website Management & CMS (e.g. WordPress)","Intermediate"],["Performance Marketing & Analytics (GA4, Looker)","Advanced"],["Email Marketing & Nurture Programmes","Intermediate"]],
-      "Brand & Content": [["Brand Strategy & Identity","Advanced"],["Content Strategy & Copywriting","Advanced"],["Graphic Design (Adobe Suite / Figma)","Intermediate"],["Campaign Planning & Execution","Advanced"]],
-      "Insights & Research": [["Market Research & Consumer Insights","Advanced"],["Data Visualisation & Reporting","Intermediate"],["Competitive Analysis","Intermediate"]],
-      "Soft Skills": [["Creativity & Storytelling","Advanced"],["Project Management","Intermediate"],["Stakeholder Communication","Intermediate"]]
+      "Digital Marketing": [["SEO / SEM & Paid Media","Intermediate"],["Marketing Automation (HubSpot / Marketo)","Intermediate"],["Performance Marketing & Analytics (GA4, Looker)","Advanced"]],
+      "Brand & Content": [["Brand Strategy & Identity","Advanced"],["Content Strategy & Copywriting","Advanced"]],
+      "Insights & Research": [["Market Research & Consumer Insights","Advanced"]],
+      "Soft Skills": [["Creativity & Storytelling","Advanced"]]
     }
   },
   "Human Resources": {
     groups: {
-      "HR Generalist & Strategy": [["HR Business Partnering & Advisory","Advanced"],["Talent Management & Succession Planning","Advanced"],["Organisational Design & Change Management","Intermediate"],["HR Policy Development","Advanced"],["Workforce Planning","Intermediate"]],
-      "Employee Relations & Compliance": [["Employee Relations & Conflict Resolution","Advanced"],["Employment Law Knowledge (local/regional)","Advanced"],["Disciplinary & Grievance Handling","Advanced"],["Diversity, Equity & Inclusion","Intermediate"]],
-      "Compensation & Benefits": [["Benefits Design & Administration","Advanced"],["Global Mobility & Expatriate Management","Intermediate"],["Compensation Benchmarking","Intermediate"],["Payroll Liaison","Foundational"]],
-      "Learning & Development": [["Training Needs Analysis","Advanced"],["L&D Programme Design & Delivery","Advanced"],["LMS Administration","Intermediate"],["Coaching & Mentoring","Intermediate"]],
-      "HR Systems & Analytics": [["HRIS (Workday / SAP SuccessFactors)","Intermediate"],["HR Data & Reporting","Intermediate"],["Recruitment & ATS Management","Intermediate"]],
-      "Soft Skills": [["Active Listening & Empathy","Advanced"],["Influencing Without Authority","Advanced"],["Confidentiality & Discretion","Expert"]]
+      "HR Generalist & Strategy": [["HR Business Partnering & Advisory","Advanced"],["Talent Management & Succession Planning","Advanced"]],
+      "Employee Relations & Compliance": [["Employee Relations & Conflict Resolution","Advanced"],["Employment Law Knowledge (local/regional)","Advanced"]],
+      "Learning & Development": [["L&D Programme Design & Delivery","Advanced"]],
+      "HR Systems & Analytics": [["HRIS (Workday / SAP SuccessFactors)","Intermediate"]],
+      "Soft Skills": [["Influencing Without Authority","Advanced"]]
     }
   },
   "Payroll": {
     groups: {
-      "Payroll Processing": [["End-to-End Payroll Processing","Advanced"],["Multi-Country Payroll Knowledge","Advanced"],["Payroll Compliance & Tax Regulations","Advanced"],["Payroll Systems (ADP, Ceridian, CloudPay)","Intermediate"],["Time & Attendance Systems","Intermediate"]],
-      "Accounting & Reconciliation": [["Payroll Accounting & Journal Entries","Advanced"],["Bank Reconciliation","Intermediate"],["Month-End / Year-End Payroll Close","Advanced"]],
-      "Compliance & Governance": [["Legislative Updates & Statutory Reporting","Advanced"],["Audit Support & Internal Controls","Intermediate"],["Data Privacy (GDPR in payroll context)","Advanced"]],
-      "Soft Skills": [["Attention to Detail","Expert"],["Deadline & Priority Management","Advanced"],["Stakeholder Communication","Intermediate"]]
+      "Payroll Processing": [["End-to-End Payroll Processing","Advanced"],["Multi-Country Payroll Knowledge","Advanced"],["Payroll Compliance & Tax Regulations","Advanced"],["Payroll Systems (ADP, Ceridian, CloudPay)","Intermediate"]],
+      "Accounting & Reconciliation": [["Payroll Accounting & Journal Entries","Advanced"],["Month-End / Year-End Payroll Close","Advanced"]],
+      "Soft Skills": [["Attention to Detail","Expert"]]
     }
   },
+
   "Finance & Accounting": {
     groups: {
-      "Accounting & Reporting": [["GAAP / IFRS Financial Reporting","Advanced"],["Month-End Close & Journal Entries","Advanced"],["Balance Sheet Reconciliation","Advanced"],["Accounts Payable & Receivable","Intermediate"],["Fixed Assets Management","Intermediate"]],
-      "Financial Planning & Analysis": [["Budgeting & Forecasting","Advanced"],["Financial Modelling (Excel / Google Sheets)","Advanced"],["Variance Analysis","Advanced"],["Management Reporting & KPI Dashboards","Intermediate"]],
-      "Treasury & Tax": [["Cash Flow Management & Liquidity","Advanced"],["FX Risk Management","Intermediate"],["Tax Compliance & Planning (multi-jurisdiction)","Advanced"],["Banking Relationships","Intermediate"]],
-      "Tools & Systems": [["ERP Systems (NetSuite, SAP, Oracle)","Intermediate"],["Excel / Data Analytics","Advanced"],["BI Tools (Tableau, Power BI)","Intermediate"]],
-      "Soft Skills": [["Analytical Thinking","Advanced"],["Attention to Detail","Expert"],["Business Partnering","Intermediate"]]
+      "Accounting & Reporting": [["GAAP / IFRS Financial Reporting","Advanced"],["Month-End Close & Journal Entries","Advanced"]],
+      "Financial Planning & Analysis": [["Budgeting & Forecasting","Advanced"],["Financial Modelling (Excel / Google Sheets)","Advanced"],["Variance Analysis","Advanced"]],
+      "Treasury & Tax": [["Cash Flow Management & Liquidity","Advanced"]],
+      "Tools & Systems": [["ERP Systems (NetSuite, SAP, Oracle)","Intermediate"]]
     }
   },
   "Legal & Compliance": {
     groups: {
-      "Legal Practice": [["Contract Drafting, Review & Negotiation","Advanced"],["Employment Law (multi-jurisdiction)","Advanced"],["Commercial & Corporate Law","Advanced"],["Litigation Management & Dispute Resolution","Advanced"],["Legal Research & Advisory","Advanced"]],
-      "Compliance & Risk": [["Regulatory Compliance Frameworks","Advanced"],["Risk Assessment & Mitigation","Advanced"],["Internal Controls & Audit Support","Intermediate"],["Anti-Bribery / Anti-Corruption (ABAC)","Intermediate"],["Health & Safety Compliance","Intermediate"]],
-      "Privacy & Data": [["GDPR & Global Data Protection Laws","Advanced"],["Privacy Impact Assessments","Intermediate"],["Data Governance Frameworks","Intermediate"]],
-      "Soft Skills": [["Analytical & Critical Thinking","Expert"],["Communication & Stakeholder Influence","Advanced"],["Ethical Judgement","Expert"]]
+      "Legal Practice": [["Contract Drafting, Review & Negotiation","Advanced"],["Employment Law (multi-jurisdiction)","Advanced"],["Commercial & Corporate Law","Advanced"]],
+      "Compliance & Risk": [["Regulatory Compliance Frameworks","Advanced"],["Risk Assessment & Mitigation","Advanced"]],
+      "Privacy & Data": [["GDPR & Global Data Protection Laws","Advanced"]],
+      "Soft Skills": [["Analytical & Critical Thinking","Expert"]]
     }
   },
   "Regulatory Affairs & Governance": {
     groups: {
-      "Regulatory Affairs": [["Global Regulatory Landscape Knowledge","Expert"],["Entity Lifecycle Management","Advanced"],["Corporate Secretarial Practices","Advanced"],["Regulatory Filing & Reporting","Advanced"],["Government & Regulatory Liaison","Advanced"]],
-      "Governance": [["Board Governance & Minutes","Advanced"],["Corporate Governance Frameworks","Advanced"],["Statutory Compliance & KYC","Advanced"]],
-      "Soft Skills": [["Attention to Detail","Expert"],["Cross-border Communication","Advanced"],["Analytical Research","Advanced"]]
+      "Regulatory Affairs": [["Global Regulatory Landscape Knowledge","Expert"],["Entity Lifecycle Management","Advanced"],["Corporate Secretarial Practices","Advanced"],["Regulatory Filing & Reporting","Advanced"]],
+      "Governance": [["Board Governance & Minutes","Advanced"],["Corporate Governance Frameworks","Advanced"],["Statutory Compliance & KYC","Advanced"]]
     }
   },
   "Technology & Engineering": {
     groups: {
-      "Software Development": [["Programming Languages (Python, Java, C#, JS)","Advanced"],["Frontend Frameworks (React, Angular)","Intermediate"],["Backend & API Development (REST, GraphQL)","Advanced"],["Mobile Development (iOS / Android)","Intermediate"],["Version Control (Git)","Advanced"],["Agile / Scrum Methodologies","Advanced"]],
-      "Infrastructure & Cloud": [["Cloud Platforms (AWS, Azure, GCP)","Advanced"],["Infrastructure as Code (Terraform, Ansible)","Advanced"],["CI/CD Pipelines (Jenkins, GitHub Actions)","Advanced"],["Containerisation (Docker, Kubernetes)","Advanced"],["Site Reliability Engineering & Observability","Advanced"]],
-      "Security": [["Cybersecurity Frameworks (NIST, ISO 27001)","Advanced"],["Cloud Security Architecture","Advanced"],["Vulnerability Management & Pen Testing","Advanced"],["Identity & Access Management (IAM)","Intermediate"],["Security Incident Response","Advanced"]],
-      "Quality & Testing": [["Test Automation (Selenium, Cypress, Playwright)","Advanced"],["QA Methodologies & Test Planning","Advanced"],["Performance & Load Testing","Intermediate"]],
-      "IT Operations & Support": [["ITSM / ServiceNow","Intermediate"],["Network & Systems Administration","Intermediate"],["Endpoint Management & Security","Intermediate"]],
-      "Leadership & Architecture": [["Technical Architecture & Design Patterns","Expert"],["Engineering Team Leadership","Advanced"],["Vendor & Budget Management","Intermediate"]]
+      "Software Development": [["Programming Languages (Python, Java, C#, JS)","Advanced"],["Backend & API Development (REST, GraphQL)","Advanced"]],
+      "Infrastructure & Cloud": [["Cloud Platforms (AWS, Azure, GCP)","Advanced"],["CI/CD Pipelines (Jenkins, GitHub Actions)","Advanced"],["Containerisation (Docker, Kubernetes)","Advanced"]],
+      "Security": [["Cybersecurity Frameworks (NIST, ISO 27001)","Advanced"]],
+      "Leadership & Architecture": [["Technical Architecture & Design Patterns","Expert"]]
     }
   },
   "Product Management": {
     groups: {
-      "Product Strategy": [["Product Vision & Roadmap Definition","Advanced"],["Market & User Research","Advanced"],["Competitive Analysis","Intermediate"],["OKR & Metrics Definition","Advanced"]],
-      "Execution & Delivery": [["Agile / Scrum Ceremonies & Backlog Management","Advanced"],["User Story Writing & Acceptance Criteria","Advanced"],["Stakeholder Alignment & Communication","Advanced"],["Release Planning & Go-to-Market","Advanced"]],
-      "Design & UX": [["UX Principles & User Validation","Intermediate"],["Wireframing & Prototyping (Figma)","Intermediate"],["Accessibility & Inclusive Design","Foundational"]],
-      "Analytics & Data": [["Product Analytics (Amplitude, Mixpanel)","Advanced"],["A/B Testing & Experimentation","Advanced"],["Data-Driven Prioritisation","Advanced"]],
-      "Soft Skills": [["Influence Without Authority","Advanced"],["Communication & Storytelling","Advanced"],["Problem Framing & Critical Thinking","Advanced"]]
+      "Product Strategy": [["Product Vision & Roadmap Definition","Advanced"],["Market & User Research","Advanced"],["OKR & Metrics Definition","Advanced"]],
+      "Execution & Delivery": [["Agile / Scrum Ceremonies & Backlog Management","Advanced"],["Stakeholder Alignment & Communication","Advanced"]],
+      "Analytics & Data": [["Product Analytics (Amplitude, Mixpanel)","Advanced"],["A/B Testing & Experimentation","Advanced"]]
     }
   },
   "Data, Analytics & BI": {
     groups: {
-      "Data Engineering & Management": [["SQL & Database Querying","Advanced"],["Data Modelling & Warehousing","Advanced"],["ETL Pipelines & Data Integration","Intermediate"],["Data Quality & Governance","Advanced"]],
-      "Analytics & Visualisation": [["BI Tools (Tableau, Power BI, Looker)","Advanced"],["Statistical Analysis & Interpretation","Advanced"],["Dashboarding & Executive Reporting","Advanced"],["Python / R for Analysis","Intermediate"]],
-      "Project & Programme Management": [["PMO Governance & Frameworks (PMP, PRINCE2)","Advanced"],["Risk & Dependency Management","Intermediate"],["Agile & Waterfall Delivery","Intermediate"],["Resource Planning","Intermediate"]],
-      "Soft Skills": [["Data Storytelling","Advanced"],["Stakeholder Communication","Advanced"],["Attention to Detail","Advanced"]]
+      "Data Engineering & Management": [["SQL & Database Querying","Advanced"],["Data Modelling & Warehousing","Advanced"],["Data Quality & Governance","Advanced"]],
+      "Analytics & Visualisation": [["BI Tools (Tableau, Power BI, Looker)","Advanced"],["Statistical Analysis & Interpretation","Advanced"],["Python / R for Analysis","Intermediate"]],
+      "Soft Skills": [["Data Storytelling","Advanced"]]
     }
   },
   "Operations & Administration": {
     groups: {
-      "Operations Management": [["Process Improvement & Lean / Six Sigma","Advanced"],["Operational KPI Definition & Monitoring","Advanced"],["Vendor & Supplier Management","Intermediate"],["Business Continuity Planning","Intermediate"]],
-      "Administrative Excellence": [["Calendar & Travel Management","Advanced"],["Document Management & Governance","Advanced"],["Facilities & Office Management","Intermediate"],["Executive Support & Communication","Advanced"]],
-      "Communication & Culture": [["Internal Communications Strategy","Advanced"],["Employee Engagement Initiatives","Intermediate"],["Change Communications","Intermediate"]],
-      "Tools & Systems": [["Microsoft 365 / Google Workspace","Advanced"],["Project Management Tools (Jira, Asana, Monday)","Intermediate"],["Expense & Travel Systems","Intermediate"]],
-      "Soft Skills": [["Organisation & Prioritisation","Expert"],["Discretion & Confidentiality","Expert"],["Adaptability","Advanced"]]
+      "Operations Management": [["Process Improvement & Lean / Six Sigma","Advanced"],["Operational KPI Definition & Monitoring","Advanced"]],
+      "Administrative Excellence": [["Calendar & Travel Management","Advanced"],["Document Management & Governance","Advanced"],["Executive Support & Communication","Advanced"]],
+      "Tools & Systems": [["Microsoft 365 / Google Workspace","Advanced"]],
+      "Soft Skills": [["Organisation & Prioritisation","Expert"]]
+    }
+  },
+  "Executive Leadership": {
+    groups: {
+      "Strategic Leadership": [["Vision Setting & Long-Range Strategy","Expert"]],
+      "Financial Acumen": [["P&L Ownership & Financial Stewardship","Expert"]],
+      "People & Culture Leadership": [["Executive Team Building & Development","Expert"],["Culture Design & Employee Experience","Advanced"]],
+      "Operational Excellence": [["Cross-functional Programme Delivery","Advanced"]],
+      "Commercial & Market Insight": [["Market Trend Analysis & Competitive Positioning","Expert"]],
+      "Stakeholder & Communication": [["Executive Communication & Public Speaking","Expert"]]
     }
   }
 };
@@ -762,11 +748,11 @@ function buildCard(skill, prof) {
         <div class="recs-label">Recommended Learning</div>
         <div class="recs-btns">
           <div class="rec-btn">
-            <button class="rec-btn-trigger quick" onclick="toggleDrop(this)">⚡ Quick Learning ${chevron}</button>
+            <button class="rec-btn-trigger quick" onclick="toggleDrop(this)">⚡ Quick ${chevron}</button>
             ${buildDropdown(skill, 'quick')}
           </div>
           <div class="rec-btn">
-            <button class="rec-btn-trigger deeper" onclick="toggleDrop(this)">📚 Go Deeper ${chevron}</button>
+            <button class="rec-btn-trigger deeper" onclick="toggleDrop(this)">📚 Deep ${chevron}</button>
             ${buildDropdown(skill, 'deeper')}
           </div>
         </div>

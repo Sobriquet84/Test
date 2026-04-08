@@ -328,7 +328,7 @@
     display: none;
     position: absolute;
     top: calc(100% + 6px);
-    right: 0;
+    left: 0;
     min-width: 220px;
     max-width: 280px;
     background: var(--white);
@@ -337,6 +337,11 @@
     box-shadow: 0 8px 24px rgba(6,25,94,0.12);
     z-index: 100;
     overflow: hidden;
+  }
+  /* Deep dropdown anchors to the right so it doesn't overflow right edge */
+  .rec-btn:last-child .rec-dropdown {
+    left: auto;
+    right: 0;
   }
   .rec-btn.open .rec-dropdown { display: block; }
 

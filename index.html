@@ -721,34 +721,61 @@ const COURSES = {
     deeper: [["Emotional Intelligence", "https://atlasinternal.udemy.com/course/emotional-intelligence-in-practice/"]]
   },
   "Time Management": {
+    quick: [["Time Management Made Simple", "https://atlasinternal.udemy.com/course/time-management-made-simple-course/"]],
     deeper: [["Time Management", "https://atlasinternal.udemy.com/course/productivity-and-time-management/"]]
   },
   "Presentation Skills": {
-    deeper: [["Presentation Skills", "https://atlasinternal.udemy.com/course/1000-watt-presenting-how-to-prepare-practice-and-perform/"]]
+    quick: [["Virtual Presentation Skills", "https://atlasinternal.udemy.com/course/rtrpodcast/"]],
+    deeper: [["Presenting with Confidence", "https://atlasinternal.udemy.com/course/1000-watt-presenting-how-to-prepare-practice-and-perform"]]
   },
   "Executive Presence": {
-    deeper: [["Executive Presence", "https://atlasinternal.udemy.com/course/communicate-like-a-ceo/"]]
+    quick: [["Communicate like a CEO", "https://atlasinternal.udemy.com/course/communicate-like-a-ceo/"]],
+    deeper: [["Executive Presence Masterclass", "https://atlasinternal.udemy.com/course/executive-presence-masterclass"]]
   },
   "Executive Presence & Communication": {
-    deeper: [["Executive Presence", "https://atlasinternal.udemy.com/course/communicate-like-a-ceo/"]]
+    quick: [["Communicate like a CEO", "https://atlasinternal.udemy.com/course/communicate-like-a-ceo/"]],
+    deeper: [["Executive Presence Masterclass", "https://atlasinternal.udemy.com/course/executive-presence-masterclass"]]
   },
-  "Critical Thinking & Problem Solving": {
-    deeper: [["Problem Solving", "https://atlasinternal.udemy.com/course/problem-solving-made-easy/"]]
+  "Business Writing & Email Etiquette": {
+    quick: [["Atlas Email Etiquette", "https://atlasinternal.udemy.com/course/atlas-email-etiquette"]],
+    deeper: [["Email and Business Writing", "https://atlasinternal.udemy.com/course/email-writing-etiquette-for-business-communication/"]]
+  },
+  "Public Speaking & Storytelling": {
+    quick: [["Public Speaking", "https://atlasinternal.udemy.com/course/speak-like-a-pro-public-speaking-for-professionals"], ["Storytelling to Influence", "https://atlasinternal.udemy.com/course/storytellingtoinfluence/"]],
+    deeper: [["Powerful Speaking", "https://atlasinternal.udemy.com/course/powerful-speaking/"], ["Storytelling", "https://atlasinternal.udemy.com/course/the-complete-storytelling-course-for-speaking-presenting/"]]
+  },
+  "Active Listening": {
+    quick: [["Active Listening Masterclass", "https://atlasinternal.udemy.com/course/active-listening/"]],
+    deeper: [["Active Listening", "https://atlasinternal.udemy.com/course/active-listening-skills/"]]
+  },
+  "Empathy & Active Listening": {
+    deeper: [["Emotional Intelligence", "https://atlasinternal.udemy.com/course/emotional-intelligence-in-practice/"]]
+  },
+  "Microsoft Excel": {
+    quick: [["Excel Tips", "https://atlasinternal.udemy.com/course/5-excel-tricks-that-save-your-job/"]],
+    deeper: [["From Beginner to Advanced", "https://atlasinternal.udemy.com/course/microsoft-excel-2013-from-beginner-to-advanced-and-beyond/"]]
   },
   "AI Fluency": {
-    deeper: [["AI at Work", "https://atlasinternal.udemy.com/course/ai-for-work/"]]
+    quick: [["AI at Atlas", "https://atlasinternal.udemy.com/course/2026-ai-at-atlas"], ["AI Essentials", "https://atlasinternal.udemy.com/course/ai-literacy-essentials-working-responsibly-with-ai/"]],
+    deeper: [["Complete AI Guide", "https://atlasinternal.udemy.com/course/complete-ai-guide"]]
+  },
+  "Project Management": {
+    quick: [["Project Management", "https://atlasinternal.udemy.com/course/deliver-your-project-master-project-management/"]],
+    deeper: [["Project Management Fundamentals", "https://atlasinternal.udemy.com/course/project-management-fundamentals-gantt/"]]
+  },
+  "Critical Thinking & Problem Solving": {
+    quick: [["Problem Solving Tools", "https://atlasinternal.udemy.com/course/creative-problem-solving-tools/"]],
+    deeper: [["Problem Solving", "https://atlasinternal.udemy.com/course/problem-solving-the-complete-guide/"], ["Critical Thinking", "https://atlasinternal.udemy.com/course/critical-thinking-plus-problem-solving/"]]
+  },
+  "Cultural Awareness": {
+    quick: [["Cross-Cultural Essentials", "https://atlasinternal.udemy.com/course/cross-cultural-mastery-essentials-practical-skills-101/"]],
+    deeper: [["Cross-Cultural Communication", "https://atlasinternal.udemy.com/course/cross-cultural-communication"]]
   },
   "Performance Management & Feedback": {
     deeper: [["Goals and Expectations Setting", "https://atlasinternal.udemy.com/course/goals-setting-at-the-workplace/"], ["Giving and Receiving Feedback", "https://atlasinternal.udemy.com/course/giving-and-receiving-feedback-a-quick-course/"]]
   },
   "1-on-1s & Coaching Conversations": {
     deeper: [["Giving and Receiving Feedback", "https://atlasinternal.udemy.com/course/giving-and-receiving-feedback-a-quick-course/"]]
-  },
-  "Active Listening": {
-    deeper: [["Emotional Intelligence", "https://atlasinternal.udemy.com/course/emotional-intelligence-in-practice/"]]
-  },
-  "Empathy & Active Listening": {
-    deeper: [["Emotional Intelligence", "https://atlasinternal.udemy.com/course/emotional-intelligence-in-practice/"]]
   },
   "Career Conversations & Growth Planning": {
     deeper: [["Own Your Career", "https://atlasinternal.udemy.com/course/how-to-own-your-career/"]]
@@ -791,7 +818,6 @@ function buildCard(skill, prof) {
         <div class="skill-name">${skill}</div>
         <span class="prof-tag ${cls}">${prof}</span>
       </div>
-      <a href="${udemyUrl}" target="_blank" rel="noopener" class="udemy-btn">🎓 Find on Udemy</a>
       <div class="recs">
         <div class="recs-label">Recommended Learning</div>
         <div class="recs-btns">
@@ -805,6 +831,7 @@ function buildCard(skill, prof) {
           </div>
         </div>
       </div>
+      <a href="${udemyUrl}" target="_blank" rel="noopener" class="udemy-btn">🎓 Find on Udemy</a>
     </div>`;
 }
 

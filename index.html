@@ -558,7 +558,7 @@ const DATA = {
   },
   "Sales & Business Development": {
     groups: {
-      "Core Sales Skills": [["Consultative Selling","Advanced"],["Pipeline Management & CRM (e.g. Salesforce)","Advanced"],["Negotiation & Deal Structuring","Advanced"],["Value Proposition Design","Advanced"]],
+      "Core Sales Skills": [["Consultative Selling","Advanced"],["Pipeline Management & CRM","Advanced"],["Negotiation & Deal Structuring","Advanced"],["Value Proposition Design","Advanced"]],
       "Strategic & Market Knowledge": [["GTM Strategy","Advanced"]],
       "Soft Skills": [["Executive Presence & Communication","Advanced"],["Stakeholder Management","Advanced"]]
     }
@@ -690,7 +690,6 @@ searchInput.addEventListener('input', () => {
   const q = searchInput.value.trim();
   searchClear.style.display = q ? 'block' : 'none';
   if (q.length === 0) {
-    // restore last selected category or welcome
     if (activeBtn) renderCategory(activeBtn.textContent);
     else renderWelcome();
     return;
@@ -715,8 +714,9 @@ function renderWelcome() {
     </div>`;
 }
 
-// Courses data — keyed by skill name. Add links here as: ["Course Title", "url"]
+// Courses data — keyed by skill name. Format: { quick: [["Title","url"]], deeper: [["Title","url"]] }
 const COURSES = {
+  // ── Global Skills ──
   "Emotional Intelligence": {
     deeper: [["Emotional Intelligence", "https://atlasinternal.udemy.com/course/emotional-intelligence-in-practice/"]]
   },
@@ -771,21 +771,79 @@ const COURSES = {
     quick: [["Cross-Cultural Essentials", "https://atlasinternal.udemy.com/course/cross-cultural-mastery-essentials-practical-skills-101/"]],
     deeper: [["Cross-Cultural Communication", "https://atlasinternal.udemy.com/course/cross-cultural-communication"]]
   },
+  // ── People Management ──
   "Performance Management & Feedback": {
     quick: [["Atlas Performance Management", "https://atlasinternal.udemy.com/course/navigate-performance"], ["Improving Employee Performance", "https://atlasinternal.udemy.com/course/employeeperformance/"]],
     deeper: [["Goals and Expectations Setting", "https://atlasinternal.udemy.com/course/goals-setting-at-the-workplace/"], ["Giving and Receiving Feedback", "https://atlasinternal.udemy.com/course/giving-and-receiving-feedback-a-quick-course/"], ["Coaching for High Performance", "https://atlasinternal.udemy.com/course/management-training-coaching/"], ["Performance Management Certificate", "https://atlasinternal.udemy.com/course/management-coaching-new-manager-training-employee-engagement-coach"]]
   },
-  "Career Conversations & Growth Planning": {
-    deeper: [["Own Your Career", "https://atlasinternal.udemy.com/course/how-to-own-your-career/"]]
+  "Leading through Change": {
+    quick: [["How to Manage Through Change", "https://atlasinternal.udemy.com/course/how-to-manage-through-change/"]],
+    deeper: [["Change Management: The Complete Guide", "https://atlasinternal.udemy.com/course/change-management-the-complete-guide/?kw=Change+Management%3A+The+Complete+Guide+%282026+edition%29&src=sac"]]
   },
+  "Career Conversations & Growth Planning": {
+    quick: [["Coaching for Growth", "https://atlasinternal.udemy.com/course/coaching-for-growth/"]],
+    deeper: [["Own Your Career", "https://atlasinternal.udemy.com/course/how-to-own-your-career/"], ["New Employee Professional Development & Career Guide", "https://atlasinternal.udemy.com/course/new-employee-professional-development-career-guide/"]]
+  },
+  "Talent Acquisition": {
+    quick: [["Recruiting AI Talent", "https://atlasinternal.udemy.com/course/recruiting-ai-talent/"]],
+    deeper: [["Ultimate Talent Acquisition Specialist", "https://atlasinternal.udemy.com/course/ultimate-recruitment-talentacquisition/?kw=Ultimate+Talent+Acquisition+Specialist%3A+HRM+Certification&src=sac"]]
+  },
+  "Psychological Safety & Belonging": {
+    quick: [["Fostering Psychological Safety & Belonging", "https://atlasinternal.udemy.com/course/fostering-psychological-safety-belonging-on-teams/"]],
+    deeper: [["Diversity and Inclusion in the Workplace", "https://atlasinternal.udemy.com/course/diversity-and-inclusion-in-the-workplace-race-gender/"]]
+  },
+  "Conflict Mediation": {
+    deeper: [["Emotional Intelligence", "https://atlasinternal.udemy.com/course/emotional-intelligence-in-practice/"]]
+  },
+  // ── Sales & Business Development ──
+  "Consultative Selling": {
+    quick: [["Sell More by Talking Less", "https://atlasinternal.udemy.com/course/sell-more-by-talking-less/"]],
+    deeper: [["Consultative Selling Master Class", "https://atlasinternal.udemy.com/course/sales-skills-consultative-selling-master-class/"]]
+  },
+  "Pipeline Management & CRM": {
+    quick: [["CRM: Customer Relationship Management", "https://atlasinternal.udemy.com/course/crm-customer-relationship-management/"]],
+    deeper: [["HubSpot for Beginners", "https://atlasinternal.udemy.com/course/hubspot-for-beginners-by-thalita-milan/"]]
+  },
+  "Negotiation & Deal Structuring": {
+    quick: [["A Practical Guide to Negotiating", "https://atlasinternal.udemy.com/course/a-practical-guide-to-negotiating/"]],
+    deeper: [["Learn Sales Skills", "https://atlasinternal.udemy.com/course/learn-sales-skills/"]]
+  },
+  "Value Proposition Design": {
+    quick: [["Value Proposition Mastery", "https://atlasinternal.udemy.com/course/value-proposition-mastery/"]],
+    deeper: [["Sales Skills: Value Propositions", "https://atlasinternal.udemy.com/course/sales-skills-value-propositions/"]]
+  },
+  "GTM Strategy": {
+    deeper: [["Go-to-Market Strategy", "https://atlasinternal.udemy.com/course/learn-product-marketing-go-to-market-strategy-with-projects/"]]
+  },
+  // ── Client Success & Support ──
+  "Account Health Monitoring & QBRs": {
+    deeper: [["Account Health & QBR Fundamentals", "https://atlasinternal.udemy.com/course/accounting-for-entrepreneurs/"]]
+  },
+  "Escalation Management": {
+    quick: [["CSM: Retention and Growth Strategies", "https://atlasinternal.udemy.com/course/csm-adopt-proven-sales-strategies-for-retention-and-growth/"]],
+    deeper: [["Handling Difficult Customers", "https://atlasinternal.udemy.com/course/customer-service-course-handling-difficult-customers/"]]
+  },
+  "Customer Onboarding & Implementation": {
+    deeper: [["Finding Your Voice with Customers", "https://atlasinternal.udemy.com/course/how-to-find-your-voice-the-resonates-with-your-customers/"]]
+  },
+  "CRM Usage (Salesforce / Gainsight)": {
+    quick: [["Salesforce CRM for Sales Managers", "https://atlasinternal.udemy.com/course/salesforce-crm-training-for-sales-managers/"]],
+    deeper: [["Salesforce CRM Complete Introduction", "https://atlasinternal.udemy.com/course/salesforce-crm-complete-introduction/"]]
+  },
+  // ── Marketing ──
+  "SEO / SEM & Paid Media": {
+    quick: [["Digital Marketing: A Complete Guide", "https://atlasinternal.udemy.com/course/digital-marketing-a-complete-guide/"]],
+    deeper: [["Mastering Paid Ads", "https://atlasinternal.udemy.com/course/mastering-paid-ads-google-ads-facebook-ads-linkedin-ads/"]]
+  },
+  "Marketing Automation (HubSpot / Marketo)": {
+    deeper: [["Marketing Automation Mastery", "https://atlasinternal.udemy.com/course/marketing-automation-mastery-from-beginner-to-expert/"]]
+  },
+  // ── Other ──
   "Organisation & Prioritisation": {
     deeper: [["Time Management", "https://atlasinternal.udemy.com/course/productivity-and-time-management/"]]
   },
   "Adaptability & Growth Mindset": {
     deeper: [["Resilience and Adaptability", "https://atlasinternal.udemy.com/course/smart-tips-navigating-change-and-uncertainty/"]]
-  },
-  "Conflict Mediation": {
-    deeper: [["Emotional Intelligence", "https://atlasinternal.udemy.com/course/emotional-intelligence-in-practice/"]]
   }
 };
 
@@ -833,12 +891,10 @@ function buildCard(skill, prof) {
 function toggleDrop(btn) {
   const wrapper = btn.closest('.rec-btn');
   const isOpen = wrapper.classList.contains('open');
-  // close all open dropdowns
   document.querySelectorAll('.rec-btn.open').forEach(el => el.classList.remove('open'));
   if (!isOpen) wrapper.classList.add('open');
 }
 
-// Close dropdowns when clicking outside
 document.addEventListener('click', e => {
   if (!e.target.closest('.rec-btn')) {
     document.querySelectorAll('.rec-btn.open').forEach(el => el.classList.remove('open'));
@@ -859,7 +915,6 @@ function renderCategory(cat) {
 
 function renderSearch(q) {
   const query = q.toLowerCase();
-  // collect matches: { cat, group, skill, prof }
   const matches = [];
   Object.entries(DATA).forEach(([cat, { groups }]) => {
     Object.entries(groups).forEach(([group, skills]) => {
@@ -880,7 +935,6 @@ function renderSearch(q) {
     return;
   }
 
-  // group by category
   const byCat = {};
   matches.forEach(m => {
     if (!byCat[m.cat]) byCat[m.cat] = [];

@@ -355,6 +355,74 @@
     margin-top: 1px;
   }
 
+  /* Search */
+  .search-wrap {
+    position: relative;
+    margin-bottom: 24px;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
+    display: flex;
+  }
+
+  .search-input {
+    width: 100%;
+    font-family: 'Gelion', sans-serif;
+    font-size: 14px;
+    padding: 10px 14px 10px 38px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--card-bg);
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+
+  .search-input::placeholder { color: var(--text-muted); }
+
+  .search-input:focus {
+    border-color: var(--blue-500);
+    box-shadow: 0 0 0 3px rgba(5,89,250,0.1);
+  }
+
+  .search-clear {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    display: none;
+    padding: 4px;
+    border-radius: 4px;
+    line-height: 0;
+  }
+
+  .search-clear:hover { color: var(--text-primary); }
+  .search-clear.visible { display: flex; }
+
+  .search-results-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+  }
+
+  .search-results-label strong { color: var(--text-primary); }
+
+  .highlight {
+    background: #fff3b0;
+    border-radius: 2px;
+    padding: 0 1px;
+  }
+
   /* Empty state */
   .empty-state {
     text-align: center;
@@ -377,12 +445,332 @@
   </header>
 
   <nav id="groupNav"></nav>
+
+  <div class="search-wrap">
+    <span class="search-icon">
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L13.5 13.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </span>
+    <input class="search-input" id="searchInput" type="text" placeholder="Search skills…" oninput="handleSearch(this.value)" />
+    <button class="search-clear" id="searchClear" onclick="clearSearch()" title="Clear">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2L12 12M12 2L2 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+
   <div id="contentArea"></div>
 </div>
 
 <script>
 const data = {
   groups: [
+    {
+      id: 'general',
+      label: 'General Skills',
+      skills: [
+        {
+          name: 'Presentation Skills',
+          description: 'The ability to communicate ideas clearly and confidently to an audience, whether in person or virtually. Strong presenters structure their content purposefully, manage their delivery, and keep audiences engaged from start to finish.',
+          objectives: [
+            'Structure presentations with a clear opening, narrative arc, and memorable close',
+            'Manage nerves and project confidence in front of live and virtual audiences',
+            'Use visuals and slides effectively without overwhelming or distracting',
+            'Read the room and adapt delivery based on audience energy and engagement'
+          ],
+          deep: [
+            { label: 'Presenting with Confidence', url: 'https://atlasinternal.udemy.com/course/1000-watt-presenting-how-to-prepare-practice-and-perform' }
+          ],
+          quick: [
+            { label: 'Virtual Presentation Skills', url: 'https://atlasinternal.udemy.com/course/rtrpodcast/' }
+          ]
+        },
+        {
+          name: 'Executive Presence',
+          description: 'The capacity to project credibility, authority, and composure in high-stakes settings. Executive presence shapes how others perceive your leadership potential — it is built through communication clarity, body language, and the ability to hold attention in any room.',
+          objectives: [
+            'Command attention and convey authority in senior stakeholder meetings',
+            'Communicate with concision and confidence under pressure',
+            'Adapt tone and register appropriately across different audiences and contexts',
+            'Build personal credibility through consistent, composed, and thoughtful communication'
+          ],
+          deep: [
+            { label: 'Executive Presence Masterclass', url: 'https://atlasinternal.udemy.com/course/executive-presence-masterclass' }
+          ],
+          quick: [
+            { label: 'Communicate like a CEO', url: 'https://atlasinternal.udemy.com/course/communicate-like-a-ceo/' }
+          ]
+        },
+        {
+          name: 'Business Writing & Email Etiquette',
+          description: 'The skill of communicating professionally in writing — clearly, concisely, and with the right tone for the context. In a distributed, fast-moving organisation, written communication is often the first impression you make.',
+          objectives: [
+            'Write emails and documents that are clear, structured, and free of ambiguity',
+            'Match tone and formality to the audience and purpose of the message',
+            'Apply email etiquette to reduce back-and-forth and improve response rates',
+            'Edit and tighten written communication to respect the reader\'s time'
+          ],
+          deep: [
+            { label: 'Email and Business Writing', url: 'https://atlasinternal.udemy.com/course/email-writing-etiquette-for-business-communication/' }
+          ],
+          quick: [
+            { label: 'Atlas Email Etiquette', url: 'https://atlasinternal.udemy.com/course/atlas-email-etiquette' }
+          ]
+        },
+        {
+          name: 'Public Speaking & Storytelling',
+          description: 'The art of engaging an audience through spoken word and narrative. Whether presenting to a team or addressing a large group, skilled communicators use story structure and vocal presence to make ideas stick and inspire action.',
+          objectives: [
+            'Apply storytelling frameworks to make presentations more compelling and memorable',
+            'Develop vocal variety, pacing, and presence to hold an audience\'s attention',
+            'Craft an opening that hooks and a close that drives a clear call to action',
+            'Speak with authenticity and purpose in both prepared and impromptu settings'
+          ],
+          deep: [
+            { label: 'Powerful Speaking', url: 'https://atlasinternal.udemy.com/course/powerful-speaking/' },
+            { label: 'The Complete Storytelling Course', url: 'https://atlasinternal.udemy.com/course/the-complete-storytelling-course-for-speaking-presenting/' }
+          ],
+          quick: [
+            { label: 'Public Speaking for Professionals', url: 'https://atlasinternal.udemy.com/course/speak-like-a-pro-public-speaking-for-professionals' },
+            { label: 'Storytelling to Influence', url: 'https://atlasinternal.udemy.com/course/storytellingtoinfluence/' }
+          ]
+        },
+        {
+          name: 'Active Listening',
+          description: 'The practice of giving full, focused attention to what someone is saying — not just the words, but the intent and emotion behind them. Active listening builds trust, reduces misunderstanding, and is the foundation of every productive working relationship.',
+          objectives: [
+            'Apply listening techniques that signal attention and encourage open dialogue',
+            'Identify what is being said between the lines — concerns, hesitations, and unspoken needs',
+            'Ask clarifying questions that deepen understanding rather than deflect or assume',
+            'Resist the urge to respond before fully hearing and processing what was shared'
+          ],
+          deep: [
+            { label: 'Active Listening Skills', url: 'https://atlasinternal.udemy.com/course/active-listening-skills/' }
+          ],
+          quick: [
+            { label: 'Active Listening Masterclass', url: 'https://atlasinternal.udemy.com/course/active-listening/' }
+          ]
+        },
+        {
+          name: 'Microsoft Excel',
+          description: 'A core productivity tool for organising, analysing, and presenting data. Proficiency in Excel enables faster and more confident decision-making by turning raw numbers into meaningful insight — without needing a data team.',
+          objectives: [
+            'Build and navigate spreadsheets efficiently using formulas, functions, and formatting',
+            'Use pivot tables and charts to summarise and visualise data clearly',
+            'Apply VLOOKUP, INDEX/MATCH, and conditional logic to automate routine tasks',
+            'Analyse and interpret data sets to support business decisions and reporting'
+          ],
+          deep: [
+            { label: 'Microsoft Excel: Beginner to Advanced', url: 'https://atlasinternal.udemy.com/course/microsoft-excel-2013-from-beginner-to-advanced-and-beyond/' }
+          ],
+          quick: [
+            { label: 'Excel Tips', url: 'https://atlasinternal.udemy.com/course/5-excel-tricks-that-save-your-job/' }
+          ]
+        },
+        {
+          name: 'AI Fluency',
+          description: 'The ability to understand, evaluate, and confidently use AI tools in everyday work. AI fluency is not about being technical — it is about knowing when and how to use AI responsibly to save time, enhance output, and make better decisions.',
+          objectives: [
+            'Understand what AI tools can and cannot do, and where human judgment remains essential',
+            'Use AI assistants effectively to draft, summarise, research, and automate routine tasks',
+            'Apply responsible AI principles — avoiding bias, protecting data, and checking outputs',
+            'Stay current with the evolving AI landscape and adapt workflows as tools improve'
+          ],
+          deep: [
+            { label: 'Complete AI Guide', url: 'https://atlasinternal.udemy.com/course/complete-ai-guide' }
+          ],
+          quick: [
+            { label: 'AI at Atlas', url: 'https://atlasinternal.udemy.com/course/2026-ai-at-atlas' },
+            { label: 'AI Essentials', url: 'https://atlasinternal.udemy.com/course/ai-literacy-essentials-working-responsibly-with-ai/' }
+          ]
+        },
+        {
+          name: 'Project Management',
+          description: 'The discipline of planning, organising, and delivering work within defined constraints of time, scope, and resource. Good project management keeps teams aligned, surfaces risks early, and ensures that the right things get done in the right order.',
+          objectives: [
+            'Define project scope, milestones, and success criteria clearly from the outset',
+            'Build and maintain a practical project plan that teams can follow and update',
+            'Identify and manage risks, dependencies, and blockers before they derail progress',
+            'Communicate status and decisions to stakeholders in a clear and timely way'
+          ],
+          deep: [
+            { label: 'Project Management Fundamentals', url: 'https://atlasinternal.udemy.com/course/project-management-fundamentals-gantt/' }
+          ],
+          quick: [
+            { label: 'Project Management', url: 'https://atlasinternal.udemy.com/course/deliver-your-project-master-project-management/' }
+          ]
+        },
+        {
+          name: 'Time Management',
+          description: 'The ability to allocate attention and effort deliberately — protecting time for high-value work and reducing the drag of low-value tasks, distractions, and reactive busyness. Effective time management is a skill, not a personality trait.',
+          objectives: [
+            'Prioritise tasks using frameworks that distinguish urgency from importance',
+            'Design a working routine that protects focus time and reduces context-switching',
+            'Set and maintain boundaries around meetings, notifications, and interruptions',
+            'Review and adjust how time is spent to continuously improve output quality'
+          ],
+          deep: [
+            { label: 'Time Management & Productivity', url: 'https://atlasinternal.udemy.com/course/productivity-and-time-management/' }
+          ],
+          quick: [
+            { label: 'Time Management Made Simple', url: 'https://atlasinternal.udemy.com/course/time-management-made-simple-course/' }
+          ]
+        },
+        {
+          name: 'Critical Thinking & Problem Solving',
+          description: 'The capacity to analyse situations clearly, question assumptions, and arrive at well-reasoned conclusions. Critical thinkers do not just solve the problem in front of them — they make sure they are solving the right problem in the first place.',
+          objectives: [
+            'Break down complex problems into structured components to identify root causes',
+            'Evaluate evidence and arguments objectively, recognising bias and logical gaps',
+            'Generate and assess multiple solutions before committing to a course of action',
+            'Communicate reasoning and recommendations in a clear, evidence-based way'
+          ],
+          deep: [
+            { label: 'Problem Solving: The Complete Guide', url: 'https://atlasinternal.udemy.com/course/problem-solving-the-complete-guide/' },
+            { label: 'Critical Thinking & Problem Solving', url: 'https://atlasinternal.udemy.com/course/critical-thinking-plus-problem-solving/' }
+          ],
+          quick: [
+            { label: 'Problem Solving Tools', url: 'https://atlasinternal.udemy.com/course/creative-problem-solving-tools/' }
+          ]
+        },
+        {
+          name: 'Cultural Awareness',
+          description: 'The ability to work effectively across different cultural backgrounds, communication styles, and professional norms. In a global organisation, cultural awareness reduces friction, builds inclusion, and unlocks the full value of diverse teams.',
+          objectives: [
+            'Recognise how cultural background shapes communication, decision-making, and working styles',
+            'Adapt your approach when collaborating with colleagues and clients from different cultures',
+            'Avoid assumptions and interpret behaviours through a culturally informed lens',
+            'Build psychological safety across diverse teams by demonstrating genuine curiosity and respect'
+          ],
+          deep: [
+            { label: 'Cross-Cultural Communication', url: 'https://atlasinternal.udemy.com/course/cross-cultural-communication' }
+          ],
+          quick: [
+            { label: 'Cross-Cultural Essentials', url: 'https://atlasinternal.udemy.com/course/cross-cultural-mastery-essentials-practical-skills-101/' }
+          ]
+        }
+      ]
+    },
+    {
+      id: 'people',
+      label: 'People Management',
+      skills: [
+        {
+          name: 'Performance Management & Feedback',
+          description: 'The ongoing discipline of setting clear expectations, tracking progress, and giving feedback that helps people grow. Effective performance management creates accountability without micromanagement, and turns feedback into a development tool rather than a compliance exercise.',
+          objectives: [
+            'Set clear, measurable goals and expectations that align individual effort with team and organisational priorities',
+            'Deliver feedback that is specific, timely, and constructive — both positive and developmental',
+            'Hold regular performance conversations that build trust and create psychological safety',
+            'Address underperformance early and constructively, with a focus on enabling improvement'
+          ],
+          deep: [
+            { label: 'Goals and Expectations Setting', url: 'https://atlasinternal.udemy.com/course/goals-setting-at-the-workplace/' },
+            { label: 'Giving and Receiving Feedback', url: 'https://atlasinternal.udemy.com/course/giving-and-receiving-feedback-a-quick-course/' },
+            { label: 'Coaching for High Performance', url: 'https://atlasinternal.udemy.com/course/management-training-coaching/' },
+            { label: 'Performance Management Certificate', url: 'https://atlasinternal.udemy.com/course/management-coaching-new-manager-training-employee-engagement-coach' }
+          ],
+          quick: [
+            { label: 'Atlas Performance Management', url: 'https://atlasinternal.udemy.com/course/navigate-performance' },
+            { label: 'Improving Employee Performance', url: 'https://atlasinternal.udemy.com/course/employeeperformance/' }
+          ]
+        },
+        {
+          name: 'Leading through Change',
+          description: 'The ability to guide teams through uncertainty, reorganisation, and evolving priorities without losing momentum or morale. Leaders who navigate change well communicate with honesty, maintain focus, and help their people find stability amid disruption.',
+          objectives: [
+            'Communicate the reasons for change clearly and honestly, addressing both the what and the why',
+            'Recognise and manage the emotional responses people have to change — including resistance, anxiety, and disengagement',
+            'Maintain team performance and cohesion during transitions by providing structure and consistency',
+            'Model adaptability and resilience in a way that builds confidence and trust in the team'
+          ],
+          deep: [
+            { label: 'Change Management: The Complete Guide', url: 'https://atlasinternal.udemy.com/course/change-management-the-complete-guide/?kw=Change+Management%3A+The+Complete+Guide+%282026+edition%29&src=sac' }
+          ],
+          quick: [
+            { label: 'How to Manage Through Change', url: 'https://atlasinternal.udemy.com/course/how-to-manage-through-change/' }
+          ]
+        },
+        {
+          name: 'Career Conversations & Growth Planning',
+          description: 'The skill of having meaningful, forward-looking conversations with team members about their ambitions, development, and career trajectory. Managers who invest in growth planning retain top talent and build teams that are motivated by more than their day-to-day work.',
+          objectives: [
+            'Create the conditions for open, honest conversations about career aspirations and development needs',
+            'Help team members identify strengths, growth areas, and realistic next steps',
+            'Connect individual development goals to available opportunities, projects, and learning resources',
+            'Follow through on development commitments and hold both parties accountable to the plan'
+          ],
+          deep: [
+            { label: 'Own Your Career', url: 'https://atlasinternal.udemy.com/course/how-to-own-your-career/' },
+            { label: 'New Employee Professional Development & Career Guide', url: 'https://atlasinternal.udemy.com/course/new-employee-professional-development-career-guide/' }
+          ],
+          quick: [
+            { label: 'Coaching for Growth', url: 'https://atlasinternal.udemy.com/course/coaching-for-growth/' }
+          ]
+        },
+        {
+          name: 'Talent Acquisition',
+          description: 'The ability to attract, assess, and hire the right people for the right roles. Strong talent acquisition is not just about filling vacancies — it is about building a team with the capabilities, culture fit, and potential to drive long-term success.',
+          objectives: [
+            'Define role requirements and success profiles that reflect real business needs, not just job descriptions',
+            'Source and engage strong candidates through a range of channels, including passive talent pipelines',
+            'Conduct structured interviews that assess both skills and cultural contribution objectively',
+            'Make and communicate hiring decisions fairly, quickly, and in a way that leaves all candidates with a positive experience'
+          ],
+          deep: [
+            { label: 'Ultimate Talent Acquisition Specialist', url: 'https://atlasinternal.udemy.com/course/ultimate-recruitment-talentacquisition/?kw=Ultimate+Talent+Acquisition+Specialist%3A+HRM+Certification&src=sac' }
+          ],
+          quick: [
+            { label: 'Recruiting AI Talent', url: 'https://atlasinternal.udemy.com/course/recruiting-ai-talent/' }
+          ]
+        },
+        {
+          name: 'Psychological Safety & Belonging',
+          description: 'The practice of building an environment where people feel safe to speak up, take risks, and be themselves at work. Psychological safety is the single biggest predictor of high-performing teams — and it is built through deliberate, consistent leadership behaviours.',
+          objectives: [
+            'Understand what psychological safety is, why it matters, and how leadership behaviour shapes it',
+            'Create conditions where team members feel comfortable sharing ideas, concerns, and mistakes without fear',
+            'Actively include diverse voices in discussions and decision-making processes',
+            'Respond to vulnerability, dissent, and failure in ways that reinforce safety rather than erode it'
+          ],
+          deep: [
+            { label: 'Diversity and Inclusion in the Workplace', url: 'https://atlasinternal.udemy.com/course/diversity-and-inclusion-in-the-workplace-race-gender/' }
+          ],
+          quick: [
+            { label: 'Fostering Psychological Safety & Belonging', url: 'https://atlasinternal.udemy.com/course/fostering-psychological-safety-belonging-on-teams/' }
+          ]
+        },
+        {
+          name: 'Active Listening',
+          description: 'The practice of giving full, focused attention to what someone is saying — not just the words, but the intent and emotion behind them. For people managers, active listening is the foundation of trust, coaching, and every meaningful one-to-one conversation.',
+          objectives: [
+            'Apply listening techniques that signal full attention and create space for open dialogue',
+            'Identify what is being communicated beneath the surface — emotions, hesitations, and unspoken concerns',
+            'Ask questions that deepen understanding rather than redirect or assume',
+            'Resist the urge to respond, fix, or advise before the other person has been fully heard'
+          ],
+          deep: [
+            { label: 'Active Listening Skills', url: 'https://atlasinternal.udemy.com/course/active-listening-skills/' }
+          ],
+          quick: [
+            { label: 'Active Listening Masterclass', url: 'https://atlasinternal.udemy.com/course/active-listening/' }
+          ]
+        },
+        {
+          name: 'Conflict Resolution',
+          description: 'The ability to surface, navigate, and resolve interpersonal and team conflicts in a way that preserves relationships and restores productive collaboration. Managers who handle conflict well treat it as a signal — not a problem to suppress, but an opportunity to strengthen the team.',
+          objectives: [
+            'Identify different types and sources of conflict early, before they escalate or go underground',
+            'Create a safe space for all parties to express their perspective without blame or defensiveness',
+            'Facilitate dialogue that moves from positions to underlying interests and shared needs',
+            'Reach resolutions that both parties can commit to, and follow up to ensure lasting change'
+          ],
+          deep: [
+            { label: 'Conflict Management with Emotional Intelligence', url: 'https://atlasinternal.udemy.com/course/conflict-management-with-emotional-intelligence/' }
+          ],
+          quick: [
+            { label: "The Executive's Playbook for Conflict Resolution", url: 'https://atlasinternal.udemy.com/course/the-executives-playbook-for-conflict-resolution/' }
+          ]
+        }
+      ]
+    },
     {
       id: 'sales',
       label: 'Sales Skills',
@@ -523,6 +911,31 @@ const data = {
 
 let activeGroup = null;
 let openDropdowns = {};
+let searchQuery = '';
+
+function handleSearch(val) {
+  searchQuery = val.trim().toLowerCase();
+  document.getElementById('searchClear').classList.toggle('visible', searchQuery.length > 0);
+  // If searching across all groups, deactivate group filter
+  renderContent();
+}
+
+function clearSearch() {
+  searchQuery = '';
+  document.getElementById('searchInput').value = '';
+  document.getElementById('searchClear').classList.remove('visible');
+  renderContent();
+}
+
+function highlight(text, query) {
+  if (!query) return text;
+  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark class="highlight">$1</mark>');
+}
+
+function getAllSkills() {
+  return data.groups.flatMap(g => g.skills.map(s => ({ ...s, groupLabel: g.label })));
+}
 
 const caretSVG = () => `<svg class="caret" width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 4L5.5 7.5L9 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const externalSVG = () => `<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H4M8 2V6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
@@ -580,6 +993,38 @@ function toggleObjectives(i) {
 
 function renderContent() {
   const area = document.getElementById('contentArea');
+
+  // Search mode: show matching skills across all groups
+  if (searchQuery) {
+    const allSkills = getAllSkills();
+    const results = allSkills.filter(s =>
+      s.name.toLowerCase().includes(searchQuery) ||
+      s.description.toLowerCase().includes(searchQuery) ||
+      s.objectives.some(o => o.toLowerCase().includes(searchQuery))
+    );
+
+    if (results.length === 0) {
+      area.innerHTML = `<div class="empty-state"><span class="icon">🔍</span>No skills match "<strong>${searchQuery}</strong>".</div>`;
+      return;
+    }
+
+    area.innerHTML = `
+      <div class="search-results-label">Found <strong>${results.length}</strong> skill${results.length !== 1 ? 's' : ''} matching "<strong>${searchQuery}</strong>"</div>
+      <div class="skills-grid">
+        ${results.map((skill, i) => renderCard(skill, i, searchQuery)).join('')}
+      </div>
+    `;
+
+    results.forEach((_, i) => {
+      if (openDropdowns[`obj-${i}`]) {
+        document.getElementById(`obj-panel-${i}`)?.classList.add('open');
+        document.getElementById(`obj-toggle-${i}`)?.classList.add('open');
+      }
+    });
+    return;
+  }
+
+  // Normal group mode
   if (!activeGroup) {
     area.innerHTML = `<div class="empty-state"><span class="icon">📚</span>Select a skill group above to explore learning paths.</div>`;
     return;
@@ -591,48 +1036,10 @@ function renderContent() {
       <span class="section-tag">${group.skills.length} skills</span>
     </div>
     <div class="skills-grid">
-      ${group.skills.map((skill, i) => `
-        <div class="skill-card">
-          <div class="skill-name">${skill.name}</div>
-          <div class="skill-desc">${skill.description}</div>
-          <span class="obj-toggle" id="obj-toggle-${i}" onclick="toggleObjectives(${i})">
-            ${chevSVG()} Learning objectives (${skill.objectives.length})
-          </span>
-          <div class="objectives-panel" id="obj-panel-${i}">
-            <ul class="objectives-list">
-              ${skill.objectives.map(o => `<li>${o}</li>`).join('')}
-            </ul>
-          </div>
-          <div class="card-divider"></div>
-          <div class="actions">
-            <div class="btn-wrap">
-              <button class="action-btn" data-key="${i}-deep" onclick="toggleDropdown(${i},'deep',event)">
-                Deep Dive ${caretSVG()}
-              </button>
-              <div class="dropdown">
-                <div class="dropdown-label">Deep Dive</div>
-                ${skill.deep.map(l => `<a href="${l.url}" target="_blank">${l.label}</a>`).join('')}
-              </div>
-            </div>
-            <div class="btn-wrap">
-              <button class="action-btn" data-key="${i}-quick" onclick="toggleDropdown(${i},'quick',event)">
-                Quick Learn ${caretSVG()}
-              </button>
-              <div class="dropdown">
-                <div class="dropdown-label">Quick Learn</div>
-                ${skill.quick.map(l => `<a href="${l.url}" target="_blank">${l.label}</a>`).join('')}
-              </div>
-            </div>
-            <a href="https://atlasinternal.udemy.com/organization/search/?q=${encodeURIComponent(skill.name)}" target="_blank" style="text-decoration:none;">
-              <button class="action-btn btn-udemy">Find in Udemy ${externalSVG()}</button>
-            </a>
-          </div>
-        </div>
-      `).join('')}
+      ${group.skills.map((skill, i) => renderCard(skill, i, '')).join('')}
     </div>
   `;
 
-  // restore open objective panels after re-render
   group.skills.forEach((_, i) => {
     if (openDropdowns[`obj-${i}`]) {
       document.getElementById(`obj-panel-${i}`)?.classList.add('open');
@@ -641,13 +1048,55 @@ function renderContent() {
   });
 }
 
+function renderCard(skill, i, query) {
+  return `
+    <div class="skill-card">
+      <div class="skill-name">${highlight(skill.name, query)}</div>
+      <div class="skill-desc">${highlight(skill.description, query)}</div>
+      <span class="obj-toggle" id="obj-toggle-${i}" onclick="toggleObjectives(${i})">
+        ${chevSVG()} Learning objectives (${skill.objectives.length})
+      </span>
+      <div class="objectives-panel" id="obj-panel-${i}">
+        <ul class="objectives-list">
+          ${skill.objectives.map(o => `<li>${highlight(o, query)}</li>`).join('')}
+        </ul>
+      </div>
+      <div class="card-divider"></div>
+      <div class="actions">
+        <div class="btn-wrap">
+          <button class="action-btn" data-key="${i}-deep" onclick="toggleDropdown(${i},'deep',event)">
+            Deep Dive ${caretSVG()}
+          </button>
+          <div class="dropdown">
+            <div class="dropdown-label">Deep Dive</div>
+            ${skill.deep.map(l => `<a href="${l.url}" target="_blank">${l.label}</a>`).join('')}
+          </div>
+        </div>
+        <div class="btn-wrap">
+          <button class="action-btn" data-key="${i}-quick" onclick="toggleDropdown(${i},'quick',event)">
+            Quick Learn ${caretSVG()}
+          </button>
+          <div class="dropdown">
+            <div class="dropdown-label">Quick Learn</div>
+            ${skill.quick.map(l => `<a href="${l.url}" target="_blank">${l.label}</a>`).join('')}
+          </div>
+        </div>
+        <a href="https://atlasinternal.udemy.com/organization/search/?q=${encodeURIComponent(skill.name)}" target="_blank" style="text-decoration:none;">
+          <button class="action-btn btn-udemy">Find in Udemy ${externalSVG()}</button>
+        </a>
+      </div>
+    </div>
+  `;
+}
+
+
 document.addEventListener('click', e => {
   if (!e.target.closest('.btn-wrap')) {
-    let changed = false;
-    Object.keys(openDropdowns).forEach(k => {
-      if (!k.startsWith('obj-') && openDropdowns[k]) { openDropdowns[k] = false; changed = true; }
+    document.querySelectorAll('.btn-wrap').forEach(wrap => {
+      wrap.querySelector('.action-btn[data-key]')?.classList.remove('open');
+      wrap.querySelector('.dropdown')?.classList.remove('open');
     });
-    if (changed) syncDropdownDOM();
+    openDropdowns = Object.fromEntries(Object.entries(openDropdowns).filter(([k]) => k.startsWith('obj-')));
   }
 });
 

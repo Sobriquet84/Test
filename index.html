@@ -3,964 +3,656 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Atlas Learning Finder</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<title>Learning Finder</title>
+
 <style>
   :root {
-    --blue:      #0559FA;
-    --purple:    #5827E3;
-    --pink:      #BA33CA;
-    --blue-lt:   #DAE6FE;
-    --purple-lt: #E6DFFB;
-    --pink-lt:   #F5F0F7;
-    --navy:      #06195E;
-    --indigo:    #1E046A;
-    --plum:      #48114F;
-    --white:     #FFFFFF;
-    --bg:        #F7F8FC;
-    --border:    #E2E5F0;
-    --muted:     #6B7280;
-    --ink:       #0E1120;
-
-    --found:     #0559FA;
-    --inter:     #5827E3;
-    --adv:       #BA33CA;
-    --exp:       #48114F;
+    --blue-500: #0559FA;
+    --blue-250: #82ACFC;
+    --blue-100: #DAE6FE;
+    --blue-900: #06195E;
+    --purple-500: #5827E3;
+    --orangellow-300: #F6B942;
+    --text-primary: #1a1f3a;
+    --text-secondary: #4a5070;
+    --text-muted: #7a82a0;
+    --border: #e2e6f0;
+    --bg: #f5f7fc;
+    --card-bg: #ffffff;
   }
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Gelion', sans-serif;
     background: var(--bg);
-    color: var(--ink);
+    color: var(--text-primary);
     min-height: 100vh;
-    font-size: 14px;
   }
 
-  /* ── HEADER ── */
+  .page-wrap {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* Header */
   header {
-    background: linear-gradient(135deg, var(--navy) 0%, var(--indigo) 50%, var(--plum) 100%);
-    color: var(--white);
-    padding: 36px 40px 32px;
-    position: relative;
-    overflow: hidden;
-  }
-  header::before {
-    content: '';
-    position: absolute;
-    top: -80px; right: -80px;
-    width: 320px; height: 320px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(88,39,227,0.4) 0%, transparent 70%);
-  }
-  header::after {
-    content: '';
-    position: absolute;
-    bottom: -60px; left: 25%;
-    width: 240px; height: 240px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(186,51,202,0.3) 0%, transparent 70%);
-  }
-  .header-eyebrow {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: rgba(218,230,254,0.8);
-    margin-bottom: 10px;
-    position: relative; z-index: 1;
-  }
-  header h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(24px, 3.5vw, 38px);
-    font-weight: 800;
-    line-height: 1.1;
-    position: relative; z-index: 1;
-    background: linear-gradient(90deg, #fff 0%, #DAE6FE 60%, #E6DFFB 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .header-sub {
-    margin-top: 10px;
-    font-size: 13px;
-    color: rgba(218,230,254,0.7);
-    font-weight: 300;
-    position: relative; z-index: 1;
-    max-width: 520px;
-  }
-
-  /* ── LEGEND ── */
-  .legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    align-items: center;
-    padding: 12px 40px;
-    background: var(--white);
+    padding: 40px 0 32px;
     border-bottom: 1px solid var(--border);
-  }
-  .legend-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-right: 4px;
-  }
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 11px;
-    font-weight: 600;
-    padding: 3px 10px;
-    border-radius: 20px;
-  }
-  .badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-  .badge.found { background: var(--blue-lt);   color: var(--blue);   }
-  .badge.inter { background: var(--purple-lt); color: var(--purple); }
-  .badge.adv   { background: #F5E8FB;          color: var(--pink);   }
-  .badge.exp   { background: #F0E4F0;          color: var(--plum);   }
-
-  /* ── LAYOUT ── */
-  .layout {
-    display: grid;
-    grid-template-columns: 260px 1fr;
-    min-height: calc(100vh - 170px);
-  }
-
-  /* ── SIDEBAR ── */
-  .sidebar {
-    background: var(--white);
-    border-right: 1px solid var(--border);
-    padding: 20px 0;
-    position: sticky;
-    top: 0;
-    height: calc(100vh - 130px);
-    overflow-y: auto;
-  }
-  .sidebar-title {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--muted);
-    padding: 0 20px 12px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 6px;
-  }
-  .cat-btn {
-    display: block;
-    width: 100%;
-    text-align: left;
-    background: none;
-    border: none;
-    padding: 10px 20px;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 400;
-    color: var(--ink);
-    cursor: pointer;
-    border-left: 3px solid transparent;
-    transition: all 0.15s;
-    line-height: 1.4;
-  }
-  .cat-btn:hover  { background: var(--bg); border-left-color: var(--border); }
-  .cat-btn.active {
-    background: var(--blue-lt);
-    border-left-color: var(--blue);
-    font-weight: 600;
-    color: var(--navy);
-  }
-
-  /* ── CONTENT ── */
-  .content { padding: 32px 40px; overflow-y: auto; }
-
-  .cat-header {
-    margin-bottom: 28px;
-    padding-bottom: 20px;
-    border-bottom: 2px solid var(--border);
-  }
-  .cat-title {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(20px, 2.5vw, 28px);
-    font-weight: 800;
-    color: var(--navy);
-    line-height: 1.2;
-  }
-
-  /* Skill groups */
-  .skill-group { margin-bottom: 32px; }
-  .group-name {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--purple);
-    margin-bottom: 12px;
+    margin-bottom: 32px;
     display: flex;
     align-items: center;
-    gap: 10px;
-  }
-  .group-name::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--purple-lt);
+    gap: 14px;
   }
 
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-    gap: 12px;
-  }
-
-  .skill-card {
-    background: var(--white);
-    border: 1px solid var(--border);
+  .logo-mark {
+    width: 40px;
+    height: 40px;
     border-radius: 10px;
-    padding: 16px;
-    transition: box-shadow 0.15s, transform 0.15s;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    overflow: visible;
-  }
-  .skill-card:hover { box-shadow: 0 4px 20px rgba(5,89,250,0.08); transform: translateY(-1px); }
-
-  .skill-top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 8px;
-  }
-  .skill-name {
-    font-size: 13.5px;
-    font-weight: 600;
-    line-height: 1.4;
-    color: var(--ink);
-    flex: 1;
-  }
-  .prof-tag {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    padding: 3px 8px;
-    border-radius: 4px;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .prof-tag.found { background: var(--blue-lt);   color: var(--blue);   }
-  .prof-tag.inter { background: var(--purple-lt); color: var(--purple); }
-  .prof-tag.adv   { background: #F5E8FB;          color: var(--pink);   }
-  .prof-tag.exp   { background: #F0E4F0;          color: var(--plum);   }
-
-  /* Udemy button */
-  .udemy-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--blue);
-    text-decoration: none;
-    padding: 5px 10px;
-    border: 1px solid var(--blue-lt);
-    border-radius: 6px;
-    background: var(--blue-lt);
-    transition: all 0.12s;
-    align-self: flex-start;
-  }
-  .udemy-btn:hover { background: var(--blue); color: var(--white); border-color: var(--blue); }
-
-  /* ── RECOMMENDATIONS ── */
-  .recs {
-    border-top: 1px solid var(--border);
-    padding-top: 12px;
-  }
-  .recs-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 8px;
-  }
-  .recs-btns {
-    display: flex;
-    gap: 8px;
-  }
-  .rec-btn {
-    position: relative;
-    flex: 1;
-  }
-  .rec-btn-trigger {
-    width: 100%;
+    background: linear-gradient(135deg, var(--blue-500), var(--purple-500));
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 5px;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    padding: 7px 10px;
+    font-family: 'Gelion', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .header-text h1 {
+    font-family: 'Gelion', sans-serif;
+    font-weight: 800;
+    font-size: 24px;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+  }
+
+  .header-text p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* Nav */
+  nav {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+
+  .nav-btn {
+    font-family: 'Gelion', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    padding: 7px 16px;
     border-radius: 6px;
     cursor: pointer;
-    border: 1px solid;
-    transition: all 0.15s;
+    transition: all 0.15s ease;
+    outline: none;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    color: var(--text-secondary);
+  }
+
+  .nav-btn:hover {
+    border-color: var(--blue-250);
+    color: var(--blue-500);
+  }
+
+  .nav-btn.active {
+    background: var(--blue-500);
+    border-color: var(--blue-500);
+    color: #fff;
+  }
+
+  .nav-btn .pill-count {
+    display: inline-block;
+    margin-left: 6px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 20px;
+    padding: 0 7px;
+    font-size: 11px;
+  }
+
+  .nav-btn:not(.active) .pill-count {
+    background: var(--blue-100);
+    color: var(--blue-500);
+  }
+
+  /* Section header */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .section-title {
+    font-family: 'Gelion', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .section-tag {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--blue-100);
+    color: var(--blue-500);
+  }
+
+  /* Skills list */
+  .skills-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Skill card — no overflow:hidden, so dropdowns can escape */
+  .skill-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 22px 16px;
+    transition: border-color 0.18s, box-shadow 0.18s;
+    position: relative;
+  }
+
+  .skill-card:hover {
+    border-color: var(--blue-250);
+    box-shadow: 0 2px 12px rgba(5,89,250,0.07);
+  }
+
+  .skill-name {
+    font-family: 'Gelion', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+  }
+
+  .skill-desc {
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    max-width: 720px;
+  }
+
+  /* Objectives toggle */
+  .obj-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--blue-500);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .obj-toggle:hover { text-decoration: underline; }
+  .obj-toggle svg { transition: transform 0.2s ease; }
+  .obj-toggle.open svg { transform: rotate(180deg); }
+
+  .objectives-panel {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease, opacity 0.25s ease;
+    opacity: 0;
+  }
+
+  .objectives-panel.open {
+    max-height: 300px;
+    opacity: 1;
+  }
+
+  .objectives-list {
+    margin-top: 10px;
+    padding: 12px 14px;
+    background: var(--bg);
+    border-radius: 7px;
+    border: 1px solid var(--border);
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .objectives-list li {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    display: flex;
+    gap: 8px;
+  }
+
+  .objectives-list li::before {
+    content: '›';
+    color: var(--blue-500);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* Actions */
+  .card-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 14px 0 12px;
+  }
+
+  .actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .btn-wrap {
+    position: relative;
+  }
+
+  .action-btn {
+    font-family: 'Gelion', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 13px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.15s ease;
+    outline: none;
     white-space: nowrap;
   }
-  .rec-btn-trigger .chevron { transition: transform 0.2s; flex-shrink: 0; }
-  .rec-btn.open .rec-btn-trigger .chevron { transform: rotate(180deg); }
 
-  .rec-btn-trigger.quick  { background: #EEF4FF; color: var(--blue);   border-color: var(--blue-lt); }
-  .rec-btn-trigger.deeper { background: var(--purple-lt); color: var(--purple); border-color: #C9BBF5; }
-  .rec-btn-trigger.quick:hover  { background: var(--blue);   color: var(--white); border-color: var(--blue);   }
-  .rec-btn-trigger.deeper:hover { background: var(--purple); color: var(--white); border-color: var(--purple); }
-  .rec-btn.open .rec-btn-trigger.quick  { background: var(--blue);   color: var(--white); border-color: var(--blue);   }
-  .rec-btn.open .rec-btn-trigger.deeper { background: var(--purple); color: var(--white); border-color: var(--purple); }
+  .action-btn:hover, .action-btn.open {
+    border-color: var(--blue-500);
+    color: var(--blue-500);
+    background: var(--blue-100);
+  }
 
-  .rec-dropdown {
-    display: none;
+  .btn-udemy {
+    color: #8a5000;
+    border-color: #f0d890;
+    background: #fffdf0;
+  }
+
+  .btn-udemy:hover {
+    border-color: var(--orangellow-300);
+    background: #fff8d0;
+    color: #6a3a00;
+  }
+
+  .caret { transition: transform 0.18s ease; }
+  .action-btn.open .caret { transform: rotate(180deg); }
+
+  /* Dropdown floats above all sibling cards */
+  .dropdown {
     position: absolute;
-    top: calc(100% + 6px);
+    top: calc(100% + 5px);
     left: 0;
-    min-width: 220px;
-    max-width: 280px;
-    background: var(--white);
+    min-width: 250px;
+    background: #fff;
     border: 1px solid var(--border);
     border-radius: 8px;
-    box-shadow: 0 8px 24px rgba(6,25,94,0.12);
-    z-index: 100;
-    overflow: hidden;
-  }
-  /* Deep dropdown anchors to the right so it doesn't overflow right edge */
-  .rec-btn:last-child .rec-dropdown {
-    left: auto;
-    right: 0;
-  }
-  .rec-btn.open .rec-dropdown { display: block; }
-
-  .rec-dropdown-header {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    padding: 10px 14px 6px;
-    border-bottom: 1px solid var(--border);
-  }
-  .rec-link {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 9px 14px;
-    font-size: 12.5px;
-    font-weight: 500;
-    color: var(--ink);
-    text-decoration: none;
-    transition: background 0.12s;
-    border-bottom: 1px solid var(--border);
-    line-height: 1.35;
-  }
-  .rec-link:last-child { border-bottom: none; }
-  .rec-link:hover { background: var(--bg); color: var(--navy); }
-  .rec-link .rec-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-  .rec-link .rec-dot.quick  { background: var(--blue);   }
-  .rec-link .rec-dot.deeper { background: var(--purple); }
-  .rec-empty {
-    padding: 12px 14px;
-    font-size: 12px;
-    color: #B0B8CC;
-    font-style: italic;
-  }
-
-  /* ── SEARCH ── */
-  .search-wrap {
-    padding: 14px 40px;
-    background: var(--white);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .search-box {
-    position: relative;
-    flex: 1;
-    max-width: 560px;
-  }
-  .search-box svg {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--muted);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.11);
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(-5px);
     pointer-events: none;
+    transition: opacity 0.15s ease, transform 0.15s ease;
   }
-  .search-input {
-    width: 100%;
-    padding: 9px 12px 9px 38px;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 13px;
-    color: var(--ink);
-    background: var(--bg);
-    outline: none;
-    transition: border-color 0.15s, box-shadow 0.15s;
-  }
-  .search-input:focus {
-    border-color: var(--blue);
-    box-shadow: 0 0 0 3px rgba(5,89,250,0.1);
-    background: var(--white);
-  }
-  .search-input::placeholder { color: #A0A8B8; }
-  .search-clear {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--muted);
-    font-size: 18px;
-    line-height: 1;
-    padding: 0 4px;
-    display: none;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-  }
-  .search-clear:hover { color: var(--ink); }
 
-  /* Search results view */
-  .search-results-header {
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 20px;
-    font-weight: 500;
+  .dropdown.open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
   }
-  .search-results-header strong { color: var(--navy); font-weight: 700; }
-  .search-group-label {
+
+  .dropdown-label {
     font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
+    font-weight: 600;
+    letter-spacing: 0.07em;
     text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 8px;
-    margin-top: 20px;
+    color: var(--text-muted);
+    padding: 10px 13px 5px;
+  }
+
+  .dropdown a {
     display: flex;
-    align-items: center;
-    gap: 8px;
+    align-items: flex-start;
+    gap: 7px;
+    padding: 8px 13px;
+    font-size: 13px;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: background 0.1s;
+    border-top: 1px solid var(--border);
+    line-height: 1.4;
   }
-  .search-group-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-  .search-group-label .cat-tag {
-    background: var(--purple-lt);
-    color: var(--purple);
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 10px;
+
+  .dropdown a:hover {
+    background: var(--blue-100);
+    color: var(--blue-500);
   }
-  .no-results {
+
+  .dropdown a::before {
+    content: '›';
+    color: var(--blue-250);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* Empty state */
+  .empty-state {
     text-align: center;
     padding: 60px 20px;
-    color: var(--muted);
+    color: var(--text-muted);
+    font-size: 14px;
   }
-  .no-results .icon { font-size: 40px; display: block; margin-bottom: 14px; }
-  .no-results p { font-size: 14px; }
 
-  /* Welcome */
-  .welcome {
-    text-align: center;
-    padding: 80px 20px;
-    color: var(--muted);
-  }
-  .welcome-icon { font-size: 52px; margin-bottom: 20px; display: block; }
-  .welcome h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: 26px;
-    font-weight: 800;
-    color: var(--navy);
-    margin-bottom: 10px;
-  }
-  .welcome p { font-size: 14px; max-width: 340px; margin: 0 auto; line-height: 1.6; }
-
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-
-  @media (max-width: 680px) {
-    .layout { grid-template-columns: 1fr; }
-    .sidebar { position: static; height: auto; padding: 12px; display: flex; flex-wrap: wrap; gap: 4px; border-right: none; border-bottom: 1px solid var(--border); }
-    .sidebar-title { display: none; }
-    .cat-btn { width: auto; border: 1px solid var(--border); border-left: 3px solid transparent; border-radius: 6px; padding: 6px 12px; font-size: 12px; }
-    .cat-btn.active { background: var(--blue-lt); border-color: var(--blue); }
-    .content { padding: 20px; }
-    header, .legend { padding-left: 20px; padding-right: 20px; }
-  }
+  .empty-state .icon { font-size: 32px; display: block; margin-bottom: 10px; }
 </style>
 </head>
 <body>
-
-<header>
-  <div class="header-eyebrow">Learning & Development</div>
-  <h1>Atlas Learning Finder</h1>
-  <p class="header-sub">Select your role category to explore skills, proficiency expectations, and recommended learning paths.</p>
-</header>
-
-<div class="legend">
-  <span class="legend-label">Proficiency:</span>
-  <span class="badge found">Foundational</span>
-  <span class="badge inter">Intermediate</span>
-  <span class="badge adv">Advanced</span>
-  <span class="badge exp">Expert</span>
-</div>
-
-<div class="search-wrap">
-  <div class="search-box">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    <input class="search-input" id="search-input" type="text" placeholder="Search skills across all categories…" autocomplete="off">
-  </div>
-  <button class="search-clear" id="search-clear" title="Clear search">✕</button>
-</div>
-
-<div class="layout">
-  <nav class="sidebar">
-    <div class="sidebar-title">Role Categories</div>
-  </nav>
-  <main class="content" id="content">
-    <div class="welcome">
-      <span class="welcome-icon">🗺️</span>
-      <h2>Find your path</h2>
-      <p>Choose a role category from the left to explore the skills and competencies for your function — plus recommended courses to help you grow.</p>
+<div class="page-wrap">
+  <header>
+    <div class="logo-mark">L</div>
+    <div class="header-text">
+      <h1>Learning Finder</h1>
+      <p>Curated learning paths for professional growth</p>
     </div>
-  </main>
+  </header>
+
+  <nav id="groupNav"></nav>
+  <div id="contentArea"></div>
 </div>
 
 <script>
-const PROF_CLASS = { Foundational:'found', Intermediate:'inter', Advanced:'adv', Expert:'exp' };
-const UDEMY_BASE = "https://atlasinternal.udemy.com/organization/search/?q=";
-
-const DATA = {
-  "Global Skills": {
-    groups: {
-      "Communication & Presence": [["Presentation Skills","Intermediate"],["Executive Presence","Advanced"],["Business Writing & Email Etiquette","Intermediate"],["Public Speaking & Storytelling","Intermediate"],["Active Listening","Intermediate"]],
-      "Productivity & Tools": [["Microsoft Excel","Intermediate"],["AI Fluency","Foundational"],["Project Management","Foundational"],["Time Management","Intermediate"]],
-      "Professional Effectiveness": [["Critical Thinking & Problem Solving","Intermediate"],["Cultural Awareness","Intermediate"]]
+const data = {
+  groups: [
+    {
+      id: 'sales',
+      label: 'Sales Skills',
+      skills: [
+        {
+          name: 'Consultative Selling',
+          description: "A customer-first approach that prioritizes understanding a buyer's business challenges before presenting solutions. Rather than pitching products, consultative sellers act as trusted advisors who diagnose needs and co-create value.",
+          objectives: [
+            'Apply a structured discovery framework to uncover customer pain points, goals, and decision criteria',
+            'Shift conversations from product features to business outcomes',
+            'Build trust through active listening and insightful questioning',
+            'Tailor solution recommendations to the specific context of each buyer'
+          ],
+          deep: [
+            { label: 'Sales Skills: Consultative Selling Master Class', url: 'https://atlasinternal.udemy.com/course/sales-skills-consultative-selling-master-class' },
+            { label: 'Sell More by Talking Less', url: 'https://atlasinternal.udemy.com/course/sell-more-by-talking-less/' }
+          ],
+          quick: [
+            { label: 'Sell More by Talking Less', url: 'https://atlasinternal.udemy.com/course/sell-more-by-talking-less/' }
+          ]
+        },
+        {
+          name: 'Value Proposition Design',
+          description: 'The craft of articulating why a solution matters to a specific buyer in a way that is clear, differentiated, and compelling. A strong value proposition connects what you offer to what the customer actually cares about.',
+          objectives: [
+            'Map customer jobs, pains, and gains to product or service capabilities',
+            'Craft value statements that are specific, measurable, and buyer-relevant',
+            'Differentiate from competitors by highlighting unique strengths in context',
+            'Adapt the value proposition for different industries, roles, and use cases'
+          ],
+          deep: [
+            { label: 'Value Proposition Mastery', url: 'https://atlasinternal.udemy.com/course/value-proposition-mastery/' }
+          ],
+          quick: [
+            { label: 'Sales Skills: Value Propositions', url: 'https://atlasinternal.udemy.com/course/sales-skills-value-propositions/' }
+          ]
+        },
+        {
+          name: 'Business Storytelling',
+          description: 'The ability to make data, solutions, and ideas memorable by wrapping them in narrative. Stories create emotional resonance, simplify complexity, and drive action far more effectively than facts alone.',
+          objectives: [
+            'Structure compelling sales narratives using proven storytelling frameworks',
+            'Use customer success stories and case studies to build credibility and relatability',
+            'Replace feature-and-benefit lists with problem-solution-outcome narratives',
+            "Tailor stories to the audience's role, industry, and stage in the buying journey"
+          ],
+          deep: [
+            { label: 'The Complete Storytelling Course for Speaking & Presenting', url: 'https://atlasinternal.udemy.com/course/the-complete-storytelling-course-for-speaking-presenting/' }
+          ],
+          quick: [
+            { label: 'Storytelling to Influence', url: 'https://atlasinternal.udemy.com/course/storytellingtoinfluence/' }
+          ]
+        },
+        {
+          name: 'Persuasion and Influence',
+          description: 'The ability to shape thinking, build buy-in, and move people to action — without relying on pressure or manipulation. This skill draws on psychology, framing, and credibility to guide buyers toward confident decisions.',
+          objectives: [
+            'Apply core principles of influence (reciprocity, social proof, authority, etc.) ethically in sales contexts',
+            'Frame information to align with what buyers value most',
+            'Build consensus across multiple stakeholders with competing priorities',
+            'Recognize and navigate the emotional drivers behind purchasing decisions'
+          ],
+          deep: [
+            { label: 'Persuasion Psychology & Influence', url: 'https://atlasinternal.udemy.com/course/persuasion-psychology-influence/' }
+          ],
+          quick: [
+            { label: 'Persuasion Mastery', url: 'https://atlasinternal.udemy.com/course/persuasion-mastery-/' }
+          ]
+        },
+        {
+          name: 'Objection Handling',
+          description: 'The skill of addressing buyer concerns in a way that advances rather than stalls the sale. Effective objection handling treats resistance as a signal of interest and an opportunity to deepen dialogue.',
+          objectives: [
+            'Identify and categorize common objection types (price, timing, competition, risk)',
+            'Use a structured response technique to acknowledge, clarify, and resolve concerns',
+            'Distinguish between genuine objections and stalling tactics',
+            'Turn objections into opportunities to reinforce value'
+          ],
+          deep: [
+            { label: 'Sales Objections Simplified', url: 'https://atlasinternal.udemy.com/course/sales-objections-simplified/' }
+          ],
+          quick: [
+            { label: 'Sales Training: Handling Objections', url: 'https://atlasinternal.udemy.com/course/sales-training-handling-objections/' }
+          ]
+        },
+        {
+          name: 'Negotiation',
+          description: 'The discipline of reaching agreements that protect margin, preserve relationships, and create mutual value. Strong negotiators are prepared, disciplined, and skilled at finding creative paths to yes.',
+          objectives: [
+            'Prepare thoroughly by identifying interests, priorities, and walk-away positions for both sides',
+            'Use principled negotiation techniques to move beyond positional bargaining',
+            'Manage concessions strategically to protect deal value',
+            'Resolve impasses and close agreements while maintaining long-term relationships'
+          ],
+          deep: [
+            { label: 'Negotiations', url: 'https://atlasinternal.udemy.com/course/negotiations/' }
+          ],
+          quick: [
+            { label: 'A Practical Guide to Negotiating', url: 'https://atlasinternal.udemy.com/course/a-practical-guide-to-negotiating/' }
+          ]
+        },
+        {
+          name: 'Executive Presence',
+          description: 'The ability to command credibility, communicate with authority, and instill confidence in senior stakeholders. It encompasses how a seller carries themselves, structures their message, and holds the room under pressure.',
+          objectives: [
+            'Project confidence and composure in high-stakes executive meetings',
+            'Adapt communication style and language to C-suite audiences',
+            'Deliver concise, insight-driven messages that respect executive time',
+            'Handle challenging questions and pushback with poise'
+          ],
+          deep: [
+            { label: 'Selling with Emotional Intelligence', url: 'https://atlasinternal.udemy.com/course/selling-with-emotional-intelligence/' }
+          ],
+          quick: [
+            { label: 'Persuasion Mastery', url: 'https://atlasinternal.udemy.com/course/persuasion-mastery-/' }
+          ]
+        },
+        {
+          name: 'Financial Acumen',
+          description: 'The ability to understand and speak the language of business finance — enabling sellers to connect their solution to metrics that matter to economic buyers and quantify the return on investment.',
+          objectives: [
+            'Interpret key financial statements and metrics (P&L, EBITDA, ROI, payback period)',
+            'Build and present a credible business case for investment',
+            'Link solution benefits to measurable financial outcomes for the customer',
+            'Engage confidently with finance-oriented stakeholders on budget and cost justification'
+          ],
+          deep: [
+            { label: 'Introduction to Financial Controls', url: 'https://atlasinternal.udemy.com/course/introduction-to-financial-controls/' }
+          ],
+          quick: [
+            { label: 'Financial Analysis', url: 'https://atlasinternal.udemy.com/course/financial-analysis-2/' }
+          ]
+        }
+      ]
     }
-  },
-  "People Management": {
-    groups: {
-      "Team Leadership": [["Performance Management & Feedback","Advanced"],["Leading through Change","Advanced"]],
-      "Talent Development": [["Career Conversations & Growth Planning","Advanced"],["Talent Acquisition","Intermediate"]],
-      "Inclusive Leadership": [["Psychological Safety & Belonging","Advanced"]],
-      "Soft Skills": [["Active Listening","Advanced"],["Conflict Resolution","Advanced"]]
-    }
-  },
-  "Sales & Business Development": {
-    groups: {
-      "Core Sales Skills": [["Consultative Selling","Advanced"],["Pipeline Management & CRM","Advanced"],["Negotiation & Deal Structuring","Advanced"],["Value Proposition Design","Advanced"]],
-      "Soft Skills": [["Executive Presence & Communication","Advanced"],["Resilience & Rejection Handling","Advanced"],["Persuasion & Influence","Advanced"]]
-    }
-  },
-  "Client Success & Support": {
-    groups: {
-      "Client Relationship Management": [["Account Health Monitoring & QBRs","Advanced"],["Escalation Management","Advanced"],["Customer Onboarding & Implementation","Intermediate"],["Renewal & Expansion Management","Intermediate"]],
-      "Operations & Process": [["CRM Usage (Salesforce / Gainsight)","Intermediate"]],
-      "Soft Skills": [["Empathy & Active Listening","Advanced"],["Problem Solving & Root-Cause Analysis","Advanced"]]
-    }
-  },
-  "Marketing": {
-    groups: {
-      "Digital Marketing": [["SEO / SEM & Paid Media","Intermediate"],["Marketing Automation (HubSpot / Marketo)","Intermediate"],["Performance Marketing & Analytics (GA4, Looker)","Advanced"]],
-      "Brand & Content": [["Brand Strategy & Identity","Advanced"],["Content Strategy & Copywriting","Advanced"]],
-      "Insights & Research": [["Market Research & Consumer Insights","Advanced"]],
-      "Soft Skills": [["Creativity & Storytelling","Advanced"]]
-    }
-  },
-  "Human Resources": {
-    groups: {
-      "HR Generalist & Strategy": [["HR Business Partnering & Advisory","Advanced"],["Talent Management & Succession Planning","Advanced"]],
-      "Employee Relations & Compliance": [["Employee Relations & Conflict Resolution","Advanced"],["Employment Law Knowledge (local/regional)","Advanced"]],
-      "Learning & Development": [["L&D Programme Design & Delivery","Advanced"]],
-      "HR Systems & Analytics": [["HRIS (Workday / SAP SuccessFactors)","Intermediate"]],
-      "Soft Skills": [["Influencing Without Authority","Advanced"]]
-    }
-  },
-  "Payroll": {
-    groups: {
-      "Payroll Processing": [["End-to-End Payroll Processing","Advanced"],["Multi-Country Payroll Knowledge","Advanced"],["Payroll Compliance & Tax Regulations","Advanced"],["Payroll Systems (ADP, Ceridian, CloudPay)","Intermediate"]],
-      "Accounting & Reconciliation": [["Payroll Accounting & Journal Entries","Advanced"],["Month-End / Year-End Payroll Close","Advanced"]],
-      "Soft Skills": [["Attention to Detail","Expert"]]
-    }
-  },
-
-  "Finance & Accounting": {
-    groups: {
-      "Accounting & Reporting": [["GAAP / IFRS Financial Reporting","Advanced"],["Month-End Close & Journal Entries","Advanced"]],
-      "Financial Planning & Analysis": [["Budgeting & Forecasting","Advanced"],["Financial Modelling (Excel / Google Sheets)","Advanced"],["Variance Analysis","Advanced"]],
-      "Treasury & Tax": [["Cash Flow Management & Liquidity","Advanced"]],
-      "Tools & Systems": [["ERP Systems (NetSuite, SAP, Oracle)","Intermediate"]]
-    }
-  },
-  "Legal & Compliance": {
-    groups: {
-      "Legal Practice": [["Contract Drafting, Review & Negotiation","Advanced"],["Employment Law (multi-jurisdiction)","Advanced"],["Commercial & Corporate Law","Advanced"]],
-      "Compliance & Risk": [["Regulatory Compliance Frameworks","Advanced"],["Risk Assessment & Mitigation","Advanced"]],
-      "Privacy & Data": [["GDPR & Global Data Protection Laws","Advanced"]],
-      "Soft Skills": [["Analytical & Critical Thinking","Expert"]]
-    }
-  },
-  "Regulatory Affairs & Governance": {
-    groups: {
-      "Regulatory Affairs": [["Global Regulatory Landscape Knowledge","Expert"],["Entity Lifecycle Management","Advanced"],["Corporate Secretarial Practices","Advanced"],["Regulatory Filing & Reporting","Advanced"]],
-      "Governance": [["Board Governance & Minutes","Advanced"],["Corporate Governance Frameworks","Advanced"],["Statutory Compliance & KYC","Advanced"]]
-    }
-  },
-  "Technology & Engineering": {
-    groups: {
-      "Software Development": [["Programming Languages (Python, Java, C#, JS)","Advanced"],["Backend & API Development (REST, GraphQL)","Advanced"]],
-      "Infrastructure & Cloud": [["Cloud Platforms (AWS, Azure, GCP)","Advanced"],["CI/CD Pipelines (Jenkins, GitHub Actions)","Advanced"],["Containerisation (Docker, Kubernetes)","Advanced"]],
-      "Security": [["Cybersecurity Frameworks (NIST, ISO 27001)","Advanced"]],
-      "Leadership & Architecture": [["Technical Architecture & Design Patterns","Expert"]]
-    }
-  },
-  "Product Management": {
-    groups: {
-      "Product Strategy": [["Product Vision & Roadmap Definition","Advanced"],["Market & User Research","Advanced"],["OKR & Metrics Definition","Advanced"]],
-      "Execution & Delivery": [["Agile / Scrum Ceremonies & Backlog Management","Advanced"],["Stakeholder Alignment & Communication","Advanced"]],
-      "Analytics & Data": [["Product Analytics (Amplitude, Mixpanel)","Advanced"],["A/B Testing & Experimentation","Advanced"]]
-    }
-  },
-  "Data, Analytics & BI": {
-    groups: {
-      "Data Engineering & Management": [["SQL & Database Querying","Advanced"],["Data Modelling & Warehousing","Advanced"],["Data Quality & Governance","Advanced"]],
-      "Analytics & Visualisation": [["BI Tools (Tableau, Power BI, Looker)","Advanced"],["Statistical Analysis & Interpretation","Advanced"],["Python / R for Analysis","Intermediate"]],
-      "Soft Skills": [["Data Storytelling","Advanced"]]
-    }
-  },
-  "Operations & Administration": {
-    groups: {
-      "Operations Management": [["Process Improvement & Lean / Six Sigma","Advanced"],["Operational KPI Definition & Monitoring","Advanced"]],
-      "Administrative Excellence": [["Calendar & Travel Management","Advanced"],["Document Management & Governance","Advanced"],["Executive Support & Communication","Advanced"]],
-      "Tools & Systems": [["Microsoft 365 / Google Workspace","Advanced"]],
-      "Soft Skills": [["Organisation & Prioritisation","Expert"]]
-    }
-  },
-  "Executive Leadership": {
-    groups: {
-      "Strategic Leadership": [["Vision Setting & Long-Range Strategy","Expert"]],
-      "Financial Acumen": [["P&L Ownership & Financial Stewardship","Expert"]],
-      "People & Culture Leadership": [["Executive Team Building & Development","Expert"],["Culture Design & Employee Experience","Advanced"]],
-      "Operational Excellence": [["Cross-functional Programme Delivery","Advanced"]],
-      "Commercial & Market Insight": [["Market Trend Analysis & Competitive Positioning","Expert"]],
-      "Stakeholder & Communication": [["Executive Communication & Public Speaking","Expert"]]
-    }
-  }
+  ]
 };
 
-// ── Sidebar ──
-const sidebar = document.querySelector('.sidebar');
-const content = document.getElementById('content');
-const searchInput = document.getElementById('search-input');
-const searchClear = document.getElementById('search-clear');
-let activeBtn = null;
+let activeGroup = null;
+let openDropdowns = {};
 
-Object.keys(DATA).forEach(cat => {
-  const btn = document.createElement('button');
-  btn.className = 'cat-btn';
-  btn.textContent = cat;
-  btn.addEventListener('click', () => {
-    searchInput.value = '';
-    searchClear.style.display = 'none';
-    setActive(btn);
-    renderCategory(cat);
-  });
-  sidebar.appendChild(btn);
-});
+const caretSVG = () => `<svg class="caret" width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 4L5.5 7.5L9 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const externalSVG = () => `<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H4M8 2V6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const chevSVG = () => `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
-function setActive(btn) {
-  if (activeBtn) activeBtn.classList.remove('active');
-  btn.classList.add('active');
-  activeBtn = btn;
+function renderNav() {
+  document.getElementById('groupNav').innerHTML =
+    data.groups.map(g => `
+      <button class="nav-btn ${activeGroup === g.id ? 'active' : ''}" onclick="selectGroup('${g.id}')">
+        ${g.label}<span class="pill-count">${g.skills.length}</span>
+      </button>`).join('') +
+    `<button class="nav-btn" style="opacity:0.4;cursor:default;" disabled>More coming soon…</button>`;
 }
 
-// ── Search ──
-searchInput.addEventListener('input', () => {
-  const q = searchInput.value.trim();
-  searchClear.style.display = q ? 'block' : 'none';
-  if (q.length === 0) {
-    if (activeBtn) renderCategory(activeBtn.textContent);
-    else renderWelcome();
+function selectGroup(id) {
+  activeGroup = activeGroup === id ? null : id;
+  openDropdowns = {};
+  renderNav();
+  renderContent();
+}
+
+function toggleDropdown(cardIdx, type, event) {
+  event.stopPropagation();
+  const key = `${cardIdx}-${type}`;
+  const isCurrentlyOpen = !!openDropdowns[key];
+
+  // Close all dropdowns in DOM
+  document.querySelectorAll('.btn-wrap').forEach(wrap => {
+    const btn = wrap.querySelector('.action-btn[data-key]');
+    const dd = wrap.querySelector('.dropdown');
+    if (btn && dd) { btn.classList.remove('open'); dd.classList.remove('open'); }
+  });
+  openDropdowns = Object.fromEntries(Object.entries(openDropdowns).filter(([k]) => k.startsWith('obj-')));
+
+  // If it wasn't open before, open it now
+  if (!isCurrentlyOpen) {
+    openDropdowns[key] = true;
+    const btn = document.querySelector(`.action-btn[data-key="${key}"]`);
+    const dd = btn?.closest('.btn-wrap')?.querySelector('.dropdown');
+    if (btn) btn.classList.add('open');
+    if (dd) dd.classList.add('open');
+  }
+}
+
+function syncDropdownDOM() {
+  // no-op kept for safety
+}
+
+function toggleObjectives(i) {
+  const key = `obj-${i}`;
+  openDropdowns[key] = !openDropdowns[key];
+  document.getElementById(`obj-panel-${i}`)?.classList.toggle('open', !!openDropdowns[key]);
+  document.getElementById(`obj-toggle-${i}`)?.classList.toggle('open', !!openDropdowns[key]);
+}
+
+function renderContent() {
+  const area = document.getElementById('contentArea');
+  if (!activeGroup) {
+    area.innerHTML = `<div class="empty-state"><span class="icon">📚</span>Select a skill group above to explore learning paths.</div>`;
     return;
   }
-  if (activeBtn) { activeBtn.classList.remove('active'); activeBtn = null; }
-  renderSearch(q);
-});
-
-searchClear.addEventListener('click', () => {
-  searchInput.value = '';
-  searchClear.style.display = 'none';
-  if (activeBtn) renderCategory(activeBtn.textContent);
-  else renderWelcome();
-});
-
-function renderWelcome() {
-  content.innerHTML = `
-    <div class="welcome">
-      <span class="welcome-icon">🗺️</span>
-      <h2>Find your path</h2>
-      <p>Choose a role category from the left, or search for any skill above to explore competencies and recommended learning.</p>
-    </div>`;
-}
-
-// Courses data — keyed by skill name. Format: { quick: [["Title","url"]], deeper: [["Title","url"]] }
-const COURSES = {
-  // ── Global Skills ──
-  "Emotional Intelligence": {
-    deeper: [["Emotional Intelligence", "https://atlasinternal.udemy.com/course/emotional-intelligence-in-practice/"]]
-  },
-  "Time Management": {
-    quick: [["Time Management Made Simple", "https://atlasinternal.udemy.com/course/time-management-made-simple-course/"]],
-    deeper: [["Time Management", "https://atlasinternal.udemy.com/course/productivity-and-time-management/"]]
-  },
-  "Presentation Skills": {
-    quick: [["Virtual Presentation Skills", "https://atlasinternal.udemy.com/course/rtrpodcast/"]],
-    deeper: [["Presenting with Confidence", "https://atlasinternal.udemy.com/course/1000-watt-presenting-how-to-prepare-practice-and-perform"]]
-  },
-  "Executive Presence": {
-    quick: [["Communicate like a CEO", "https://atlasinternal.udemy.com/course/communicate-like-a-ceo/"]],
-    deeper: [["Executive Presence Masterclass", "https://atlasinternal.udemy.com/course/executive-presence-masterclass"]]
-  },
-  "Executive Presence & Communication": {
-    quick: [["Communicate like a CEO", "https://atlasinternal.udemy.com/course/communicate-like-a-ceo/"]],
-    deeper: [["Executive Presence Masterclass", "https://atlasinternal.udemy.com/course/executive-presence-masterclass"]]
-  },
-  "Business Writing & Email Etiquette": {
-    quick: [["Atlas Email Etiquette", "https://atlasinternal.udemy.com/course/atlas-email-etiquette"]],
-    deeper: [["Email and Business Writing", "https://atlasinternal.udemy.com/course/email-writing-etiquette-for-business-communication/"]]
-  },
-  "Public Speaking & Storytelling": {
-    quick: [["Public Speaking", "https://atlasinternal.udemy.com/course/speak-like-a-pro-public-speaking-for-professionals"], ["Storytelling to Influence", "https://atlasinternal.udemy.com/course/storytellingtoinfluence/"]],
-    deeper: [["Powerful Speaking", "https://atlasinternal.udemy.com/course/powerful-speaking/"], ["Storytelling", "https://atlasinternal.udemy.com/course/the-complete-storytelling-course-for-speaking-presenting/"]]
-  },
-  "Active Listening": {
-    quick: [["Active Listening Masterclass", "https://atlasinternal.udemy.com/course/active-listening/"]],
-    deeper: [["Active Listening", "https://atlasinternal.udemy.com/course/active-listening-skills/"]]
-  },
-  "Empathy & Active Listening": {
-    deeper: [["Emotional Intelligence", "https://atlasinternal.udemy.com/course/emotional-intelligence-in-practice/"]]
-  },
-  "Microsoft Excel": {
-    quick: [["Excel Tips", "https://atlasinternal.udemy.com/course/5-excel-tricks-that-save-your-job/"]],
-    deeper: [["From Beginner to Advanced", "https://atlasinternal.udemy.com/course/microsoft-excel-2013-from-beginner-to-advanced-and-beyond/"]]
-  },
-  "AI Fluency": {
-    quick: [["AI at Atlas", "https://atlasinternal.udemy.com/course/2026-ai-at-atlas"], ["AI Essentials", "https://atlasinternal.udemy.com/course/ai-literacy-essentials-working-responsibly-with-ai/"]],
-    deeper: [["Complete AI Guide", "https://atlasinternal.udemy.com/course/complete-ai-guide"]]
-  },
-  "Project Management": {
-    quick: [["Project Management", "https://atlasinternal.udemy.com/course/deliver-your-project-master-project-management/"]],
-    deeper: [["Project Management Fundamentals", "https://atlasinternal.udemy.com/course/project-management-fundamentals-gantt/"]]
-  },
-  "Critical Thinking & Problem Solving": {
-    quick: [["Problem Solving Tools", "https://atlasinternal.udemy.com/course/creative-problem-solving-tools/"]],
-    deeper: [["Problem Solving", "https://atlasinternal.udemy.com/course/problem-solving-the-complete-guide/"], ["Critical Thinking", "https://atlasinternal.udemy.com/course/critical-thinking-plus-problem-solving/"]]
-  },
-  "Cultural Awareness": {
-    quick: [["Cross-Cultural Essentials", "https://atlasinternal.udemy.com/course/cross-cultural-mastery-essentials-practical-skills-101/"]],
-    deeper: [["Cross-Cultural Communication", "https://atlasinternal.udemy.com/course/cross-cultural-communication"]]
-  },
-  // ── People Management ──
-  "Performance Management & Feedback": {
-    quick: [["Atlas Performance Management", "https://atlasinternal.udemy.com/course/navigate-performance"], ["Improving Employee Performance", "https://atlasinternal.udemy.com/course/employeeperformance/"]],
-    deeper: [["Goals and Expectations Setting", "https://atlasinternal.udemy.com/course/goals-setting-at-the-workplace/"], ["Giving and Receiving Feedback", "https://atlasinternal.udemy.com/course/giving-and-receiving-feedback-a-quick-course/"], ["Coaching for High Performance", "https://atlasinternal.udemy.com/course/management-training-coaching/"], ["Performance Management Certificate", "https://atlasinternal.udemy.com/course/management-coaching-new-manager-training-employee-engagement-coach"]]
-  },
-  "Leading through Change": {
-    quick: [["How to Manage Through Change", "https://atlasinternal.udemy.com/course/how-to-manage-through-change/"]],
-    deeper: [["Change Management: The Complete Guide", "https://atlasinternal.udemy.com/course/change-management-the-complete-guide/?kw=Change+Management%3A+The+Complete+Guide+%282026+edition%29&src=sac"]]
-  },
-  "Career Conversations & Growth Planning": {
-    quick: [["Coaching for Growth", "https://atlasinternal.udemy.com/course/coaching-for-growth/"]],
-    deeper: [["Own Your Career", "https://atlasinternal.udemy.com/course/how-to-own-your-career/"], ["New Employee Professional Development & Career Guide", "https://atlasinternal.udemy.com/course/new-employee-professional-development-career-guide/"]]
-  },
-  "Talent Acquisition": {
-    quick: [["Recruiting AI Talent", "https://atlasinternal.udemy.com/course/recruiting-ai-talent/"]],
-    deeper: [["Ultimate Talent Acquisition Specialist", "https://atlasinternal.udemy.com/course/ultimate-recruitment-talentacquisition/?kw=Ultimate+Talent+Acquisition+Specialist%3A+HRM+Certification&src=sac"]]
-  },
-  "Psychological Safety & Belonging": {
-    quick: [["Fostering Psychological Safety & Belonging", "https://atlasinternal.udemy.com/course/fostering-psychological-safety-belonging-on-teams/"]],
-    deeper: [["Diversity and Inclusion in the Workplace", "https://atlasinternal.udemy.com/course/diversity-and-inclusion-in-the-workplace-race-gender/"]]
-  },
-  "Conflict Resolution": {
-    quick: [["The Executive's Playbook for Conflict Resolution", "https://atlasinternal.udemy.com/course/the-executives-playbook-for-conflict-resolution/"]],
-    deeper: [["Conflict Management with Emotional Intelligence", "https://atlasinternal.udemy.com/course/conflict-management-with-emotional-intelligence/"]]
-  },
-  // ── Sales & Business Development ──
-  "Consultative Selling": {
-    quick: [["Sell More by Talking Less", "https://atlasinternal.udemy.com/course/sell-more-by-talking-less/"]],
-    deeper: [["Consultative Selling Master Class", "https://atlasinternal.udemy.com/course/sales-skills-consultative-selling-master-class/"]]
-  },
-  "Pipeline Management & CRM": {
-    quick: [["CRM: Customer Relationship Management", "https://atlasinternal.udemy.com/course/crm-customer-relationship-management/"]],
-    deeper: [["HubSpot for Beginners", "https://atlasinternal.udemy.com/course/hubspot-for-beginners-by-thalita-milan/"]]
-  },
-  "Negotiation & Deal Structuring": {
-    quick: [["A Practical Guide to Negotiating", "https://atlasinternal.udemy.com/course/a-practical-guide-to-negotiating/"]],
-    deeper: [["Learn Sales Skills", "https://atlasinternal.udemy.com/course/learn-sales-skills/"]]
-  },
-  "Value Proposition Design": {
-    quick: [["Value Proposition Mastery", "https://atlasinternal.udemy.com/course/value-proposition-mastery/"]],
-    deeper: [["Sales Skills: Value Propositions", "https://atlasinternal.udemy.com/course/sales-skills-value-propositions/"]]
-  },
-  "GTM Strategy": {
-    deeper: [["Go-to-Market Strategy", "https://atlasinternal.udemy.com/course/learn-product-marketing-go-to-market-strategy-with-projects/"]]
-  },
-  "Resilience & Rejection Handling": {
-    quick: [["Leading Self", "https://atlasinternal.udemy.com/course/leading-self/"]],
-    deeper: [["Building Resilience", "https://atlasinternal.udemy.com/course/resilience-to-overcome-trauma-depression-and-manage-anxiety/"]]
-  },
-  "Persuasion & Influence": {
-    quick: [["Persuasion Mastery", "https://atlasinternal.udemy.com/course/persuasion-mastery-/"]],
-    deeper: [["Selling with Emotional Intelligence", "https://atlasinternal.udemy.com/course/selling-with-emotional-intelligence/"]]
-  },
-  // ── Client Success & Support ──
-  "Account Health Monitoring & QBRs": {
-    deeper: [["Account Health & QBR Fundamentals", "https://atlasinternal.udemy.com/course/accounting-for-entrepreneurs/"]]
-  },
-  "Escalation Management": {
-    quick: [["CSM: Retention and Growth Strategies", "https://atlasinternal.udemy.com/course/csm-adopt-proven-sales-strategies-for-retention-and-growth/"]],
-    deeper: [["Handling Difficult Customers", "https://atlasinternal.udemy.com/course/customer-service-course-handling-difficult-customers/"]]
-  },
-  "Customer Onboarding & Implementation": {
-    deeper: [["Finding Your Voice with Customers", "https://atlasinternal.udemy.com/course/how-to-find-your-voice-the-resonates-with-your-customers/"]]
-  },
-  "CRM Usage (Salesforce / Gainsight)": {
-    quick: [["Salesforce CRM for Sales Managers", "https://atlasinternal.udemy.com/course/salesforce-crm-training-for-sales-managers/"]],
-    deeper: [["Salesforce CRM Complete Introduction", "https://atlasinternal.udemy.com/course/salesforce-crm-complete-introduction/"]]
-  },
-  // ── Marketing ──
-  "SEO / SEM & Paid Media": {
-    quick: [["Digital Marketing: A Complete Guide", "https://atlasinternal.udemy.com/course/digital-marketing-a-complete-guide/"]],
-    deeper: [["Mastering Paid Ads", "https://atlasinternal.udemy.com/course/mastering-paid-ads-google-ads-facebook-ads-linkedin-ads/"]]
-  },
-  "Marketing Automation (HubSpot / Marketo)": {
-    deeper: [["Marketing Automation Mastery", "https://atlasinternal.udemy.com/course/marketing-automation-mastery-from-beginner-to-expert/"]]
-  },
-  // ── Other ──
-  "Organisation & Prioritisation": {
-    deeper: [["Time Management", "https://atlasinternal.udemy.com/course/productivity-and-time-management/"]]
-  },
-  "Adaptability & Growth Mindset": {
-    deeper: [["Resilience and Adaptability", "https://atlasinternal.udemy.com/course/smart-tips-navigating-change-and-uncertainty/"]]
-  }
-};
-
-function buildDropdown(skill, type) {
-  const courses = COURSES[skill]?.[type] || [];
-  const label = type === 'quick' ? 'Quick Learning' : 'Go Deeper';
-  let inner = `<div class="rec-dropdown-header">${label}</div>`;
-  if (courses.length === 0) {
-    inner += `<div class="rec-empty">Courses coming soon…</div>`;
-  } else {
-    courses.forEach(([title, url]) => {
-      inner += `<a class="rec-link" href="${url}" target="_blank" rel="noopener"><span class="rec-dot ${type}"></span>${title}</a>`;
-    });
-  }
-  return `<div class="rec-dropdown">${inner}</div>`;
-}
-
-function buildCard(skill, prof) {
-  const cls = PROF_CLASS[prof] || 'found';
-  const udemyUrl = UDEMY_BASE + encodeURIComponent(skill);
-  const chevron = `<svg class="chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`;
-  return `
-    <div class="skill-card">
-      <div class="skill-top">
-        <div class="skill-name">${skill}</div>
-        <span class="prof-tag ${cls}">${prof}</span>
-      </div>
-      <div class="recs">
-        <div class="recs-label">Recommended Learning</div>
-        <div class="recs-btns">
-          <div class="rec-btn">
-            <button class="rec-btn-trigger quick" onclick="toggleDrop(this)">⚡ Quick ${chevron}</button>
-            ${buildDropdown(skill, 'quick')}
+  const group = data.groups.find(g => g.id === activeGroup);
+  area.innerHTML = `
+    <div class="section-header">
+      <span class="section-title">${group.label}</span>
+      <span class="section-tag">${group.skills.length} skills</span>
+    </div>
+    <div class="skills-grid">
+      ${group.skills.map((skill, i) => `
+        <div class="skill-card">
+          <div class="skill-name">${skill.name}</div>
+          <div class="skill-desc">${skill.description}</div>
+          <span class="obj-toggle" id="obj-toggle-${i}" onclick="toggleObjectives(${i})">
+            ${chevSVG()} Learning objectives (${skill.objectives.length})
+          </span>
+          <div class="objectives-panel" id="obj-panel-${i}">
+            <ul class="objectives-list">
+              ${skill.objectives.map(o => `<li>${o}</li>`).join('')}
+            </ul>
           </div>
-          <div class="rec-btn">
-            <button class="rec-btn-trigger deeper" onclick="toggleDrop(this)">📚 Deep ${chevron}</button>
-            ${buildDropdown(skill, 'deeper')}
+          <div class="card-divider"></div>
+          <div class="actions">
+            <div class="btn-wrap">
+              <button class="action-btn" data-key="${i}-deep" onclick="toggleDropdown(${i},'deep',event)">
+                Deep Dive ${caretSVG()}
+              </button>
+              <div class="dropdown">
+                <div class="dropdown-label">Deep Dive</div>
+                ${skill.deep.map(l => `<a href="${l.url}" target="_blank">${l.label}</a>`).join('')}
+              </div>
+            </div>
+            <div class="btn-wrap">
+              <button class="action-btn" data-key="${i}-quick" onclick="toggleDropdown(${i},'quick',event)">
+                Quick Learn ${caretSVG()}
+              </button>
+              <div class="dropdown">
+                <div class="dropdown-label">Quick Learn</div>
+                ${skill.quick.map(l => `<a href="${l.url}" target="_blank">${l.label}</a>`).join('')}
+              </div>
+            </div>
+            <a href="https://atlasinternal.udemy.com/organization/search/?q=${encodeURIComponent(skill.name)}" target="_blank" style="text-decoration:none;">
+              <button class="action-btn btn-udemy">Find in Udemy ${externalSVG()}</button>
+            </a>
           </div>
         </div>
-      </div>
-      <a href="${udemyUrl}" target="_blank" rel="noopener" class="udemy-btn">🎓 Find on Udemy</a>
-    </div>`;
-}
+      `).join('')}
+    </div>
+  `;
 
-function toggleDrop(btn) {
-  const wrapper = btn.closest('.rec-btn');
-  const isOpen = wrapper.classList.contains('open');
-  document.querySelectorAll('.rec-btn.open').forEach(el => el.classList.remove('open'));
-  if (!isOpen) wrapper.classList.add('open');
+  // restore open objective panels after re-render
+  group.skills.forEach((_, i) => {
+    if (openDropdowns[`obj-${i}`]) {
+      document.getElementById(`obj-panel-${i}`)?.classList.add('open');
+      document.getElementById(`obj-toggle-${i}`)?.classList.add('open');
+    }
+  });
 }
 
 document.addEventListener('click', e => {
-  if (!e.target.closest('.rec-btn')) {
-    document.querySelectorAll('.rec-btn.open').forEach(el => el.classList.remove('open'));
+  if (!e.target.closest('.btn-wrap')) {
+    let changed = false;
+    Object.keys(openDropdowns).forEach(k => {
+      if (!k.startsWith('obj-') && openDropdowns[k]) { openDropdowns[k] = false; changed = true; }
+    });
+    if (changed) syncDropdownDOM();
   }
 });
 
-function renderCategory(cat) {
-  const { groups } = DATA[cat];
-  let html = `<div class="cat-header"><div class="cat-title">${cat}</div></div>`;
-  Object.entries(groups).forEach(([groupName, skills]) => {
-    html += `<div class="skill-group"><div class="group-name">${groupName}</div><div class="skills-grid">`;
-    skills.forEach(([skill, prof]) => { html += buildCard(skill, prof); });
-    html += `</div></div>`;
-  });
-  content.innerHTML = html;
-  content.scrollTop = 0;
-}
-
-function renderSearch(q) {
-  const query = q.toLowerCase();
-  const matches = [];
-  Object.entries(DATA).forEach(([cat, { groups }]) => {
-    Object.entries(groups).forEach(([group, skills]) => {
-      skills.forEach(([skill, prof]) => {
-        if (skill.toLowerCase().includes(query)) {
-          matches.push({ cat, group, skill, prof });
-        }
-      });
-    });
-  });
-
-  if (matches.length === 0) {
-    content.innerHTML = `
-      <div class="no-results">
-        <span class="icon">🔍</span>
-        <p>No skills found for "<strong>${q}</strong>". Try a different keyword.</p>
-      </div>`;
-    return;
-  }
-
-  const byCat = {};
-  matches.forEach(m => {
-    if (!byCat[m.cat]) byCat[m.cat] = [];
-    byCat[m.cat].push(m);
-  });
-
-  let html = `<div class="search-results-header">Found <strong>${matches.length} skill${matches.length !== 1 ? 's' : ''}</strong> matching "<strong>${q}</strong>"</div>`;
-
-  Object.entries(byCat).forEach(([cat, items]) => {
-    html += `<div class="search-group-label">${cat} <span class="cat-tag">${items.length}</span></div>`;
-    html += `<div class="skills-grid">`;
-    items.forEach(({ skill, prof }) => { html += buildCard(skill, prof); });
-    html += `</div>`;
-  });
-
-  content.innerHTML = html;
-  content.scrollTop = 0;
-}
+renderNav();
+renderContent();
 </script>
 </body>
 </html>
